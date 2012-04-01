@@ -8,6 +8,7 @@ import javax.swing.*;
 public class CharactorEditorViewer extends JPanel{
 	protected CharactorEditorModel myModel;
 	private JButton myCreatFighter;
+	private JButton myEditFighter;
 	
 	public CharactorEditorViewer(CharactorEditorModel model) {
 		myModel = model;
@@ -20,20 +21,20 @@ public class CharactorEditorViewer extends JPanel{
 	}
 	private JComponent makeOperatePanel() {
 		JPanel panel = new JPanel();
-        myCreatFighter=new JButton("creat new Fighter");
+        myCreatFighter=new JButton("creat a new Fighter");
         myCreatFighter.addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-	        	
-	        	JFrame frame = new JFrame();
-	        	FighterCreaterView display = new FighterCreaterView(new FighterCreaterModel(),frame);
-	        	frame.getContentPane().add(display);
-	        	frame.pack();
-	        	frame.setSize(700, 500);
-	        	frame.setVisible(true);
+                  myModel.creatFighter();
 			}});
         panel.add(myCreatFighter);
+        
+        myEditFighter=new JButton("Edit a Fighter");
+        myEditFighter.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				myModel.editFighter();
+			}});
+        panel.add(myEditFighter);
 		return panel;
 	}
 }

@@ -10,16 +10,16 @@ abstract class Choice extends JPanel {
 	protected DefaultListModel mylitem;
 	private JFrame currentFrame;
 
-	public Choice(Object obj,Fighter fgt,JFrame p) {
-		currentFrame=p;
+	public Choice(Object obj, Fighter fgt, JFrame p) {
+		currentFrame = p;
 		myModel = obj;
-		myFighter=fgt;
+		myFighter = fgt;
 		setLayout(new BorderLayout());
 		add(makeOperatePanel(), BorderLayout.NORTH);
 	}
 
 	private JComponent makeOperatePanel() {
-		  JPanel panel = new JPanel();
+		JPanel panel = new JPanel();
 		mylitem = new DefaultListModel();
 		JList list = new JList(mylitem);
 		addElement();
@@ -27,15 +27,18 @@ abstract class Choice extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 				JList l = (JList) e.getSource();
 				Object s = l.getSelectedValue();
-                setValue(s);
-           update();
-           currentFrame.dispose();
+				setValue(s);
+				update();
+				currentFrame.dispose();
 			}
 		});
 		panel.add(list);
 		return panel;
 	}
+
 	abstract void update();
+
 	abstract void addElement();
+
 	abstract void setValue(Object s);
 }
