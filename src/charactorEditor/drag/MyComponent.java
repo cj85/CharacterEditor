@@ -5,7 +5,7 @@ import java.awt.geom.*;
 import java.io.File;
 import java.util.HashMap;
 
-class MyComponent {
+public class MyComponent {
 	int id = 0;
 	int sortID = 1;
 	String name = null;

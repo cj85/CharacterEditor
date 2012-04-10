@@ -15,11 +15,18 @@ import java.util.HashMap;
 
 import javax.swing.*;
 
-class AttributePane extends JPanel {
+import charactorEditor.drag.JComponent.*;
+import charactorEditor.drag.JComponent.SaveButton;
+
+public class AttributePane extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JLabel label_1 = null;
 	JLabel label_2 = null;
 	JLabel label_3 = null;
-	JButton label_4 = null;
+	AddPropertyButton addProperty_btn =new AddPropertyButton(this);
 	JLabel label_5 = null;
 	JLabel label_6 = null;
 	JLabel label_7 = null;
@@ -27,16 +34,18 @@ class AttributePane extends JPanel {
 
 	JTextField text_1 = null;
 	JTextField text_2 = null;
-	JComboBox cbo_1 = null;
+	public JComboBox cbo_1 = null;
 	JButton imgbtn = null;
 	JButton btn2 = null;
 	JButton btn_tab = null;
 	JButton btn_list = null;
-	FighterBuilder outer;
+	public SaveButton save_btn=new SaveButton(this);
+	JButton load_btn=null;
+	public FighterBuilder outerFighterBuilder;
 	Graphics2D g;
 
 	public AttributePane(FighterBuilder e) {
-		outer = e;
+		outerFighterBuilder = e;
 		setBounds(817, 0, 171, 615);
 		setLayout(null);
 		label_1 = new JLabel("");
@@ -46,23 +55,23 @@ class AttributePane extends JPanel {
 		label_2.setBounds(4, 48, 55, 20);
 		label_3 = new JLabel("Text");
 		label_3.setBounds(4, 76, 55, 20);
-		label_4 = new JButton("add");
-		label_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String key = (String) cbo_1.getSelectedItem();
-				String value = JOptionPane.showInputDialog("input "
-						+ "the value of " + key);
-				if (value != null) {
-					if (value.equalsIgnoreCase(""))
-						outer.focusCMP.remove(key);
-					else
-						outer.focusCMP.setProperty(key, value);
-				}
-				update();
-			}
-		});
-		label_4.setBounds(0, 103, 55, 21);
-		label_5 = new JLabel("Label5");
+//		addProperty_btn = new JButton("add");
+//		addProperty_btn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				String key = (String) cbo_1.getSelectedItem();
+//				String value = JOptionPane.showInputDialog("input "
+//						+ "the value of " + key);
+//				if (value != null) {
+//					if (value.equalsIgnoreCase(""))
+//						outerFighterBuilder.focusCMP.remove(key);
+//					else
+//						outerFighterBuilder.focusCMP.setProperty(key, value);
+//				}
+//				update();
+//			}
+//		});
+//		addProperty_btn.setBounds(0, 103, 55, 21);
+		label_5 = new JLabel("img");
 		label_5.setBounds(4, 130, 55, 20);
 		text_1 = new JTextField();// aside Name
 		text_1.setBounds(55, 46, 115, 24);
@@ -70,7 +79,7 @@ class AttributePane extends JPanel {
 		text_2.setBounds(55, 75, 114, 23);
 		cbo_1 = new JComboBox();// ÏÂÀ­¿ò
 		cbo_1.setBounds(56, 102, 115, 23);
-		imgbtn = new JButton("NO ACTION");
+		imgbtn = new JButton("add");
 		imgbtn.setBounds(55, 129, 115, 23);
 		imgbtn.addActionListener(new ActionListener(){
 
@@ -80,14 +89,32 @@ class AttributePane extends JPanel {
 				JFileChooser fc = new JFileChooser(".");
 				int returnVal = fc.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					outer.focusCMP.img = fc.getSelectedFile();
+					outerFighterBuilder.focusCMP.img = fc.getSelectedFile();
 					
 				}
 			}});
 		label_6 = new JLabel("Label6");
 		label_6.setBounds(4, 157, 55, 21);
+//		save_btn=new JButton("save");
+//		save_btn.setBounds(4, 190, 70, 20);
+//		save_btn.addActionListener(new ActionListener(){
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				save();
+//			}});
+		load_btn=new JButton("load");
+		load_btn.setBounds(save_btn.getX()+save_btn.getWidth()+10,save_btn.getY(),70,20);
+		load_btn.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}});
 		label_7 = new JLabel("Properties");
-		label_7.setBounds(4, 190, 100, 20);
+		label_7.setBounds(4, 220, 100, 20);
 		label_8 = new JLabel();
 		label_8.setBounds(label_7.getX(), label_7.getY() + label_7.getHeight()
 				+ 10, 150, 300);
@@ -101,17 +128,12 @@ class AttributePane extends JPanel {
 		FocusListener l = new FocusHandler();
 		text_1.addFocusListener(l);
 		text_2.addFocusListener(l);
-		imgbtn.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-			}
-
-		});
+	
 
 		add(label_1);
 		add(label_2);
 		add(label_3);
-		add(label_4);
+//		add(addProperty_btn);
 		add(label_5);
 		add(text_1);
 		add(text_2);
@@ -121,6 +143,8 @@ class AttributePane extends JPanel {
 		add(label_7);
 		add(label_8);
 		add(btn2);
+//		add(save_btn);
+		add(load_btn);
 	}
 
 	class FocusHandler implements FocusListener {
@@ -129,8 +153,8 @@ class AttributePane extends JPanel {
 		}
 
 		public void focusLost(FocusEvent e) {
-			outer.setCmpName(outer.focusCMP, text_1.getText());
-			outer.setText(outer.focusCMP, text_2.getText());
+			outerFighterBuilder.setCmpName(outerFighterBuilder.focusCMP, text_1.getText());
+			outerFighterBuilder.setText(outerFighterBuilder.focusCMP, text_2.getText());
 		}
 	}
 
@@ -141,15 +165,15 @@ class AttributePane extends JPanel {
 		// g.fill( label_8.getBounds());
 	}
 
-	private void update() {
+	public void update() {
 		label_8update();
 
 	}
 
 	public void label_8update() {
 		label_8.setVerticalAlignment(SwingConstants.TOP);
-		if (outer.focusCMP != null) {
-			HashMap<String, String> properties = outer.focusCMP.getProperties();
+		if (outerFighterBuilder.focusCMP != null) {
+			HashMap<String, String> properties = outerFighterBuilder.focusCMP.getProperties();
 			String toSet = "<html><body>";
 			for (String s : properties.keySet())
 				toSet += "<br>" + s + ": " + properties.get(s) + "<br>";
@@ -158,5 +182,8 @@ class AttributePane extends JPanel {
 		} else {
 			label_8.setText("");
 		}
+	}
+	public void save(){
+		System.out.println("need to implement");
 	}
 }

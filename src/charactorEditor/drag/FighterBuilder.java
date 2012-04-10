@@ -40,54 +40,49 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	JTabbedPane tab = new JTabbedPane();
 	MainPane drawPane = new MainPane(this);
 
-	ArrayList<MyComponent> cmp = new ArrayList<MyComponent>(); // components
-																// that be added
-																// on Main Pain
-
-	// boolean dragRange = false;
-
+	ArrayList<MyComponent> componentList = new ArrayList<MyComponent>(); // components
+	// that be added
+	// on Main Pain
 	boolean setSizeFlag = false;
-
 	int willPut = -1;// component that will be put in MainPane
-
 	int maxID = 1;
-	MyComponent focusCMP = null;
+	public MyComponent focusCMP = null;
 	Color B = new Color(100, 200, 100);
 
 	void removeCMP(MyComponent e) {
-		for (int i = 0; i < cmp.size(); i++) {
-			if (cmp.get(i) == this.focusCMP) {
+		for (int i = 0; i < componentList.size(); i++) {
+			if (componentList.get(i) == this.focusCMP) {
 				focusCMP = null;
-				cmp.remove(i);
+				componentList.remove(i);
 				break;
 			}
 		}
 	}
 
 	void drawViewComponent(Graphics2D g) throws IOException {
-		for (int i = 0; i < cmp.size(); i++) {
-			if (cmp.get(i) == focusCMP) {
+		for (int i = 0; i < componentList.size(); i++) {
+			if (componentList.get(i) == focusCMP) {
 				g.setColor(Color.orange);
-				g.fill(cmp.get(i).border);
+				g.fill(componentList.get(i).border);
 				g.setColor(B);
 			} else {
-				g.fill(cmp.get(i).border);
+				g.fill(componentList.get(i).border);
 			}
-			if (cmp.get(i).img != null) {
-				BufferedImage img = ImageIO.read(cmp.get(i).img);
+			if (componentList.get(i).img != null) {
+				BufferedImage img = ImageIO.read(componentList.get(i).img);
 
-				g.drawImage(img, (int) cmp.get(i).border.getX(),
-						(int) cmp.get(i).border.getY(),
-						(int) cmp.get(i).border.getWidth(),
-						(int) cmp.get(i).border.getHeight(), null);
+				g.drawImage(img, (int) componentList.get(i).border.getX(),
+						(int) componentList.get(i).border.getY(),
+						(int) componentList.get(i).border.getWidth(),
+						(int) componentList.get(i).border.getHeight(), null);
 
 			}
 		}
 		g.setColor(Color.white);
-		for (int i = 0; i < cmp.size(); i++) {
-			Rectangle2D tem = cmp.get(i).border.getBounds2D();
-			g.drawString(cmp.get(i).text, (int) tem.getX(), (int) (tem.getY()
-					+ tem.getHeight() / 2 + 5));
+		for (int i = 0; i < componentList.size(); i++) {
+			Rectangle2D tem = componentList.get(i).border.getBounds2D();
+			g.drawString(componentList.get(i).text, (int) tem.getX(),
+					(int) (tem.getY() + tem.getHeight() / 2 + 5));
 		}
 
 	}
@@ -96,9 +91,9 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		if (me == null) {
 			return false;
 		}
-		for (int i = 0; i < cmp.size(); i++) {
-			if (me != cmp.get(i)) {
-				if (name.equals(cmp.get(i).name)) {
+		for (int i = 0; i < componentList.size(); i++) {
+			if (me != componentList.get(i)) {
+				if (name.equals(componentList.get(i).name)) {
 					return false;
 				}
 			}
@@ -114,13 +109,7 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 
 	public FighterBuilder() throws FileNotFoundException {
 		this.setTitle("FighterBuilder");
-		Gson gson = new Gson();
-		Scanner scanner2 = new Scanner(new File("Properties.json"));
-		String wholeFile2 = scanner2.useDelimiter("\\A").next();
-		java.lang.reflect.Type collectionType2 = new TypeToken<ArrayList<String>>() {
-		}.getType();
-
-		properties = gson.fromJson(wholeFile2, collectionType2);
+		loadPropertyList();
 
 		componentPane = new MyComponentPanel(this);
 		componentPane.initComponents();// ×ó±ß¶ùÄÇÁï
@@ -163,14 +152,14 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	}
 
 	MyComponent findComponent(Point2D e) {
-		for (int i = 0; i < cmp.size(); i++) {
-			if (cmp.get(i).dragSize.contains(e)) {
+		for (int i = 0; i < componentList.size(); i++) {
+			if (componentList.get(i).dragSize.contains(e)) {
 				setSizeFlag = true;
-				return cmp.get(i);
+				return componentList.get(i);
 			}
-			if (cmp.get(i).border.contains(e)) {
+			if (componentList.get(i).border.contains(e)) {
 				setSizeFlag = false;
-				return cmp.get(i);
+				return componentList.get(i);
 			}
 		}
 		return null;
@@ -178,10 +167,10 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 
 	String getName(MyComponent myComponent) {
 		int count = 1;
-		for (int i = 0; i < cmp.size(); i++) {
-			if (cmp.get(i).sort == myComponent.sort) {
-				if (count <= cmp.get(i).sortID) {
-					count = cmp.get(i).sortID + 1;
+		for (int i = 0; i < componentList.size(); i++) {
+			if (componentList.get(i).sort == myComponent.sort) {
+				if (count <= componentList.get(i).sortID) {
+					count = componentList.get(i).sortID + 1;
 				}
 			}
 		}
@@ -192,6 +181,16 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 		// TODO i dont know
 
+	}
+
+	private void loadPropertyList() throws FileNotFoundException {
+		Gson gson = new Gson();
+		Scanner scanner2 = new Scanner(new File("Properties.json"));
+		String wholeFile2 = scanner2.useDelimiter("\\A").next();
+		java.lang.reflect.Type collectionType2 = new TypeToken<ArrayList<String>>() {
+		}.getType();
+
+		properties = gson.fromJson(wholeFile2, collectionType2);
 	}
 
 }

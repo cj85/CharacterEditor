@@ -141,7 +141,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			Point2D p = e.getPoint();
 			put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
 			getNearestPoint();
-			outer.cmp.add((outer.focusCMP = new MyComponent(nearest,
+			outer.componentList.add((outer.focusCMP = new MyComponent(nearest,
 					outer.willPut, outer.maxID, outer)));
 			outer.maxID++;
 			outer.willPut = -1;
