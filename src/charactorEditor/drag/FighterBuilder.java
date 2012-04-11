@@ -7,25 +7,15 @@ import javax.swing.event.*;
 
 import com.google.gson.Gson;
 
-import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.awt.*;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 @SuppressWarnings("serial")
@@ -40,9 +30,7 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	JTabbedPane tab = new JTabbedPane();
 	MainPane drawPane = new MainPane(this);
 
-	ArrayList<MyComponent> componentList = new ArrayList<MyComponent>(); // components
-	// that be added
-	// on Main Pain
+	public ArrayList<MyComponent> componentList = new ArrayList<MyComponent>();
 	boolean setSizeFlag = false;
 	int willPut = -1;// component that will be put in MainPane
 	int maxID = 1;

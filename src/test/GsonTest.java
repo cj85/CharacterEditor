@@ -15,7 +15,13 @@ import com.google.gson.reflect.TypeToken;
 
 class T{
 	int a=1;
+	M m;
 	void print(){System.out.println("a="+a);}
+}
+
+class M{
+	int x;
+	T t;
 }
 
 public class GsonTest {

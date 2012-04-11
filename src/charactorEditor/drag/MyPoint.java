@@ -5,11 +5,11 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 class MyPoint {
-	Point2D point = null;
+	Point2D.Double point = null;
 	Color cor = Color.orange;
 	Ellipse2D circle = new Ellipse2D.Double();
 
-	MyPoint(Point2D p) {
+	MyPoint(Point2D.Double p) {
 		point = p;
 		double x = p.getX();
 		double y = p.getY();

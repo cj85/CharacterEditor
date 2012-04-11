@@ -11,12 +11,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.swing.*;
 
-import charactorEditor.drag.JComponent.*;
-import charactorEditor.drag.JComponent.SaveButton;
+import charactorEditor.Writer;
+import charactorEditor.drag.Component.*;
 
 public class AttributePane extends JPanel {
 	/**
@@ -40,7 +41,7 @@ public class AttributePane extends JPanel {
 	JButton btn_tab = null;
 	JButton btn_list = null;
 	public SaveButton save_btn=new SaveButton(this);
-	JButton load_btn=null;
+	JButton load_btn=new LoadButton(this);
 	public FighterBuilder outerFighterBuilder;
 	Graphics2D g;
 
@@ -55,22 +56,6 @@ public class AttributePane extends JPanel {
 		label_2.setBounds(4, 48, 55, 20);
 		label_3 = new JLabel("Text");
 		label_3.setBounds(4, 76, 55, 20);
-//		addProperty_btn = new JButton("add");
-//		addProperty_btn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				String key = (String) cbo_1.getSelectedItem();
-//				String value = JOptionPane.showInputDialog("input "
-//						+ "the value of " + key);
-//				if (value != null) {
-//					if (value.equalsIgnoreCase(""))
-//						outerFighterBuilder.focusCMP.remove(key);
-//					else
-//						outerFighterBuilder.focusCMP.setProperty(key, value);
-//				}
-//				update();
-//			}
-//		});
-//		addProperty_btn.setBounds(0, 103, 55, 21);
 		label_5 = new JLabel("img");
 		label_5.setBounds(4, 130, 55, 20);
 		text_1 = new JTextField();// aside Name
@@ -95,24 +80,7 @@ public class AttributePane extends JPanel {
 			}});
 		label_6 = new JLabel("Label6");
 		label_6.setBounds(4, 157, 55, 21);
-//		save_btn=new JButton("save");
-//		save_btn.setBounds(4, 190, 70, 20);
-//		save_btn.addActionListener(new ActionListener(){
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				save();
-//			}});
-		load_btn=new JButton("load");
-		load_btn.setBounds(save_btn.getX()+save_btn.getWidth()+10,save_btn.getY(),70,20);
-		load_btn.addActionListener(new ActionListener(){
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}});
 		label_7 = new JLabel("Properties");
 		label_7.setBounds(4, 220, 100, 20);
 		label_8 = new JLabel();
@@ -133,7 +101,6 @@ public class AttributePane extends JPanel {
 		add(label_1);
 		add(label_2);
 		add(label_3);
-//		add(addProperty_btn);
 		add(label_5);
 		add(text_1);
 		add(text_2);
@@ -143,8 +110,7 @@ public class AttributePane extends JPanel {
 		add(label_7);
 		add(label_8);
 		add(btn2);
-//		add(save_btn);
-		add(load_btn);
+	
 	}
 
 	class FocusHandler implements FocusListener {
@@ -183,7 +149,5 @@ public class AttributePane extends JPanel {
 			label_8.setText("");
 		}
 	}
-	public void save(){
-		System.out.println("need to implement");
-	}
+
 }

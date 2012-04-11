@@ -1,6 +1,4 @@
 package charactorEditor.drag;
-import java.awt.Image;
-import java.awt.Shape;
 import java.awt.geom.*;
 import java.io.File;
 import java.util.HashMap;
@@ -12,30 +10,25 @@ public class MyComponent {
 	String text = null;
 	 File img=null;
 	int sort = -1;
-	Rectangle2D border = null;
-	Point2D point = null;
-	Rectangle2D dragSize = null;
-	FighterBuilder outer = null;
+	Rectangle2D.Double border = null;
+	Point2D.Double point = null;
+	Rectangle2D.Double dragSize = null;
     private HashMap<String,String> properties=new HashMap<String,String>();
-	MyComponent(Point2D p, int theSort, int ID, FighterBuilder out) {
+    
+	MyComponent(Point2D.Double p, int theSort, int ID, FighterBuilder out) {
 		point = p;
 		sort = theSort;
 		id = ID;
-		outer = out;
 		border = new Rectangle2D.Double(p.getX() - 20, p.getY() - 10, 40, 20);
 		dragSize = new Rectangle2D.Double(border.getMaxX() - 10,
 				border.getMaxY() - 10, 10, 10);
-		setName();
-		setText(name);
 		//
 	}
 
-	void setName() {
-		name = outer.getName(this);
-	}
 
-	void setText(String t) {
-		text = t;
+
+	void setText( ) {
+		text = name;
 	}
 
 	void setLocation(Point2D p) {

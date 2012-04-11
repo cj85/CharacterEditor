@@ -3,14 +3,11 @@ package charactorEditor.drag;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -26,7 +23,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	private MyPoint[][] point = new MyPoint[COL][ROW];
 	private Line2D[] rows = new Line2D.Double[59];
 	private Line2D[] cols = new Line2D.Double[70];
-	private Point2D nearest = new Point2D.Double(40, 40);// nearest point
+	private Point2D.Double nearest = new Point2D.Double(40, 40);// nearest point
 	private Rectangle2D put = new Rectangle2D.Double();// /放置矩形
 	private MyComponent draging = null;
 	private MyComponent dragingSize = null;
@@ -119,7 +116,6 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 							+ outer.SORT.CMP[outer.focusCMP.sort]);
 					attributePane.text_1.setText(outer.focusCMP.name);
 					attributePane.text_2.setText(outer.focusCMP.text);
-					int st = outer.focusCMP.sort;
 					update();
 					setPropertyCombo();
 				} else// 两下，取消
@@ -143,13 +139,14 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			getNearestPoint();
 			outer.componentList.add((outer.focusCMP = new MyComponent(nearest,
 					outer.willPut, outer.maxID, outer)));
+			outer.focusCMP.name=outer.getName(outer.focusCMP);
+			outer.focusCMP.setText();
 			outer.maxID++;
 			outer.willPut = -1;
 			attributePane.label_1.setText("   "
 					+ outer.SORT.CMP[outer.focusCMP.sort]);
 			attributePane.text_1.setText(outer.focusCMP.name);
 			attributePane.text_2.setText(outer.focusCMP.text);
-			int st = outer.focusCMP.sort;
 			setPropertyCombo();
 			outer.repaint();
 		}
