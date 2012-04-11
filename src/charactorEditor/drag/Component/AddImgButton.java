@@ -28,12 +28,11 @@ public class AddImgButton extends JButton {
 		});
 		
 		outer.add(this);
-//		update();
 	}
 	public void update(){
 		if(outer.outerFighterBuilder.focusCMP!=null){
-			setEnabled(true);System.out.println(outer.outerFighterBuilder.focusCMP.text);}
+			setEnabled(true);}
 		else{
-			setEnabled(false);System.out.println("nonono");}
+			setEnabled(false);}
 	}
 }

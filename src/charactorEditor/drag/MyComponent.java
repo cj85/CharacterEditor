@@ -9,7 +9,7 @@ public class MyComponent {
 //	String name = null;
 	public String text = null;
 	 public File img=null;
-	int sort = -1;
+	public int sort = -1;
 	Rectangle2D.Double border = null;
 	Point2D.Double point = null;
 	Rectangle2D.Double dragSize = null;

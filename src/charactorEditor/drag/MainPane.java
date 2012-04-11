@@ -112,14 +112,11 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 						dragingSize = null;
 
 					}
-					attributePane.label_1.setText("   "
-							+ outer.SORT.CMP[outer.focusCMP.sort]);
 					update();
 					setPropertyCombo();
 				} else// 两下，取消
 				{
 					outer.removeCMP(outer.focusCMP);
-					attributePane.label_1.setText("");
 					update();
 					attributePane.cbo_1.removeAllItems();
 					attributePane.repaint();
@@ -201,8 +198,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void update() {
-		attributePane.label_1.setText("   "
-				+ outer.SORT.CMP[outer.focusCMP.sort]);//need to be refactored
+		attributePane.label_1.update();
 		attributePane.update();
 	}
 }

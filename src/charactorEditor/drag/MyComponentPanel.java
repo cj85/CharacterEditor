@@ -99,7 +99,7 @@ class MyComponentPanel extends JPanel implements MouseListener,
 	}
 
 	private void update() {
-		attributePane.label_1.setText("");
+		attributePane.label_1.update();
 		attributePane.cbo_1.removeAllItems();
 		attributePane.update();
 	}
