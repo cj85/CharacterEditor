@@ -14,8 +14,9 @@ import javax.swing.JPanel;
 class MyComponentPanel extends JPanel implements MouseListener,
 		MouseMotionListener {
 	private static final long serialVersionUID = 100L;
+	private final int  COMPONENTNUMBER=2;
 	Graphics2D g = null;
-	private Rectangle2D[] components = new Rectangle2D.Double[2];
+	private Rectangle2D[] components = new Rectangle2D.Double[COMPONENTNUMBER];
 	private FighterBuilder outer = null;
 	private AttributePane attributePane = null;
 
@@ -27,7 +28,7 @@ class MyComponentPanel extends JPanel implements MouseListener,
 	}
 
 	int find(Point2D p) {
-		for (int i = 0; i < outer.NUM; i++) {
+		for (int i = 0; i < COMPONENTNUMBER; i++) {
 			if (components[i].contains(p)) {
 				return i;
 			}
@@ -36,14 +37,14 @@ class MyComponentPanel extends JPanel implements MouseListener,
 	}
 
 	void initComponents() {
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < COMPONENTNUMBER; i++) {
 			components[i] = new Rectangle2D.Double(25, 30 + 30 * i, 60, 25);
 		}
 	}
 
 	void drawComponents(Graphics2D g) {
 		g.setColor(Color.blue);
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < COMPONENTNUMBER; i++) {
 			if (i == outer.willPut) {
 				g.setColor(Color.red);
 				g.fill(components[i]);
@@ -54,7 +55,7 @@ class MyComponentPanel extends JPanel implements MouseListener,
 		}
 		g.setColor(Color.white);
 
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < COMPONENTNUMBER; i++) {
 			g.drawString(outer.SORTSTRING.STRINGS[i], 27, 47 + 30 * i);
 		}
 	}
@@ -98,10 +99,8 @@ class MyComponentPanel extends JPanel implements MouseListener,
 	}
 
 	private void update() {
-		attributePane.label_8update();
 		attributePane.label_1.setText("");
-		attributePane.text_1.setText("");
-		attributePane.text_2.setText("");
 		attributePane.cbo_1.removeAllItems();
+		attributePane.update();
 	}
 }

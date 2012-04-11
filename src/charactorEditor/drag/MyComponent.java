@@ -6,9 +6,9 @@ import java.util.HashMap;
 public class MyComponent {
 	int id = 0;
 	int sortID = 1;
-	String name = null;
-	String text = null;
-	 File img=null;
+//	String name = null;
+	public String text = null;
+	 public File img=null;
 	int sort = -1;
 	Rectangle2D.Double border = null;
 	Point2D.Double point = null;
@@ -22,13 +22,12 @@ public class MyComponent {
 		border = new Rectangle2D.Double(p.getX() - 20, p.getY() - 10, 40, 20);
 		dragSize = new Rectangle2D.Double(border.getMaxX() - 10,
 				border.getMaxY() - 10, 10, 10);
-		//
 	}
 
 
 
-	void setText( ) {
-		text = name;
+	void setText(String t ) {
+		text = t;
 	}
 
 	void setLocation(Point2D p) {

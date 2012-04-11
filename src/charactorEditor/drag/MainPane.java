@@ -114,16 +114,13 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 					}
 					attributePane.label_1.setText("   "
 							+ outer.SORT.CMP[outer.focusCMP.sort]);
-					attributePane.text_1.setText(outer.focusCMP.name);
-					attributePane.text_2.setText(outer.focusCMP.text);
 					update();
 					setPropertyCombo();
 				} else// 两下，取消
 				{
 					outer.removeCMP(outer.focusCMP);
 					attributePane.label_1.setText("");
-					attributePane.text_1.setText("");
-					attributePane.text_2.setText("");
+					update();
 					attributePane.cbo_1.removeAllItems();
 					attributePane.repaint();
 				}
@@ -139,14 +136,10 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			getNearestPoint();
 			outer.componentList.add((outer.focusCMP = new MyComponent(nearest,
 					outer.willPut, outer.maxID, outer)));
-			outer.focusCMP.name=outer.getName(outer.focusCMP);
-			outer.focusCMP.setText();
+			outer.focusCMP.setText(outer.getName(outer.focusCMP));
 			outer.maxID++;
 			outer.willPut = -1;
-			attributePane.label_1.setText("   "
-					+ outer.SORT.CMP[outer.focusCMP.sort]);
-			attributePane.text_1.setText(outer.focusCMP.name);
-			attributePane.text_2.setText(outer.focusCMP.text);
+			update();
 			setPropertyCombo();
 			outer.repaint();
 		}
@@ -170,10 +163,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			getNearestPoint();
 			dragingSize.setSize(nearest);
 		}
-		// }
 		draging = null;
 		dragingSize = null;
-		// outer.dragRange = false;
 		dragingCMP = false;
 		repaint();
 	}
@@ -208,7 +199,10 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			attributePane.cbo_1.addItem(s);
 		}
 	}
-	private void update(){
-		attributePane.label_8update();
+
+	public void update() {
+		attributePane.label_1.setText("   "
+				+ outer.SORT.CMP[outer.focusCMP.sort]);//need to be refactored
+		attributePane.update();
 	}
 }
