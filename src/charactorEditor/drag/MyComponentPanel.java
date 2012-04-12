@@ -56,7 +56,7 @@ class MyComponentPanel extends JPanel implements MouseListener,
 		g.setColor(Color.white);
 
 		for (int i = 0; i < COMPONENTNUMBER; i++) {
-			g.drawString(outer.SORTSTRING.STRINGS[i], 27, 47 + 30 * i);
+			g.drawString(outer.SORT.CMP[i], 27, 47 + 30 * i);
 		}
 	}
 

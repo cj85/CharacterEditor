@@ -22,7 +22,6 @@ import com.google.gson.reflect.TypeToken;
 public class FighterBuilder extends JFrame implements ChangeListener {
 	ArrayList<String> properties = new ArrayList<String>();
 	public final Sort SORT = new Sort();
-	final CmpSort SORTSTRING = new CmpSort();
 	MyComponentPanel componentPane = null;
 	JPanel centerPane = null;
 	AttributePane attributePane = new AttributePane(this);
