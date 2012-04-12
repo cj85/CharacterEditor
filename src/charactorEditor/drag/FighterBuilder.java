@@ -79,12 +79,12 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		}
 		for (int i = 0; i < componentList.size(); i++) {
 			if (me != componentList.get(i)) {
-//				if (name.equals(componentList.get(i).name)) {
-//					return false;
-//				}
+				// if (name.equals(componentList.get(i).name)) {
+				// return false;
+				// }
 			}
 		}
-//		me.name = name;
+		// me.name = name;
 		return true;
 	}
 
@@ -98,8 +98,6 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		loadPropertyList();
 
 		componentPane = new MyComponentPanel(this);
-		componentPane.initComponents();// ×ó±ß¶ùÄÇÁï
-		componentPane.setBounds(0, 0, 113, 615);
 		this.setDefaultCloseOperation(1);
 		setBounds(10, 50, 1000, 645);
 		JPanel jp = new JPanel();// ´ó¿ò¼Ü£¬×ócomponentPane ÖÐcenterPane ÓÒattribute
@@ -125,17 +123,6 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		centerPane.add(tab);
 	}
 
-	public void cross() {
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-	}
-
-	public void changesize() {
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
-	}
-
-	public void deletecross() {
-		this.setCursor(Cursor.getDefaultCursor());
-	}
 
 	MyComponent findComponent(Point2D e) {
 		for (int i = 0; i < componentList.size(); i++) {
@@ -177,5 +164,17 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 
 		properties = gson.fromJson(wholeFile2, collectionType2);
 	}
+	public void changesize() {
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
+	}
 
+	public void cross() {
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+	}
+
+
+
+	public void deletecross() {
+		this.setCursor(Cursor.getDefaultCursor());
+	}
 }

@@ -1,6 +1,7 @@
 package charactorEditor.drag;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -97,7 +98,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		attributePane.label_1.requestFocus();
+		attributePane.myNameDisplayLabel.requestFocus();
 		int count = e.getClickCount();
 		if (outer.willPut == -1) {
 			if ((dragingSize = outer.findComponent(e.getPoint())) != null) {
@@ -198,7 +199,6 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void update() {
-		attributePane.label_1.update();
 		attributePane.update();
 	}
 }

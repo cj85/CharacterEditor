@@ -23,8 +23,10 @@ class MyComponentPanel extends JPanel implements MouseListener,
 	MyComponentPanel(FighterBuilder e) {
 		outer = e;
 		attributePane = (AttributePane) outer.attributePane;
-		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
+		initComponents();
+		setBounds(0, 0, 113, 615);
+		addMouseListener(this);
+		addMouseMotionListener(this);
 	}
 
 	int find(Point2D p) {
@@ -99,7 +101,6 @@ class MyComponentPanel extends JPanel implements MouseListener,
 	}
 
 	private void update() {
-		attributePane.label_1.update();
 		attributePane.cbo_1.removeAllItems();
 		attributePane.update();
 	}
