@@ -20,7 +20,7 @@ import com.google.gson.reflect.TypeToken;
 
 @SuppressWarnings("serial")
 public class FighterBuilder extends JFrame implements ChangeListener {
-	ArrayList<String> properties = new ArrayList<String>();
+	public ArrayList<String> properties = new ArrayList<String>();
 	public final Sort SORT = new Sort();
 	MyComponentPanel componentPane = null;
 	JPanel centerPane = null;
@@ -79,12 +79,8 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		}
 		for (int i = 0; i < componentList.size(); i++) {
 			if (me != componentList.get(i)) {
-				// if (name.equals(componentList.get(i).name)) {
-				// return false;
-				// }
 			}
 		}
-		// me.name = name;
 		return true;
 	}
 

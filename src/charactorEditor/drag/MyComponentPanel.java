@@ -101,7 +101,6 @@ class MyComponentPanel extends JPanel implements MouseListener,
 	}
 
 	private void update() {
-		attributePane.cbo_1.removeAllItems();
 		attributePane.update();
 	}
 }

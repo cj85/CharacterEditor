@@ -17,7 +17,7 @@ public class LoadButton extends JButton{
 	public LoadButton(AttributePane outer){
 		super("load");
 		this.outer=outer;
-		setBounds(outer.save_btn.getX()+outer.save_btn.getWidth()+10,outer.save_btn.getY(),70,20);
+		setBounds(outer.mySaveButton.getX()+outer.mySaveButton.getWidth()+10,outer.mySaveButton.getY(),70,20);
 	    addActionListener(new ActionListener(){
 
 			@Override

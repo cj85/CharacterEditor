@@ -119,7 +119,6 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 				{
 					outer.removeCMP(outer.focusCMP);
 					update();
-					attributePane.cbo_1.removeAllItems();
 					attributePane.repaint();
 				}
 			}
@@ -192,10 +191,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	private void setPropertyCombo() {
-		attributePane.cbo_1.removeAllItems();
-		for (String s : outer.properties) {
-			attributePane.cbo_1.addItem(s);
-		}
+		attributePane.myPropertySelectCombo.update();
 	}
 
 	public void update() {

@@ -33,14 +33,12 @@ public class AttributePane extends JPanel {
 	public PropertyDisplayLabel myPropertyDisplayLabel = new PropertyDisplayLabel(
 			this);
 
-	SetMyComponentTextField mySetComponentText = new SetMyComponentTextField(
+	private SetMyComponentTextField mySetComponentText = new SetMyComponentTextField(
 			this);
-	public JComboBox cbo_1 = null;
-	AddImgButton myAddImgButton = new AddImgButton(this);
-	JButton btn_tab = null;
-	JButton btn_list = null;
-	public SaveButton save_btn = new SaveButton(this);
-	JButton load_btn = new LoadButton(this);
+	public PropertySelectCombo myPropertySelectCombo =new PropertySelectCombo(this);
+	private AddImgButton myAddImgButton = new AddImgButton(this);
+	public SaveButton mySaveButton = new SaveButton(this);
+	private JButton myLoadButton = new LoadButton(this);
 	public FighterBuilder outerFighterBuilder;
 	Graphics2D g;
 
@@ -50,14 +48,11 @@ public class AttributePane extends JPanel {
 		setLayout(null);
 		new JustLabel("Name", new Rectangle(4, 76, 55, 20), this);
 		new JustLabel("Img", new Rectangle(4, 130, 55, 20), this);
-		cbo_1 = new JComboBox();// ÏÂÀ­¿ò
-		cbo_1.setBounds(56, 102, 115, 23);
-		add(cbo_1);
 		update();
 
 	}
 
-	public void paintComponent(Graphics e) {
+	public void paintComponent(Graphics e) {// only for test component area, will be deleted once the program is done
 		super.paintComponent(e);
 		g = (Graphics2D) e;
 		g.setColor(Color.BLUE);
@@ -70,6 +65,7 @@ public class AttributePane extends JPanel {
 		myAddImgButton.update();
 		myAddPropertyButton.update();
 		myNameDisplayLabel.update();
+		myPropertySelectCombo.update();
 	}
 
 }
