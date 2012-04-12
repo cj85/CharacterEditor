@@ -29,4 +29,7 @@ public class AddPropertyButton extends JButton{
 		});
 		outer.add(this);
 	}
+	public void update() {
+		setEnabled(outer.outerFighterBuilder.focusCMP != null);
+	}
 }

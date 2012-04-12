@@ -26,7 +26,7 @@ public class AttributePane extends JPanel {
 	private static final long serialVersionUID = 1L;
 	NameDisplayLabel label_1 = new NameDisplayLabel(this);
 
-	AddPropertyButton addProperty_btn = new AddPropertyButton(this);
+	AddPropertyButton myAddPropertyButton = new AddPropertyButton(this);
 
 	public JustLabel label_7 = new JustLabel("Properties", new Rectangle(4,
 			220, 100, 20), this);
@@ -36,7 +36,7 @@ public class AttributePane extends JPanel {
 	SetMyComponentTextField mySetComponentText = new SetMyComponentTextField(
 			this);
 	public JComboBox cbo_1 = null;
-	AddImgButton imgbtn = new AddImgButton(this);
+	AddImgButton myAddImgButton = new AddImgButton(this);
 	JButton btn_tab = null;
 	JButton btn_list = null;
 	public SaveButton save_btn = new SaveButton(this);
@@ -50,7 +50,7 @@ public class AttributePane extends JPanel {
 		setLayout(null);
 		new JustLabel("Name", new Rectangle(4, 76, 55, 20), this);
 		new JustLabel("Img", new Rectangle(4, 130, 55, 20), this);
-		
+
 		cbo_1 = new JComboBox();// ÏÂÀ­¿ò
 		cbo_1.setBounds(56, 102, 115, 23);
 
@@ -70,8 +70,8 @@ public class AttributePane extends JPanel {
 	public void update() {
 		myPropertyDisplayLabel.update();
 		mySetComponentText.update();
-		imgbtn.update();
-
+		myAddImgButton.update();
+		myAddPropertyButton.update();
 	}
 
 }
