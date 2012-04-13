@@ -33,7 +33,6 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	int willPut = -1;// component that will be put in MainPane
 	int maxID = 1;
 	public MyComponent focusCMP = null;
-	Color B = new Color(100, 200, 100);
 
 	void removeCMP(MyComponent e) {
 		for (int i = 0; i < componentList.size(); i++) {
@@ -45,33 +44,33 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		}
 	}
 
-	void drawViewComponent(Graphics2D g) throws IOException {
-		for (int i = 0; i < componentList.size(); i++) {
-			if (componentList.get(i) == focusCMP) {
-				g.setColor(Color.orange);
-				g.fill(componentList.get(i).border);
-				g.setColor(B);
-			} else {
-				g.fill(componentList.get(i).border);
-			}
-			if (componentList.get(i).img != null) {
-				BufferedImage img = ImageIO.read(componentList.get(i).img);
-
-				g.drawImage(img, (int) componentList.get(i).border.getX(),
-						(int) componentList.get(i).border.getY(),
-						(int) componentList.get(i).border.getWidth(),
-						(int) componentList.get(i).border.getHeight(), null);
-
-			}
-		}
-		g.setColor(Color.white);
-		for (int i = 0; i < componentList.size(); i++) {
-			Rectangle2D tem = componentList.get(i).border.getBounds2D();
-			g.drawString(componentList.get(i).text, (int) tem.getX(),
-					(int) (tem.getY() + tem.getHeight() / 2 + 5));
-		}
-
-	}
+//	void drawViewComponent(Graphics2D g) throws IOException {
+//		for (int i = 0; i < componentList.size(); i++) {
+//			if (componentList.get(i) == focusCMP) {
+//				g.setColor(Color.orange);
+//				g.fill(componentList.get(i).border);
+//				g.setColor(B);
+//			} else {
+//				g.fill(componentList.get(i).border);
+//			}
+//			if (componentList.get(i).img != null) {
+//				BufferedImage img = ImageIO.read(componentList.get(i).img);
+//
+//				g.drawImage(img, (int) componentList.get(i).border.getX(),
+//						(int) componentList.get(i).border.getY(),
+//						(int) componentList.get(i).border.getWidth(),
+//						(int) componentList.get(i).border.getHeight(), null);
+//
+//			}
+//		}
+//		g.setColor(Color.white);
+//		for (int i = 0; i < componentList.size(); i++) {
+//			Rectangle2D tem = componentList.get(i).border.getBounds2D();
+//			g.drawString(componentList.get(i).text, (int) tem.getX(),
+//					(int) (tem.getY() + tem.getHeight() / 2 + 5));
+//		}
+//
+//	}
 
 	boolean setCmpName(MyComponent me, String name) {
 		if (me == null) {
@@ -84,10 +83,7 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		return true;
 	}
 
-	public void setText(MyComponent me, String t) {
-		if (me != null)
-			me.text = t;
-	}
+
 
 	public FighterBuilder() throws FileNotFoundException {
 		this.setTitle("FighterBuilder");
@@ -161,16 +157,16 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		properties = gson.fromJson(wholeFile2, collectionType2);
 	}
 	public void changesize() {
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
+		setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
 	}
 
 	public void cross() {
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 	}
 
 
 
 	public void deletecross() {
-		this.setCursor(Cursor.getDefaultCursor());
+		setCursor(Cursor.getDefaultCursor());
 	}
 }

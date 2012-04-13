@@ -8,8 +8,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 class MainPane extends JPanel implements MouseListener, MouseMotionListener {
@@ -55,7 +57,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		drawLine(g);// »­¸ñ×Ó
 		g.setColor(b);
 		try {
-			outer.drawViewComponent(g);
+			drawViewComponent(g);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -181,7 +183,33 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		}
 	}
 
+	void drawViewComponent(Graphics2D g) throws IOException {
+		for (int i = 0; i < outer.componentList.size(); i++) {
+			if (outer.componentList.get(i) == outer.focusCMP) {
+				g.setColor(Color.orange);
+				g.fill(outer.componentList.get(i).border);
+				g.setColor(new Color(100, 200, 100));
+			} else {
+				g.fill(outer.componentList.get(i).border);
+			}
+			if (outer.componentList.get(i).img != null) {
+				BufferedImage img = ImageIO.read(outer.componentList.get(i).img);
 
+				g.drawImage(img, (int) outer.componentList.get(i).border.getX(),
+						(int) outer.componentList.get(i).border.getY(),
+						(int) outer.componentList.get(i).border.getWidth(),
+						(int)outer. componentList.get(i).border.getHeight(), null);
+
+			}
+		}
+		g.setColor(Color.white);
+		for (int i = 0; i < outer.componentList.size(); i++) {
+			Rectangle2D tem = outer.componentList.get(i).border.getBounds2D();
+			g.drawString(outer.componentList.get(i).text, (int) tem.getX(),
+					(int) (tem.getY() + tem.getHeight() / 2 + 5));
+		}
+
+	}
 	public void update() {
 		outer.attributePane.update();
 	}
