@@ -17,11 +17,10 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 199L;
 	private Graphics2D g = null;
 	private FighterBuilder outer = null;
-	private AttributePane attributePane = null;
 	private Color b = new Color(100, 200, 100);
 	private final int ROW = 59;// y coordinate
 	private final int COL = 70;// x coordinate
-	private MyPoint[][] point = new MyPoint[COL][ROW];
+	private Point2D.Double[][] point = new Point2D.Double[COL][ROW];
 	private Line2D[] rows = new Line2D.Double[59];
 	private Line2D[] cols = new Line2D.Double[70];
 	private Point2D.Double nearest = new Point2D.Double(40, 40);// nearest point
@@ -34,7 +33,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		for (int x = 0; x < COL; x++) {
 
 			for (int y = 0; y < ROW; y++) {
-				point[x][y] = new MyPoint(new Point2D.Double(x * 10, y * 10));
+				point[x][y] = new Point2D.Double(x * 10, y * 10);
 			}
 		}
 		for (int i = 0; i < COL; i++) {
@@ -45,10 +44,9 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			rows[i] = new Line2D.Double(0, i * 10, 690, i * 10);
 		}
 		outer = e;
-		attributePane = e.attributePane;
-		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
-		this.setBackground(Color.white);
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		setBackground(Color.white);
 	}
 
 	public void paintComponent(Graphics e) {
@@ -59,12 +57,11 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		try {
 			outer.drawViewComponent(g);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
 
-	void drawLine(Graphics2D g) {
+	private void drawLine(Graphics2D g) {
 		g.setColor(new Color(200, 200, 210));
 		for (int i = 0; i < COL; i++) {
 			g.draw(cols[i]);
@@ -74,13 +71,11 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		}
 	}
 
-	boolean getNearestPoint() {
+	private boolean getNearestPoint() {
 		for (int x = 0; x < COL; x++) {
 			for (int y = 0; y < ROW; y++) {
-
-				if (put.contains(point[x][y].point)) {
-					// System.out.println(y);
-					nearest = point[x][y].point;
+				if (put.contains(point[x][y])) {
+					nearest = point[x][y];
 					return true;
 				}
 			}
@@ -98,7 +93,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		attributePane.myNameDisplayLabel.requestFocus();
+//		attributePane.myNameDisplayLabel.requestFocus();
 		int count = e.getClickCount();
 		if (outer.willPut == -1) {
 			if ((dragingSize = outer.findComponent(e.getPoint())) != null) {
@@ -114,12 +109,10 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 
 					}
 					update();
-					setPropertyCombo();
 				} else// 两下，取消
 				{
 					outer.removeCMP(outer.focusCMP);
 					update();
-					attributePane.repaint();
 				}
 			}
 
@@ -137,7 +130,6 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			outer.maxID++;
 			outer.willPut = -1;
 			update();
-			setPropertyCombo();
 			outer.repaint();
 		}
 	}
@@ -190,11 +182,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		}
 	}
 
-	private void setPropertyCombo() {
-		attributePane.myPropertySelectCombo.update();
-	}
 
 	public void update() {
-		attributePane.update();
+		outer.attributePane.update();
 	}
 }

@@ -66,6 +66,7 @@ public class AttributePane extends JPanel {
 		myAddPropertyButton.update();
 		myNameDisplayLabel.update();
 		myPropertySelectCombo.update();
+		repaint();
 	}
 
 }

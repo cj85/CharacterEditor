@@ -14,7 +14,6 @@ public class Loader {
 	public static ArrayList<MyComponent> load(String file)
 			throws FileNotFoundException {
 		Gson gson = new Gson();
-
 		Scanner scanner = new Scanner(new File(file));
 		String wholeFile = scanner.useDelimiter("\\A").next();
 		Type collectionType = new TypeToken<ArrayList<MyComponent>>() {

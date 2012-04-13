@@ -19,7 +19,6 @@ public class PropertySelectCombo extends JComboBox {
 		if (outer.outerFighterBuilder.focusCMP != null)
 			for (String s : outer.outerFighterBuilder.properties) {
 				addItem(s);
-		
 			}
 	}
 }
