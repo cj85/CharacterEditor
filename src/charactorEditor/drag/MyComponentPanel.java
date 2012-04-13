@@ -14,15 +14,13 @@ import javax.swing.JPanel;
 class MyComponentPanel extends JPanel implements MouseListener,
 		MouseMotionListener {
 	private static final long serialVersionUID = 100L;
-	private final int  COMPONENTNUMBER=2;
+	public final int  COMPONENTNUMBER=2;
 	Graphics2D g = null;
 	private Rectangle2D[] components = new Rectangle2D.Double[COMPONENTNUMBER];
 	private FighterBuilder outer = null;
-	private AttributePane attributePane = null;
 
 	MyComponentPanel(FighterBuilder e) {
 		outer = e;
-		attributePane = (AttributePane) outer.attributePane;
 		initComponents();
 		setBounds(0, 0, 113, 615);
 		addMouseListener(this);
@@ -56,7 +54,6 @@ class MyComponentPanel extends JPanel implements MouseListener,
 			}
 		}
 		g.setColor(Color.white);
-
 		for (int i = 0; i < COMPONENTNUMBER; i++) {
 			g.drawString(outer.SORT.CMP[i], 27, 47 + 30 * i);
 		}
@@ -101,6 +98,6 @@ class MyComponentPanel extends JPanel implements MouseListener,
 	}
 
 	private void update() {
-		attributePane.update();
+		outer.attributePane.update();
 	}
 }

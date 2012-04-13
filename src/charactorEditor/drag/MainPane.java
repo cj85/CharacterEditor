@@ -93,7 +93,6 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-//		attributePane.myNameDisplayLabel.requestFocus();
 		int count = e.getClickCount();
 		if (outer.willPut == -1) {
 			if ((dragingSize = outer.findComponent(e.getPoint())) != null) {

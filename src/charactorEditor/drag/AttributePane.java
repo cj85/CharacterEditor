@@ -38,7 +38,7 @@ public class AttributePane extends JPanel {
 	public PropertySelectCombo myPropertySelectCombo =new PropertySelectCombo(this);
 	private AddImgButton myAddImgButton = new AddImgButton(this);
 	public SaveButton mySaveButton = new SaveButton(this);
-	private JButton myLoadButton = new LoadButton(this);
+	private LoadButton myLoadButton = new LoadButton(this);
 	public FighterBuilder outerFighterBuilder;
 	Graphics2D g;
 
