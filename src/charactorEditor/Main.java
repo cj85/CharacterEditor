@@ -1,17 +1,11 @@
 package charactorEditor;
-import javax.swing.JFrame;
+import java.io.FileNotFoundException;
+
+
+import charactorEditor.drag.FighterBuilder;
 
 public class Main{
-	public static void main(String[] args){
-        CharactorEditorModel model = new CharactorEditorModel();
-     
-        CharactorEditorViewer display = new CharactorEditorViewer(model);
-        	JFrame frame = new JFrame();
-        	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        	frame.getContentPane().add(display);
-        	frame.pack();
-        	frame.setSize(700, 500);
-        	frame.setVisible(true);
-        	
+	public static void main(String[] args) throws FileNotFoundException{
+		new FighterBuilder();
 	}
 }

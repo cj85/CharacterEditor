@@ -34,15 +34,15 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	int maxID = 1;
 	public MyComponent focusCMP = null;
 
-	void removeCMP(MyComponent e) {
-		for (int i = 0; i < componentList.size(); i++) {
-			if (componentList.get(i) == this.focusCMP) {
-				focusCMP = null;
-				componentList.remove(i);
-				break;
-			}
-		}
-	}
+//	void removeCMP(MyComponent e) {
+//		for (int i = 0; i < componentList.size(); i++) {
+//			if (componentList.get(i) == this.focusCMP) {
+//				focusCMP = null;
+//				componentList.remove(i);
+//				break;
+//			}
+//		}
+//	}
 
 //	void drawViewComponent(Graphics2D g) throws IOException {
 //		for (int i = 0; i < componentList.size(); i++) {
@@ -72,16 +72,16 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 //
 //	}
 
-	boolean setCmpName(MyComponent me, String name) {
-		if (me == null) {
-			return false;
-		}
-		for (int i = 0; i < componentList.size(); i++) {
-			if (me != componentList.get(i)) {
-			}
-		}
-		return true;
-	}
+//	boolean setCmpName(MyComponent me, String name) {
+//		if (me == null) {
+//			return false;
+//		}
+//		for (int i = 0; i < componentList.size(); i++) {
+//			if (me != componentList.get(i)) {
+//			}
+//		}
+//		return true;
+//	}
 
 
 

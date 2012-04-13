@@ -10,6 +10,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -18,7 +19,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 
 	private static final long serialVersionUID = 199L;
 	private Graphics2D g = null;
-	private FighterBuilder outer = null;
+	private FighterBuilder outer;
 	private Color b = new Color(100, 200, 100);
 	private final int ROW = 59;// y coordinate
 	private final int COL = 70;// x coordinate
@@ -30,7 +31,6 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	private MyComponent draging = null;
 	private MyComponent dragingSize = null;
 	private boolean dragingCMP = false;
-
 	MainPane(FighterBuilder e) {
 		for (int x = 0; x < COL; x++) {
 
@@ -112,7 +112,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 					update();
 				} else// 两下，取消
 				{
-					outer.removeCMP(outer.focusCMP);
+					removeCMP(outer.focusCMP);
 					update();
 				}
 			}
@@ -209,6 +209,16 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 					(int) (tem.getY() + tem.getHeight() / 2 + 5));
 		}
 
+	}
+	void removeCMP(MyComponent e) {
+		System.out.println(outer.componentList==outer.componentList);////////////////////////////////
+		for (int i = 0; i < outer.componentList.size(); i++) {
+			if (outer.componentList.get(i) == outer.focusCMP) {
+				outer.focusCMP = null;
+				outer.componentList.remove(i);
+				break;
+			}
+		}
 	}
 	public void update() {
 		outer.attributePane.update();

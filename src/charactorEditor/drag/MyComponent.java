@@ -1,4 +1,5 @@
 package charactorEditor.drag;
+
 import java.awt.geom.*;
 import java.io.File;
 import java.util.HashMap;
@@ -6,15 +7,14 @@ import java.util.HashMap;
 public class MyComponent {
 	int id = 0;
 	int sortID = 1;
-//	String name = null;
 	public String text = null;
-	 public File img=null;
+	public File img = null;
 	public int sort = -1;
 	Rectangle2D.Double border = null;
 	Point2D.Double point = null;
 	Rectangle2D.Double dragSize = null;
-    private HashMap<String,String> properties=new HashMap<String,String>();
-    
+	private HashMap<String, String> properties = new HashMap<String, String>();
+
 	MyComponent(Point2D.Double p, int theSort, int ID, FighterBuilder out) {
 		point = p;
 		sort = theSort;
@@ -24,9 +24,7 @@ public class MyComponent {
 				border.getMaxY() - 10, 10, 10);
 	}
 
-
-
-	void setText(String t ) {
+	void setText(String t) {
 		text = t;
 	}
 
@@ -60,14 +58,17 @@ public class MyComponent {
 			dragSize = new Rectangle2D.Double(x, y, 10, 10);
 		}
 	}
-	public void setProperty(String key,String value){
+
+	public void setProperty(String key, String value) {
 		properties.put(key, value);
 	}
-	public HashMap<String,String> getProperties(){
+
+	public HashMap<String, String> getProperties() {
 		return properties;
 	}
-	public void remove(String key){
-		if(properties.keySet().contains(key))
+
+	public void remove(String key) {
+		if (properties.keySet().contains(key))
 			properties.remove(key);
 	}
 }
