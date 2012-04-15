@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -65,6 +67,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			drawViewComponent(g);
 			drawSelecting(g);
 			drawSelected(g);
+			drawConnected(g);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -112,22 +115,25 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		JMenuItem mConnect=new JMenuItem("connect");
+		JMenuItem mDisconnect=new JMenuItem("disconnect");
+		JPopupMenu menu = new JPopupMenu();
 		if (e.getButton() == MouseEvent.BUTTON3) {
-			JMenuItem mAll, mCopy, mCut, mPaste, mDel;
-			JPopupMenu menu = new JPopupMenu();
-			mAll = new JMenuItem("È«Ñ¡(A)");
-			menu.add(mAll);
-			mCopy = new JMenuItem("¸´ÖÆ(C)");
-			menu.add(mCopy);
-			mCut = new JMenuItem("¼ôÇÐ(T)");
-			menu.add(mCut);
-			mPaste = new JMenuItem("Õ³Ìù(P)");
-			menu.add(mPaste);
-			mDel = new JMenuItem("É¾³ý(D)");
-			menu.add(mDel);
-			// µ¯³öÓÒ¼ü²Ëµ¥
+		
+			menu.add(mConnect);
+			menu.add(mDisconnect);
 			menu.show(this, e.getX(), e.getY());
 		}
+		mConnect.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("connect");
+			}});
+//		if(e.getButton()==MouseEvent.BUTTON1)
+			 
+			  
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -248,6 +254,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	private int selectComponent() {/////µ½µ×returnÉ¶£¿
+		mySelectedComponent=new ArrayList<MyComponent>();
 		int toReturn = 0;
 		if (outer.componentList.size() != 0 && mySelect != null) {
 			for (MyComponent m : outer.componentList)
