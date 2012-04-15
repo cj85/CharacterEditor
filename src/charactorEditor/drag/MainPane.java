@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 
@@ -31,6 +33,9 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	private MyComponent draging = null;
 	private MyComponent dragingSize = null;
 	private boolean dragingCMP = false;
+	private Rectangle2D mySelect;// //////////////////////////
+	private ArrayList<MyComponent> mySelectedComponent=new ArrayList<MyComponent>();
+
 	MainPane(FighterBuilder e) {
 		for (int x = 0; x < COL; x++) {
 
@@ -58,9 +63,17 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		g.setColor(b);
 		try {
 			drawViewComponent(g);
+			drawSelecting(g);
+			drawSelected(g);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	private void drawConnected(Graphics2D g) {//////////先没用上
+		g.setColor(Color.pink);
+		for (MyComponent m : outer.myConnectedComponent)
+			g.draw(m.border);
 	}
 
 	private void drawLine(Graphics2D g) {
@@ -71,6 +84,19 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		for (int i = 0; i < ROW; i++) {
 			g.draw(rows[i]);
 		}
+	}
+
+	private void drawSelecting(Graphics2D g) {
+		g.setColor(Color.black);
+		if (mySelect != null)
+			g.draw(mySelect);
+		g.setColor(new Color(100, 200, 100));
+	}
+	private void drawSelected(Graphics2D g) {
+		g.setColor(Color.pink);
+		for (MyComponent m : mySelectedComponent)
+			g.fill(m.border);
+		
 	}
 
 	private boolean getNearestPoint() {
@@ -86,6 +112,22 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		if (e.getButton() == MouseEvent.BUTTON3) {
+			JMenuItem mAll, mCopy, mCut, mPaste, mDel;
+			JPopupMenu menu = new JPopupMenu();
+			mAll = new JMenuItem("全选(A)");
+			menu.add(mAll);
+			mCopy = new JMenuItem("复制(C)");
+			menu.add(mCopy);
+			mCut = new JMenuItem("剪切(T)");
+			menu.add(mCut);
+			mPaste = new JMenuItem("粘贴(P)");
+			menu.add(mPaste);
+			mDel = new JMenuItem("删除(D)");
+			menu.add(mDel);
+			// 弹出右键菜单
+			menu.show(this, e.getX(), e.getY());
+		}
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -95,43 +137,50 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		int count = e.getClickCount();
-		if (outer.willPut == -1) {
-			if ((dragingSize = outer.findComponent(e.getPoint())) != null) {
-				if (count < 2) {
-					if (outer.setSizeFlag == true)// 边缘拖拽
-					{
-						outer.focusCMP = dragingSize;
-					} else// 点在中间了
-					{
-						outer.focusCMP = dragingSize;
-						draging = dragingSize;
-						dragingSize = null;
+		if (e.getButton() == 1) {
+			int count = e.getClickCount();
+			if (outer.willPut == -1) {
+				if ((dragingSize = outer.findComponent(e.getPoint())) != null) {
+					if (count < 2) {
+						if (outer.setSizeFlag == true)// 边缘拖拽
+						{
+							outer.focusCMP = dragingSize;
+						} else// 点在中间了
+						{
+							outer.focusCMP = dragingSize;
+							draging = dragingSize;
+							dragingSize = null;
 
+						}
+						update();
+					} else// 两下，取消
+					{
+						removeCMP(outer.focusCMP);
+						update();
 					}
-					update();
-				} else// 两下，取消
-				{
-					removeCMP(outer.focusCMP);
-					update();
 				}
-			}
 
-			else// 没选上component 就啥也不干
+				else// 没选上component 就啥也不干/////////////////////////////
+				{
+					Point2D p = e.getPoint();
+					put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
+					mySelect = new Rectangle2D.Double();
+					mySelect.setFrame(put);
+					outer.repaint();
+				}
+			} else// 第一次放置进来才走这里
 			{
+				Point2D p = e.getPoint();
+				put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
+				getNearestPoint();
+				outer.componentList.add((outer.focusCMP = new MyComponent(
+						nearest, outer.willPut, outer.maxID, outer)));
+				outer.focusCMP.setText(outer.getName(outer.focusCMP));
+				outer.maxID++;
+				outer.willPut = -1;
+				update();
+				outer.repaint();
 			}
-		} else// 第一次放置进来才走这里
-		{
-			Point2D p = e.getPoint();
-			put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
-			getNearestPoint();
-			outer.componentList.add((outer.focusCMP = new MyComponent(nearest,
-					outer.willPut, outer.maxID, outer)));
-			outer.focusCMP.setText(outer.getName(outer.focusCMP));
-			outer.maxID++;
-			outer.willPut = -1;
-			update();
-			outer.repaint();
 		}
 	}
 
@@ -152,10 +201,13 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			((Rectangle2D) put).setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
 			getNearestPoint();
 			dragingSize.setSize(nearest);
+		} else if (selectComponent() != 0) {
+			// ////////////////////
 		}
 		draging = null;
 		dragingSize = null;
 		dragingCMP = false;
+		mySelect = null;
 		repaint();
 	}
 
@@ -163,12 +215,24 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		if (draging != null) {
 			draging.setLocation(e.getPoint());
 			dragingCMP = true;
-			outer.repaint();
 		} else if (dragingSize != null) {
 			dragingSize.setSize(e.getPoint());
 			dragingCMP = true;
-			outer.repaint();
+		} else if (mySelect != null) {// ///////////////正反选择 ， 没实现
+			Point2D p = e.getPoint();
+			double x = mySelect.getX();
+			double y = mySelect.getY();
+			if (p.getX() - x > 10 && p.getY() - y > 10) {
+
+				mySelect.setFrame(x, y, Math.abs(p.getX() - x),
+						Math.abs(p.getY() - y));
+
+			} else {
+				mySelect.setFrame(x, y, 10, 10);
+
+			}
 		}
+		outer.repaint();
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -183,6 +247,18 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		}
 	}
 
+	private int selectComponent() {/////到底return啥？
+		int toReturn = 0;
+		if (outer.componentList.size() != 0 && mySelect != null) {
+			for (MyComponent m : outer.componentList)
+				if (mySelect.contains(m.border)) {
+					mySelectedComponent.add(m);
+					toReturn++;
+				}
+		}
+		return toReturn;
+	}
+
 	void drawViewComponent(Graphics2D g) throws IOException {
 		for (int i = 0; i < outer.componentList.size(); i++) {
 			if (outer.componentList.get(i) == outer.focusCMP) {
@@ -193,12 +269,15 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 				g.fill(outer.componentList.get(i).border);
 			}
 			if (outer.componentList.get(i).img != null) {
-				BufferedImage img = ImageIO.read(outer.componentList.get(i).img);
+				BufferedImage img = ImageIO
+						.read(outer.componentList.get(i).img);
 
-				g.drawImage(img, (int) outer.componentList.get(i).border.getX(),
+				g.drawImage(img,
+						(int) outer.componentList.get(i).border.getX(),
 						(int) outer.componentList.get(i).border.getY(),
 						(int) outer.componentList.get(i).border.getWidth(),
-						(int)outer. componentList.get(i).border.getHeight(), null);
+						(int) outer.componentList.get(i).border.getHeight(),
+						null);
 
 			}
 		}
@@ -210,8 +289,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		}
 
 	}
+
 	void removeCMP(MyComponent e) {
-		System.out.println(outer.componentList==outer.componentList);////////////////////////////////
 		for (int i = 0; i < outer.componentList.size(); i++) {
 			if (outer.componentList.get(i) == outer.focusCMP) {
 				outer.focusCMP = null;
@@ -220,6 +299,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			}
 		}
 	}
+
 	public void update() {
 		outer.attributePane.update();
 	}

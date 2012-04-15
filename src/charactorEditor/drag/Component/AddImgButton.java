@@ -17,7 +17,6 @@ public class AddImgButton extends JButton {
 		setBounds(55, 129, 115, 23);
 		addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				JFileChooser fc = new JFileChooser(".");
 				int returnVal = fc.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {

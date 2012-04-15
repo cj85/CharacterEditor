@@ -29,6 +29,7 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	MainPane drawPane = new MainPane(this);
 
 	public ArrayList<MyComponent> componentList = new ArrayList<MyComponent>();
+	public ArrayList<MyComponent> myConnectedComponent=new ArrayList<MyComponent>();
 	boolean setSizeFlag = false;
 	int willPut = -1;// component that will be put in MainPane
 	int maxID = 1;
@@ -90,17 +91,15 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		loadPropertyList();
 
 		componentPane = new MyComponentPanel(this);
-		this.setDefaultCloseOperation(1);
+		this.setDefaultCloseOperation(3);
 		setBounds(10, 50, 1000, 645);
-		JPanel jp = new JPanel();// ´ó¿ò¼Ü£¬×ócomponentPane ÖÐcenterPane ÓÒattribute
+		JPanel jp = new JPanel();
 		jp.setLayout(null);
-		init();// componentPane centerPane init
+		init();
 		jp.add(componentPane);
 		jp.add(centerPane);
-
 		jp.add(attributePane);
 		setContentPane(jp);
-
 		setVisible(true);
 		this.setResizable(false);
 	}
