@@ -19,7 +19,7 @@ public class MyComponent {
 		point = p;
 		sort = theSort;
 		id = ID;
-		border = new Rectangle2D.Double(p.getX() - 20, p.getY() - 10, 40, 20);
+		border = new Rectangle2D.Double(p.getX()-40 , p.getY()-10 , 40, 20);
 		dragSize = new Rectangle2D.Double(border.getMaxX() - 10,
 				border.getMaxY() - 10, 10, 10);
 	}

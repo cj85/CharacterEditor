@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.*;
+import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,8 +36,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	private MyComponent draging = null;
 	private MyComponent dragingSize = null;
 	private boolean dragingCMP = false;
-	private Rectangle2D mySelect;// //////////////////////////
-	private ArrayList<MyComponent> mySelectedComponent=new ArrayList<MyComponent>();
+	private Rectangle2D mySelectingRectangle;// //////////////////////////
+	private ArrayList<MyComponent> mySelectedComponent = new ArrayList<MyComponent>();
 
 	MainPane(FighterBuilder e) {
 		for (int x = 0; x < COL; x++) {
@@ -73,7 +74,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		}
 	}
 
-	private void drawConnected(Graphics2D g) {//////////先没用上
+	private void drawConnected(Graphics2D g) {// ////////先没用上
 		g.setColor(Color.pink);
 		for (MyComponent m : outer.myConnectedComponent)
 			g.draw(m.border);
@@ -91,15 +92,16 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 
 	private void drawSelecting(Graphics2D g) {
 		g.setColor(Color.black);
-		if (mySelect != null)
-			g.draw(mySelect);
+		if (mySelectingRectangle != null)
+			g.draw(mySelectingRectangle);
 		g.setColor(new Color(100, 200, 100));
 	}
+
 	private void drawSelected(Graphics2D g) {
 		g.setColor(Color.pink);
 		for (MyComponent m : mySelectedComponent)
 			g.fill(m.border);
-		
+
 	}
 
 	private boolean getNearestPoint() {
@@ -115,25 +117,26 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		JMenuItem mConnect=new JMenuItem("connect");
-		JMenuItem mDisconnect=new JMenuItem("disconnect");
+
+		JMenuItem mConnect = new JMenuItem("connect");
+		JMenuItem mDisconnect = new JMenuItem("disconnect");
 		JPopupMenu menu = new JPopupMenu();
 		if (e.getButton() == MouseEvent.BUTTON3) {
-		
+
 			menu.add(mConnect);
 			menu.add(mDisconnect);
 			menu.show(this, e.getX(), e.getY());
 		}
-		mConnect.addActionListener(new ActionListener(){
+		mConnect.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("connect");
-			}});
-//		if(e.getButton()==MouseEvent.BUTTON1)
-			 
-			  
+			}
+		});
+		// if(e.getButton()==MouseEvent.BUTTON1)
+
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -170,8 +173,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 				{
 					Point2D p = e.getPoint();
 					put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
-					mySelect = new Rectangle2D.Double();
-					mySelect.setFrame(put);
+					mySelectingRectangle = new Rectangle2D.Double();
+					mySelectingRectangle.setFrame(put);
 					outer.repaint();
 				}
 			} else// 第一次放置进来才走这里
@@ -194,12 +197,16 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 
 		if (draging != null)// 点中间了 ,移动位置
 		{
-			Point2D p = e.getPoint();
-			((Rectangle2D) put).setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
-			getNearestPoint();
-			if (dragingCMP == true) {
-				draging.setLocation(nearest);
 
+			if (dragingCMP == true) {
+				for (MyComponent m : mySelectedComponent) {
+					Point2D p = new Point2D.Double(m.border.getCenterX(),
+							m.border.getCenterY());
+					((Rectangle2D) put).setFrame(p.getX() - 5, p.getY() - 5,
+							10, 10);
+					getNearestPoint();
+					m.setLocation(nearest);
+				}
 			}
 		} else if (dragingSize != null)// 点左下角了，拉大小
 		{
@@ -208,34 +215,50 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			getNearestPoint();
 			dragingSize.setSize(nearest);
 		} else if (selectComponent() != 0) {
-			// ////////////////////
+			// ////////////////////拉选框选上组件了
 		}
 		draging = null;
 		dragingSize = null;
 		dragingCMP = false;
-		mySelect = null;
+		mySelectingRectangle = null;
 		repaint();
 	}
 
 	public void mouseDragged(MouseEvent e) {
 		if (draging != null) {
-			draging.setLocation(e.getPoint());
+
+			double x = draging.border.getX();
+			double y = draging.border.getY();
+			Point2D currentpoint = e.getPoint();
+			draging.setLocation(currentpoint);
+
+			double dx;
+			double dy;
+			dx = draging.border.getX() - x;
+			dy = draging.border.getY() - y;
+
+			if (mySelectedComponent.contains(draging))
+				for (MyComponent m : mySelectedComponent) {
+					if (m != draging) {
+						Rectangle2D p = new Rectangle2D.Double(m.border.getX()
+								+ dx, m.border.getY() + dy,
+								m.border.getWidth(), m.border.getHeight());
+						m.border.setFrame(p);
+					}
+				}
 			dragingCMP = true;
 		} else if (dragingSize != null) {
 			dragingSize.setSize(e.getPoint());
 			dragingCMP = true;
-		} else if (mySelect != null) {// ///////////////正反选择 ， 没实现
+		} else if (mySelectingRectangle != null) {// ///////////////正反选择 ， 没实现
 			Point2D p = e.getPoint();
-			double x = mySelect.getX();
-			double y = mySelect.getY();
+			double x = mySelectingRectangle.getX();
+			double y = mySelectingRectangle.getY();
 			if (p.getX() - x > 10 && p.getY() - y > 10) {
-
-				mySelect.setFrame(x, y, Math.abs(p.getX() - x),
+				mySelectingRectangle.setFrame(x, y, Math.abs(p.getX() - x),
 						Math.abs(p.getY() - y));
-
 			} else {
-				mySelect.setFrame(x, y, 10, 10);
-
+				mySelectingRectangle.setFrame(x, y, 10, 10);
 			}
 		}
 		outer.repaint();
@@ -253,12 +276,12 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		}
 	}
 
-	private int selectComponent() {/////到底return啥？
-		mySelectedComponent=new ArrayList<MyComponent>();
+	private int selectComponent() {// ///到底return啥？
+		mySelectedComponent = new ArrayList<MyComponent>();
 		int toReturn = 0;
-		if (outer.componentList.size() != 0 && mySelect != null) {
+		if (outer.componentList.size() != 0 && mySelectingRectangle != null) {
 			for (MyComponent m : outer.componentList)
-				if (mySelect.contains(m.border)) {
+				if (mySelectingRectangle.contains(m.border)) {
 					mySelectedComponent.add(m);
 					toReturn++;
 				}
