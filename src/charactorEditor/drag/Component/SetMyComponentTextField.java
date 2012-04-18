@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 
 import charactorEditor.drag.AttributePane;
 
+@SuppressWarnings("serial")
 public class SetMyComponentTextField extends JTextField {
 	private AttributePane outer;
 

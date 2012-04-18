@@ -1,7 +1,6 @@
 package charactorEditor.drag;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -10,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.*;
-import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,7 +60,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	public void paintComponent(Graphics e) {
 		super.paintComponent(e);
 		g = (Graphics2D) e;
-		drawLine(g);// »­¸ñ×Ó
+		drawLine(g);
 		g.setColor(b);
 		try {
 			drawViewComponent(g);
@@ -128,15 +126,10 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			menu.show(this, e.getX(), e.getY());
 		}
 		mConnect.addActionListener(new ActionListener() {
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				System.out.println("connect");
 			}
 		});
-		// if(e.getButton()==MouseEvent.BUTTON1)
-
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -183,9 +176,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 				put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
 				getNearestPoint();
 				outer.componentList.add((outer.focusCMP = new MyComponent(
-						nearest, outer.willPut, outer.maxID, outer)));
+						nearest, outer.willPut, outer)));
 				outer.focusCMP.setText(outer.getName(outer.focusCMP));
-				outer.maxID++;
 				outer.willPut = -1;
 				update();
 				outer.repaint();

@@ -9,9 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import charactorEditor.Loader;
-import charactorEditor.Writer;
 import charactorEditor.drag.AttributePane;
 
+@SuppressWarnings("serial")
 public class LoadButton extends JButton{
 	AttributePane outer;
 	public LoadButton(AttributePane outer){
@@ -19,8 +19,6 @@ public class LoadButton extends JButton{
 		this.outer=outer;
 		setBounds(outer.mySaveButton.getX()+outer.mySaveButton.getWidth()+10,outer.mySaveButton.getY(),70,20);
 	    addActionListener(new ActionListener(){
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
                   try {
 					load();

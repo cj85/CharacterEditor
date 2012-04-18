@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 
 import charactorEditor.drag.AttributePane;
 
+@SuppressWarnings("serial")
 public class NameDisplayLabel extends JLabel {
 	private AttributePane outer;
 

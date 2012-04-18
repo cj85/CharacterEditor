@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import charactorEditor.drag.AttributePane;
 
+@SuppressWarnings("serial")
 public class AddPropertyButton extends JButton {
 	private AttributePane outer;
 

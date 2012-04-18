@@ -4,6 +4,7 @@ import javax.swing.JComboBox;
 
 import charactorEditor.drag.AttributePane;
 
+@SuppressWarnings({ "rawtypes", "serial" })
 public class PropertySelectCombo extends JComboBox {
 	private AttributePane outer;
 
@@ -14,6 +15,7 @@ public class PropertySelectCombo extends JComboBox {
 		outer.add(this);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void update() {
 		removeAllItems();
 		if (outer.outerFighterBuilder.focusCMP != null)

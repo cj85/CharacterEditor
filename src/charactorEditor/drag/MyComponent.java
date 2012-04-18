@@ -5,8 +5,7 @@ import java.io.File;
 import java.util.HashMap;
 
 public class MyComponent {
-	int id = 0;
-	int sortID = 1;
+	int sortID = 0;
 	public String text = null;
 	public File img = null;
 	public int sort = -1;
@@ -15,10 +14,9 @@ public class MyComponent {
 	Rectangle2D.Double dragSize = null;
 	private HashMap<String, String> properties = new HashMap<String, String>();
 
-	MyComponent(Point2D.Double p, int theSort, int ID, FighterBuilder out) {
+	MyComponent(Point2D.Double p, int theSort, FighterBuilder out) {
 		point = p;
 		sort = theSort;
-		id = ID;
 		border = new Rectangle2D.Double(p.getX()-40 , p.getY()-10 , 40, 20);
 		dragSize = new Rectangle2D.Double(border.getMaxX() - 10,
 				border.getMaxY() - 10, 10, 10);

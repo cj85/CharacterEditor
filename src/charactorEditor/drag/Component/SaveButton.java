@@ -10,6 +10,7 @@ import javax.swing.*;
 import charactorEditor.Writer;
 import charactorEditor.drag.AttributePane;
 
+@SuppressWarnings("serial")
 public class SaveButton extends JButton{
 	private AttributePane outer;
 	public SaveButton(AttributePane e){

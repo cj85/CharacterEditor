@@ -8,6 +8,7 @@ import javax.swing.JFileChooser;
 
 import charactorEditor.drag.AttributePane;
 
+@SuppressWarnings("serial")
 public class AddImgButton extends JButton {
 	private AttributePane outer;
 
