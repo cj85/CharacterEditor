@@ -154,12 +154,11 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 							dragingSize = null;
 
 						}
-						update();
 					} else// 两下，取消
 					{
 						removeCMP(outer.focusCMP);
-						update();
 					}
+					update();
 				}
 
 				else// 没选上component 就啥也不干/////////////////////////////
@@ -173,10 +172,10 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			} else// 第一次放置进来才走这里
 			{
 				Point2D p = e.getPoint();
-				put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
+				put.setFrame(p.getX(), p.getY(), 10, 10);
 				getNearestPoint();
 				outer.componentList.add((outer.focusCMP = new MyComponent(
-						nearest, outer.willPut, outer)));
+						nearest, outer.willPut)));
 				outer.focusCMP.setText(outer.getName(outer.focusCMP));
 				outer.willPut = -1;
 				update();
@@ -191,14 +190,16 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		{
 
 			if (dragingCMP == true) {
+				mySelectedComponent.add(draging);
 				for (MyComponent m : mySelectedComponent) {
-					Point2D p = new Point2D.Double(m.border.getCenterX(),
-							m.border.getCenterY());
-					((Rectangle2D) put).setFrame(p.getX() - 5, p.getY() - 5,
+					Point2D p = new Point2D.Double(m.border.getX(),
+							m.border.getY());
+					 put.setFrame(p.getX()-5 , p.getY()-5 ,
 							10, 10);
 					getNearestPoint();
-					m.setLocation(nearest);
+					m.setLocation(nearest,0);
 				}
+				mySelectedComponent.remove(draging);
 			}
 		} else if (dragingSize != null)// 点左下角了，拉大小
 		{
@@ -207,7 +208,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			getNearestPoint();
 			dragingSize.setSize(nearest);
 		} else if (selectComponent() != 0) {
-			// ////////////////////拉选框选上组件了
+			
 		}
 		draging = null;
 		dragingSize = null;
@@ -222,7 +223,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			double x = draging.border.getX();
 			double y = draging.border.getY();
 			Point2D currentpoint = e.getPoint();
-			draging.setLocation(currentpoint);
+			draging.setLocation(currentpoint,1);
 
 			double dx;
 			double dy;

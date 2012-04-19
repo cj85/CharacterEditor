@@ -10,14 +10,12 @@ public class MyComponent {
 	public File img = null;
 	public int sort = -1;
 	Rectangle2D.Double border = null;
-	Point2D.Double point = null;
 	Rectangle2D.Double dragSize = null;
 	private HashMap<String, String> properties = new HashMap<String, String>();
 
-	MyComponent(Point2D.Double p, int theSort, FighterBuilder out) {
-		point = p;
+	MyComponent(Point2D.Double p, int theSort) {
 		sort = theSort;
-		border = new Rectangle2D.Double(p.getX()-40 , p.getY()-10 , 40, 20);
+		border = new Rectangle2D.Double(p.getX()-20 , p.getY()-10 , 40, 20);
 		dragSize = new Rectangle2D.Double(border.getMaxX() - 10,
 				border.getMaxY() - 10, 10, 10);
 	}
@@ -26,7 +24,7 @@ public class MyComponent {
 		text = t;
 	}
 
-	void setLocation(Point2D p) {
+	void setLocation(Point2D p,int indicator) {
 		double x = p.getX();
 		double y = p.getY();
 		double w = border.getWidth();
@@ -39,7 +37,7 @@ public class MyComponent {
 		if (t2 % 10 == 5) {
 			t2 += 5;
 		}
-		border.setFrame(x - t1, y - t2, w, h);
+		border.setFrame(x - t1*indicator, y - t2*indicator, w, h);
 		dragSize = new Rectangle2D.Double(border.getMaxX() - 10,
 				border.getMaxY() - 10, 10, 10);
 	}
