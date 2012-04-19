@@ -32,7 +32,7 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	public MyComponent focusCMP = null;
 
 	public FighterBuilder() throws FileNotFoundException {
-		this.setTitle("FighterBuilder");
+		setTitle("FighterBuilder");
 		loadPropertyList();
 
 		componentPane = new MyComponentPanel(this);
@@ -46,7 +46,7 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		jp.add(attributePane);
 		setContentPane(jp);
 		setVisible(true);
-		this.setResizable(false);
+		setResizable(false);
 	}
 
 	private void init() {

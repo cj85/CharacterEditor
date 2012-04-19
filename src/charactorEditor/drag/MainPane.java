@@ -23,7 +23,11 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 199L;
 	private Graphics2D g = null;
 	private FighterBuilder outer;
-	private Color b = new Color(100, 200, 100);
+	private final Color UNFOCUSED_COMPONENT_COLOR = new Color(100, 200, 100);
+	private final Color FOCUSED_COMPONENT_COLOR = Color.orange;
+	private final Color STRING_ON_COMPONENT_COLOR = Color.white;
+	private final Color SELECTED_COMPONENT_COLOR=Color.pink;
+	private final Color LINE_COLOR=new Color(200, 200, 210);
 	private final int ROW = 59;// y coordinate
 	private final int COL = 70;// x coordinate
 	private Point2D.Double[][] point = new Point2D.Double[COL][ROW];
@@ -34,12 +38,11 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	private MyComponent draging = null;
 	private MyComponent dragingSize = null;
 	private boolean dragingCMP = false;
-	private Rectangle2D mySelectingRectangle;// //////////////////////////
+	private Rectangle2D mySelectingRectangle;
 	private ArrayList<MyComponent> mySelectedComponent = new ArrayList<MyComponent>();
 
 	MainPane(FighterBuilder e) {
 		for (int x = 0; x < COL; x++) {
-
 			for (int y = 0; y < ROW; y++) {
 				point[x][y] = new Point2D.Double(x * 10, y * 10);
 			}
@@ -47,7 +50,6 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		for (int i = 0; i < COL; i++) {
 			cols[i] = new Line2D.Double(i * 10, 0, i * 10, 580);
 		}
-
 		for (int i = 0; i < ROW; i++) {
 			rows[i] = new Line2D.Double(0, i * 10, 690, i * 10);
 		}
@@ -61,7 +63,6 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		super.paintComponent(e);
 		g = (Graphics2D) e;
 		drawLine(g);
-		g.setColor(b);
 		try {
 			drawViewComponent(g);
 			drawSelecting(g);
@@ -73,13 +74,13 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	private void drawConnected(Graphics2D g) {// ////////先没用上
-		g.setColor(Color.pink);
+		g.setColor(SELECTED_COMPONENT_COLOR);
 		for (MyComponent m : outer.myConnectedComponent)
 			g.draw(m.border);
 	}
 
 	private void drawLine(Graphics2D g) {
-		g.setColor(new Color(200, 200, 210));
+		g.setColor(LINE_COLOR);
 		for (int i = 0; i < COL; i++) {
 			g.draw(cols[i]);
 		}
@@ -92,14 +93,12 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		g.setColor(Color.black);
 		if (mySelectingRectangle != null)
 			g.draw(mySelectingRectangle);
-		g.setColor(new Color(100, 200, 100));
 	}
 
 	private void drawSelected(Graphics2D g) {
 		g.setColor(Color.pink);
 		for (MyComponent m : mySelectedComponent)
 			g.fill(m.border);
-
 	}
 
 	private boolean getNearestPoint() {
@@ -179,7 +178,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 				outer.focusCMP.setText(outer.getName(outer.focusCMP));
 				outer.willPut = -1;
 				update();
-				outer.repaint();
+				repaint();
 			}
 		}
 	}
@@ -194,10 +193,9 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 				for (MyComponent m : mySelectedComponent) {
 					Point2D p = new Point2D.Double(m.border.getX(),
 							m.border.getY());
-					 put.setFrame(p.getX()-5 , p.getY()-5 ,
-							10, 10);
+					put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
 					getNearestPoint();
-					m.setLocation(nearest,0);
+					m.setLocation(nearest, 0);
 				}
 				mySelectedComponent.remove(draging);
 			}
@@ -208,7 +206,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			getNearestPoint();
 			dragingSize.setSize(nearest);
 		} else if (selectComponent() != 0) {
-			
+
 		}
 		draging = null;
 		dragingSize = null;
@@ -223,7 +221,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			double x = draging.border.getX();
 			double y = draging.border.getY();
 			Point2D currentpoint = e.getPoint();
-			draging.setLocation(currentpoint,1);
+			draging.setLocation(currentpoint, 1);
 
 			double dx;
 			double dy;
@@ -254,7 +252,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 				mySelectingRectangle.setFrame(x, y, 10, 10);
 			}
 		}
-		outer.repaint();
+		repaint();
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -283,34 +281,30 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	void drawViewComponent(Graphics2D g) throws IOException {
-		for (int i = 0; i < outer.componentList.size(); i++) {
-			if (outer.componentList.get(i) == outer.focusCMP) {
-				g.setColor(Color.orange);
-				g.fill(outer.componentList.get(i).border);
-				g.setColor(new Color(100, 200, 100));
-			} else {
-				g.fill(outer.componentList.get(i).border);
-			}
-			if (outer.componentList.get(i).img != null) {
-				BufferedImage img = ImageIO
-						.read(outer.componentList.get(i).img);
+		for (MyComponent m : outer.componentList) {
+			if (m == outer.focusCMP) {
+				g.setColor(FOCUSED_COMPONENT_COLOR);
+				g.fill(m.border);
 
-				g.drawImage(img,
-						(int) outer.componentList.get(i).border.getX(),
-						(int) outer.componentList.get(i).border.getY(),
-						(int) outer.componentList.get(i).border.getWidth(),
-						(int) outer.componentList.get(i).border.getHeight(),
+			} else {
+				g.setColor(UNFOCUSED_COMPONENT_COLOR);
+				g.fill(m.border);
+			}
+			if (m.img != null) {
+				BufferedImage img = ImageIO.read(m.img);
+
+				g.drawImage(img, (int) m.border.getX(), (int) m.border.getY(),
+						(int) m.border.getWidth(), (int) m.border.getHeight(),
 						null);
 
 			}
-		}
-		g.setColor(Color.white);
-		for (int i = 0; i < outer.componentList.size(); i++) {
-			Rectangle2D tem = outer.componentList.get(i).border.getBounds2D();
-			g.drawString(outer.componentList.get(i).text, (int) tem.getX(),
+
+			g.setColor(STRING_ON_COMPONENT_COLOR);
+
+			Rectangle2D tem = m.border.getBounds2D();
+			g.drawString(m.text, (int) tem.getX(),
 					(int) (tem.getY() + tem.getHeight() / 2 + 5));
 		}
-
 	}
 
 	void removeCMP(MyComponent e) {
