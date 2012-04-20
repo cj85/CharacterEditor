@@ -23,6 +23,7 @@ public class AddImgButton extends JButton {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					outer.outerFighterBuilder.focusCMP.img = fc
 							.getSelectedFile();
+					update();
 				}
 			}
 		});
@@ -32,5 +33,6 @@ public class AddImgButton extends JButton {
 
 	public void update() {
 		setEnabled(outer.outerFighterBuilder.focusCMP != null);
+		outer.outerFighterBuilder.repaint();
 	}
 }

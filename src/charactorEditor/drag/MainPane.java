@@ -119,7 +119,6 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		JMenuItem mDisconnect = new JMenuItem("disconnect");
 		JPopupMenu menu = new JPopupMenu();
 		if (e.getButton() == MouseEvent.BUTTON3) {
-
 			menu.add(mConnect);
 			menu.add(mDisconnect);
 			menu.show(this, e.getX(), e.getY());
@@ -178,7 +177,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 				outer.focusCMP.setText(outer.getName(outer.focusCMP));
 				outer.willPut = -1;
 				update();
-				repaint();
+				outer.repaint();
 			}
 		}
 	}
@@ -285,22 +284,17 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 			if (m == outer.focusCMP) {
 				g.setColor(FOCUSED_COMPONENT_COLOR);
 				g.fill(m.border);
-
 			} else {
 				g.setColor(UNFOCUSED_COMPONENT_COLOR);
 				g.fill(m.border);
 			}
 			if (m.img != null) {
 				BufferedImage img = ImageIO.read(m.img);
-
 				g.drawImage(img, (int) m.border.getX(), (int) m.border.getY(),
 						(int) m.border.getWidth(), (int) m.border.getHeight(),
 						null);
-
 			}
-
 			g.setColor(STRING_ON_COMPONENT_COLOR);
-
 			Rectangle2D tem = m.border.getBounds2D();
 			g.drawString(m.text, (int) tem.getX(),
 					(int) (tem.getY() + tem.getHeight() / 2 + 5));
@@ -308,10 +302,10 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	void removeCMP(MyComponent e) {
-		for (int i = 0; i < outer.componentList.size(); i++) {
-			if (outer.componentList.get(i) == outer.focusCMP) {
+		for (MyComponent m : outer.componentList) {
+			if (m == outer.focusCMP) {
 				outer.focusCMP = null;
-				outer.componentList.remove(i);
+				outer.componentList.remove(m);
 				break;
 			}
 		}

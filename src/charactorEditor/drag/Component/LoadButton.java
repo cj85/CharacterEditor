@@ -22,6 +22,7 @@ public class LoadButton extends JButton{
 			public void actionPerformed(ActionEvent e) {
                   try {
 					load();
+					update();
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
@@ -36,5 +37,9 @@ public class LoadButton extends JButton{
 			File file = fc.getSelectedFile();
 			outer.outerFighterBuilder.componentList= Loader.load(file.toString());
 		}
+	}
+	private void update(){
+		outer.update();
+		outer.outerFighterBuilder.repaint();
 	}
 }

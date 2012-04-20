@@ -14,8 +14,11 @@ import javax.swing.JPanel;
 class MyComponentPanel extends JPanel implements MouseListener,
 		MouseMotionListener {
 	private static final long serialVersionUID = 100L;
+	private final Color UNCLICKED_COMPONENT_COLOR = Color.blue;
+	private final Color CLICKED_COMPONENT_COLOR = Color.red;
+	private final Color STRING_COLOR = Color.white;
 	public final int  COMPONENTNUMBER=2;
-	Graphics2D g = null;
+	private Graphics2D g = null;
 	private Rectangle2D[] components = new Rectangle2D.Double[COMPONENTNUMBER];
 	private FighterBuilder outer = null;
 
@@ -43,17 +46,16 @@ class MyComponentPanel extends JPanel implements MouseListener,
 	}
 
 	void drawComponents(Graphics2D g) {
-		g.setColor(Color.blue);
 		for (int i = 0; i < COMPONENTNUMBER; i++) {
 			if (i == outer.willPut) {
-				g.setColor(Color.red);
+				g.setColor(CLICKED_COMPONENT_COLOR);
 				g.fill(components[i]);
-				g.setColor(Color.blue);
 			} else {
+				g.setColor(UNCLICKED_COMPONENT_COLOR);
 				g.fill(components[i]);
 			}
 		}
-		g.setColor(Color.white);
+		g.setColor(STRING_COLOR);
 		for (int i = 0; i < COMPONENTNUMBER; i++) {
 			g.drawString(outer.SORT.CMP[i], 27, 47 + 30 * i);
 		}
@@ -77,7 +79,6 @@ class MyComponentPanel extends JPanel implements MouseListener,
 	public void mousePressed(MouseEvent e) {
 		outer.willPut = find(e.getPoint());
 		outer.focusCMP = null;
-
 		update();
 		outer.repaint();
 	}
