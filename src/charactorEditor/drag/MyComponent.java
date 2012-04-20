@@ -86,4 +86,15 @@ public class MyComponent {
 		}
 	}
 
+	public void getOutofTree() {
+		if (parent != null) {
+			if (children.size() != 0)
+				for (MyComponent m : children) {
+					parent.children.add(m);
+					m.parent = parent;
+				}
+			parent.children.remove(this);
+		}
+	}
+
 }

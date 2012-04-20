@@ -107,7 +107,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	}
 
 	private void drawSelected(Graphics2D g) {
-		g.setColor(Color.pink);
+		g.setColor(SELECTED_COMPONENT_COLOR);
 		for (MyComponent m : mySelectedComponent)
 			g.fill(m.border);
 	}
@@ -171,7 +171,14 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 						}
 					} else// 两下，取消
 					{
-						removeCMP(outer.focusCMP);
+						if (mySelectedComponent.contains(outer.focusCMP)) {
+							int toRemove = mySelectedComponent.size();
+							for (int i = 0; i < toRemove; i++) {
+								removeCMP(mySelectedComponent.get(0));
+							}
+						} else {
+							removeCMP(outer.focusCMP);
+						}
 					}
 					update();
 				}
@@ -323,13 +330,9 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	}
 
 	void removeCMP(MyComponent e) {
-		for (MyComponent m : outer.componentList) {
-			if (m == outer.focusCMP) {
-				outer.focusCMP = null;
-				outer.componentList.remove(m);
-				break;
-			}
-		}
+		e.getOutofTree();
+		outer.componentList.remove(e);
+		mySelectedComponent.remove(e);
 	}
 
 	public void update() {
