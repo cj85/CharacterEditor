@@ -4,11 +4,8 @@ import java.io.IOException;
 
 public class Test{
 	public static void  main(String[] args) throws IOException{
-		T t=new T(); 
-		M m=new M();
-//		m.t=t;
-		t.m=m;
-        GsonTest.write(t);
-    t=(T)GsonTest.load();
+
+      WritePropertyFile.write();
+  
 	}
 }

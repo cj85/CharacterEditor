@@ -15,9 +15,9 @@ import com.google.gson.reflect.TypeToken;
 public class WritePropertyFile {
 	private static ArrayList<String> myProperties = new ArrayList<String>();
 	static {
-		myProperties.add("health");
-		myProperties.add("speed");
-		myProperties.add("damage");
+		myProperties.add("damageMultiplier");
+		myProperties.add("damageDealt");
+//		myProperties.add("damage");
 	}
 
 	public static void write() throws IOException {

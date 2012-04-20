@@ -32,25 +32,25 @@ public class SetMyComponentTextField extends JTextField {
 		});
 		outer.add(this);
 
-addKeyListener(new KeyListener(){
+		addKeyListener(new KeyListener() {
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		if(e.getKeyChar()==KeyEvent.VK_ENTER){
-			outer.outerFighterBuilder.focusCMP.text=getText();
-			outer.outerFighterBuilder.repaint();
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+					outer.outerFighterBuilder.focusCMP.text = getText();
+					outer.outerFighterBuilder.repaint();
+				}
 			}
-	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		
-	}
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		
-	}});
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+			}
+		});
 	}
 
 	public void update() {

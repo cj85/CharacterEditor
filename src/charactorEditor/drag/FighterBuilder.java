@@ -6,6 +6,8 @@ import javax.swing.event.*;
 
 import com.google.gson.Gson;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.*;
 import java.awt.*;
 
@@ -30,6 +32,8 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	boolean setSizeFlag = false;
 	int willPut = -1;// component that will be put in MainPane
 	public MyComponent focusCMP = null;
+	public MyComponent next_focusCMP=null;
+	public boolean next=false;
 
 	public FighterBuilder() throws FileNotFoundException {
 		setTitle("FighterBuilder");
@@ -47,6 +51,7 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		setContentPane(jp);
 		setVisible(true);
 		setResizable(false);
+	
 	}
 
 	private void init() {
@@ -110,4 +115,5 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	public void deletecross() {
 		setCursor(Cursor.getDefaultCursor());
 	}
+
 }

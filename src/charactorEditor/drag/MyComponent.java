@@ -2,9 +2,12 @@ package charactorEditor.drag;
 
 import java.awt.geom.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MyComponent {
+import SpriteTree.LimbNode;
+
+public class MyComponent{
 	int sortID = 0;
 	public String text = null;
 	public File img = null;
@@ -12,6 +15,9 @@ public class MyComponent {
 	Rectangle2D.Double border = null;
 	Rectangle2D.Double dragSize = null;
 	private HashMap<String, String> properties = new HashMap<String, String>();
+	MyComponent parent=null;
+	ArrayList<MyComponent> children=new ArrayList<MyComponent>();
+	private LimbNode myLimbNode;
 
 	MyComponent(Point2D.Double p, int theSort) {
 		sort = theSort;
@@ -67,4 +73,5 @@ public class MyComponent {
 		if (properties.keySet().contains(key))
 			properties.remove(key);
 	}
+
 }

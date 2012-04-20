@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -18,7 +20,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
-class MainPane extends JPanel implements MouseListener, MouseMotionListener {
+class MainPane extends JPanel implements MouseListener, MouseMotionListener,
+		KeyListener {
 
 	private static final long serialVersionUID = 199L;
 	private Graphics2D g = null;
@@ -26,8 +29,9 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	private final Color UNFOCUSED_COMPONENT_COLOR = new Color(100, 200, 100);
 	private final Color FOCUSED_COMPONENT_COLOR = Color.orange;
 	private final Color STRING_ON_COMPONENT_COLOR = Color.white;
-	private final Color SELECTED_COMPONENT_COLOR=Color.pink;
-	private final Color LINE_COLOR=new Color(200, 200, 210);
+	private final Color SELECTED_COMPONENT_COLOR = Color.pink;
+	private final Color NEXT_FOCUSED_COMPONENT_COLOR = Color.cyan;
+	private final Color LINE_COLOR = new Color(200, 200, 210);
 	private final int ROW = 59;// y coordinate
 	private final int COL = 70;// x coordinate
 	private Point2D.Double[][] point = new Point2D.Double[COL][ROW];
@@ -56,6 +60,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		outer = e;
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addKeyListener(this);
 		setBackground(Color.white);
 	}
 
@@ -137,6 +142,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
+		
 		if (e.getButton() == 1) {
 			int count = e.getClickCount();
 			if (outer.willPut == -1) {
@@ -147,7 +153,11 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 							outer.focusCMP = dragingSize;
 						} else// 点在中间了
 						{
-							outer.focusCMP = dragingSize;
+							if (outer.next) {
+								outer.next_focusCMP = dragingSize;
+							} else {
+								outer.focusCMP = dragingSize;
+							}
 							draging = dragingSize;
 							dragingSize = null;
 
@@ -212,6 +222,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		dragingCMP = false;
 		mySelectingRectangle = null;
 		repaint();
+		this.requestFocus();
 	}
 
 	public void mouseDragged(MouseEvent e) {
@@ -283,11 +294,12 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 		for (MyComponent m : outer.componentList) {
 			if (m == outer.focusCMP) {
 				g.setColor(FOCUSED_COMPONENT_COLOR);
-				g.fill(m.border);
+			} else if (m == outer.next_focusCMP) {
+				g.setColor(NEXT_FOCUSED_COMPONENT_COLOR);
 			} else {
 				g.setColor(UNFOCUSED_COMPONENT_COLOR);
-				g.fill(m.border);
 			}
+			g.fill(m.border);
 			if (m.img != null) {
 				BufferedImage img = ImageIO.read(m.img);
 				g.drawImage(img, (int) m.border.getX(), (int) m.border.getY(),
@@ -314,4 +326,24 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener {
 	public void update() {
 		outer.attributePane.update();
 	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if (e.isControlDown()) {
+			outer.next = true;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		outer.next = false;
+	}
+
 }
