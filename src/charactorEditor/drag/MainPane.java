@@ -79,9 +79,15 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	}
 
 	private void drawConnected(Graphics2D g) {// ////////先没用上
-		g.setColor(SELECTED_COMPONENT_COLOR);
-		for (MyComponent m : outer.myConnectedComponent)
-			g.draw(m.border);
+		g.setColor(Color.BLACK);
+		if (outer.componentList.size() != 0) {
+			MyComponent root = null;
+			for (MyComponent m : outer.componentList) {
+				if (m.parent == null)
+					root = m;
+				m.draw(g);
+			}
+		}
 	}
 
 	private void drawLine(Graphics2D g) {
@@ -123,14 +129,15 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 		JMenuItem mConnect = new JMenuItem("connect");
 		JMenuItem mDisconnect = new JMenuItem("disconnect");
 		JPopupMenu menu = new JPopupMenu();
-		if (e.getButton() == MouseEvent.BUTTON3) {
+		if (e.getButton() == MouseEvent.BUTTON3 && outer.focusCMP != null
+				&& outer.next_focusCMP != null) {
 			menu.add(mConnect);
-			menu.add(mDisconnect);
 			menu.show(this, e.getX(), e.getY());
 		}
 		mConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("connect");
+				outer.focusCMP.children.add(outer.next_focusCMP);
+				outer.next_focusCMP.parent = outer.focusCMP;
 			}
 		});
 	}
@@ -142,7 +149,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	}
 
 	public void mousePressed(MouseEvent e) {
-		
+
 		if (e.getButton() == 1) {
 			int count = e.getClickCount();
 			if (outer.willPut == -1) {
@@ -175,6 +182,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 					put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
 					mySelectingRectangle = new Rectangle2D.Double();
 					mySelectingRectangle.setFrame(put);
+					outer.focusCMP = null;
+					outer.next_focusCMP = null;
 					outer.repaint();
 				}
 			} else// 第一次放置进来才走这里

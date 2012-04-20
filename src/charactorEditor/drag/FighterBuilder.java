@@ -6,8 +6,6 @@ import javax.swing.event.*;
 
 import com.google.gson.Gson;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.geom.*;
 import java.awt.*;
 
