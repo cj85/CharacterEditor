@@ -2,10 +2,13 @@ package charactorEditor;
 import java.io.FileNotFoundException;
 
 
+import charactorEditor.Model.Model;
 import charactorEditor.drag.FighterBuilder;
 
 public class Main{
 	public static void main(String[] args) throws FileNotFoundException{
-		new FighterBuilder();
+		Model myModel=new Model();
+		Controller myController=new Controller(myModel);
+		new FighterBuilder(myModel,myController);
 	}
 }

@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import charactorEditor.Writer;
+import charactorEditor.Model.Writer;
 import charactorEditor.drag.AttributePane;
 
 @SuppressWarnings("serial")

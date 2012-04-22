@@ -75,13 +75,13 @@ public class MyComponent {
 			properties.remove(key);
 	}
 
-	public void draw(Graphics2D g) {
+	public void drawTree(Graphics2D g) {
 		if (children.size() != 0) {
 			for (MyComponent c : children) {
 				g.drawLine((int) border.getCenterX(),
 						(int) border.getCenterY(), (int) c.border.getCenterX(),
 						(int) c.border.getCenterY());
-				c.draw(g);
+				c.drawTree(g);
 			}
 		}
 	}

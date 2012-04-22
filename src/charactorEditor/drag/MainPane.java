@@ -20,7 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
-import charactorEditor.Model;
+import charactorEditor.Model.Model;
 
 class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 		KeyListener {
@@ -90,7 +90,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 			for (MyComponent m : myModel.getComponnetList()) {
 				if (m.parent == null)
 					root = m;
-				m.draw(g);
+				m.drawTree(g);
 			}
 		}
 	}

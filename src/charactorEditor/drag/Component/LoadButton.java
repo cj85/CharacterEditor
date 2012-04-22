@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
-import charactorEditor.Loader;
+import charactorEditor.Model.Loader;
 import charactorEditor.drag.AttributePane;
 import charactorEditor.drag.MyComponent;
 

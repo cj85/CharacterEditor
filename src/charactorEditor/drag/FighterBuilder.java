@@ -4,7 +4,8 @@ import javax.swing.*;
 
 import javax.swing.event.*;
 
-import charactorEditor.Model;
+import charactorEditor.Controller;
+import charactorEditor.Model.Model;
 
 import com.google.gson.Gson;
 
@@ -19,25 +20,33 @@ import com.google.gson.reflect.TypeToken;
 
 @SuppressWarnings("serial")
 public class FighterBuilder extends JFrame implements ChangeListener {
-	
-	Model myModel=new Model();
-	MyComponentPanel componentPane = null;
+
+	Model myModel = null;
+	Controller myController=null;
+	public MyComponentPanel myComponentPanel = null;
 	JPanel centerPane = null;
-	AttributePane attributePane = new AttributePane(this);
-	JTabbedPane tab = new JTabbedPane();
-	MainPane drawPane = new MainPane(this);
+	public AttributePane attributePane = null;
+	JTabbedPane tab = null;
+	public MainPane drawPane = null;
 
-
-	public FighterBuilder() throws FileNotFoundException {
+	public FighterBuilder(Model m,Controller c) throws FileNotFoundException {
 		setTitle("FighterBuilder");
+		myModel = m;
+		myController=c;
+		
 		loadPropertyList();
-		componentPane = new MyComponentPanel(this);
+		myComponentPanel = new MyComponentPanel(this);
 		this.setDefaultCloseOperation(3);
 		setBounds(10, 50, 1000, 645);
 		JPanel jp = new JPanel();
 		jp.setLayout(null);
+		attributePane = new AttributePane(this);
+		drawPane = new MainPane(this);
+		tab = new JTabbedPane();
 		init();
-		jp.add(componentPane);
+		
+	    myController.register(this);
+		jp.add(myComponentPanel);
 		jp.add(centerPane);
 		jp.add(attributePane);
 		setContentPane(jp);
@@ -47,7 +56,6 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	}
 
 	private void init() {
-
 		centerPane = new JPanel();
 		centerPane.setBounds(115, 0, 700, 615);
 		centerPane.setLayout(new BorderLayout());
@@ -57,7 +65,6 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	}
 
 	public void stateChanged(ChangeEvent e) {
-
 	}
 
 	private void loadPropertyList() throws FileNotFoundException {
