@@ -1,12 +1,15 @@
 package charactorEditor;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
 
 import charactorEditor.drag.AttributePane;
 import charactorEditor.drag.FighterBuilder;
 import charactorEditor.drag.MyComponentPanel;
+import charactorEditor.drag.Component.AddImgButton;
 import charactorEditor.Model.Model;
 
 public class Controller implements MouseListener, MouseMotionListener {
@@ -14,15 +17,36 @@ public class Controller implements MouseListener, MouseMotionListener {
 	Model myModel;
 	MyComponentPanel myComponentPanel;
 	AttributePane myAttributePane;
+	AddImgButton myAddImgButton;
+	private Object message;
+	private static Controller instance;
 
-	public Controller(Model m) {
-		myModel = m;
+	public static Controller Instance() {
+		if (instance == null)
+			instance = new Controller();
+		return instance;
+	}
+
+	private Controller() {
+
 	}
 
 	public void register(FighterBuilder f) {
 		myFighterBuilder = f;
 		myComponentPanel = myFighterBuilder.myComponentPanel;
-		myAttributePane=myFighterBuilder.attributePane;
+		myAttributePane = myFighterBuilder.attributePane;
+		myAddImgButton = myAttributePane.myAddImgButton;
+	}
+
+	public void register(Model m) {
+		myModel = m;
+	}
+
+	public void getMessage(Object msg, ActionEvent e) {
+		message = msg;
+		if (e.getSource() == myAddImgButton) {
+			myModel.focusCMP.img = (File) message;
+		}
 	}
 
 	@Override
@@ -33,7 +57,6 @@ public class Controller implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == myComponentPanel) {
 			if (myComponentPanel.find(e.getPoint()) != -1) {
 				myFighterBuilder.cross();

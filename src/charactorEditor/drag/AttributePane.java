@@ -27,7 +27,7 @@ public class AttributePane extends JPanel {
 	private SetMyComponentTextField mySetComponentText = new SetMyComponentTextField(
 			this);
 	public PropertySelectCombo myPropertySelectCombo =new PropertySelectCombo(this);
-	private AddImgButton myAddImgButton = new AddImgButton(this);
+	public AddImgButton myAddImgButton = new AddImgButton(this);
 	public SaveButton mySaveButton = new SaveButton(this);
 	@SuppressWarnings("unused")
 	private LoadButton myLoadButton = new LoadButton(this);

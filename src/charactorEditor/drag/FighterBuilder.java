@@ -21,18 +21,18 @@ import com.google.gson.reflect.TypeToken;
 @SuppressWarnings("serial")
 public class FighterBuilder extends JFrame implements ChangeListener {
 
-	Model myModel = null;
-	Controller myController=null;
+	public Model myModel = null;
+	public Controller myController;
 	public MyComponentPanel myComponentPanel = null;
 	JPanel centerPane = null;
 	public AttributePane attributePane = null;
 	JTabbedPane tab = null;
 	public MainPane drawPane = null;
 
-	public FighterBuilder(Model m,Controller c) throws FileNotFoundException {
+	public FighterBuilder(Model m) throws FileNotFoundException {
 		setTitle("FighterBuilder");
 		myModel = m;
-		myController=c;
+		myController=Controller.Instance();
 		
 		loadPropertyList();
 		myComponentPanel = new MyComponentPanel(this);

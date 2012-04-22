@@ -8,7 +8,8 @@ import charactorEditor.drag.FighterBuilder;
 public class Main{
 	public static void main(String[] args) throws FileNotFoundException{
 		Model myModel=new Model();
-		Controller myController=new Controller(myModel);
-		new FighterBuilder(myModel,myController);
+		Controller myController=Controller.Instance();
+		myController.register(myModel);
+		new FighterBuilder(myModel);
 	}
 }
