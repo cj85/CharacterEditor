@@ -9,12 +9,12 @@ import java.util.HashMap;
 import SpriteTree.LimbNode;
 
 public class MyComponent {
-	int sortID = 0;
+	public int sortID = 0;
 	public String text = null;
 	public File img = null;
 	public int sort = -1;
-	Rectangle2D.Double border = null;
-	Rectangle2D.Double dragSize = null;
+	public Rectangle2D.Double border = null;
+	public Rectangle2D.Double dragSize = null;
 	private HashMap<String, String> properties = new HashMap<String, String>();
 	MyComponent parent = null;
 	ArrayList<MyComponent> children = new ArrayList<MyComponent>();

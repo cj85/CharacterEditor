@@ -158,7 +158,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 		if (e.getButton() == 1) {
 			int count = e.getClickCount();
 			if (myModel.willPut == -1) {
-				if ((dragingSize = outer.findComponent(e.getPoint())) != null) {
+				if ((dragingSize = myModel.findComponent(e.getPoint())) != null) {
 					if (count < 2) {
 						if (myModel.setSizeFlag == true)// ±ßÔµÍÏ×§
 						{
@@ -205,7 +205,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 				getNearestPoint();
 				myModel.getComponnetList().add((myModel.focusCMP = new MyComponent(
 						nearest, myModel.willPut)));
-				myModel.focusCMP.setText(outer.getName(myModel.focusCMP));
+				myModel.focusCMP.setText(myModel.getName(myModel.focusCMP));
 				myModel.willPut = -1;
 				update();
 				outer.repaint();
@@ -287,7 +287,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if (outer.findComponent(e.getPoint()) != null) {
+		if (myModel.findComponent(e.getPoint()) != null) {
 			if (myModel.setSizeFlag == true) {
 				outer.changesize();
 			} else {
