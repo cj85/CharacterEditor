@@ -4,24 +4,26 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
+import charactorEditor.Controller;
 import charactorEditor.drag.AttributePane;
 
 @SuppressWarnings("serial")
 public class NameDisplayLabel extends JLabel {
 	private AttributePane outer;
-
+    private Controller myController;
 	public NameDisplayLabel(AttributePane e) {
 		super("");
 		outer = e;
+		myController=Controller.Instance();
 		setBounds(4, 5, 173, 37);
 		setFont(new Font("", Font.BOLD, 16));
 		outer.add(this);
 	}
 
 	public void update() {
-		if (outer.myModel.focusCMP != null)
+		if (myController.focusCMP != null)
 			setText("   "
-					+ outer.myModel.SORT.CMP[outer.myModel.focusCMP.sort]);
+					+ outer.myModel.SORT.CMP[myController.focusCMP.sort]);
 		else
 			setText("");
 	}

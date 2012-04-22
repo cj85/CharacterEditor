@@ -17,7 +17,7 @@ public class AttributePane extends JPanel {
 	private static final long serialVersionUID = 1L;
 	NameDisplayLabel myNameDisplayLabel = new NameDisplayLabel(this);
 
-	AddPropertyButton myAddPropertyButton = new AddPropertyButton(this);
+	public AddPropertyButton myAddPropertyButton = new AddPropertyButton(this);
 
 	public JustLabel label_7 = new JustLabel("Properties", new Rectangle(4,
 			220, 100, 20), this);

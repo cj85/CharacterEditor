@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import charactorEditor.Controller;
 import charactorEditor.drag.AttributePane;
 
 public class PropertyDisplayLabel extends JLabel {
@@ -13,7 +14,7 @@ public class PropertyDisplayLabel extends JLabel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private AttributePane outer;
-
+	Controller myController = Controller.Instance();
 	public PropertyDisplayLabel(AttributePane e) {
 		super();
 		outer = e;
@@ -24,8 +25,8 @@ public class PropertyDisplayLabel extends JLabel {
 
 	public void update() {
 		setVerticalAlignment(SwingConstants.TOP);
-		if (outer.myModel.focusCMP != null) {
-			HashMap<String, String> properties = outer.myModel.focusCMP
+		if (myController.focusCMP != null) {
+			HashMap<String, String> properties = myController.focusCMP
 					.getProperties();
 			String toSet = "<html><body>";
 			for (String s : properties.keySet())

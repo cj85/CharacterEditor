@@ -20,6 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import charactorEditor.Controller;
 import charactorEditor.Model.Model;
 
 class MainPane extends JPanel implements MouseListener, MouseMotionListener,
@@ -48,7 +49,9 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	private ArrayList<MyComponent> mySelectedComponent = new ArrayList<MyComponent>();
 	private State myState;
 	private Model myModel;
-
+	private Controller myController;
+	private MyComponent focusCMP;
+	private MyComponent next_focusCMP;
 	MainPane(FighterBuilder e) {
 		for (int x = 0; x < COL; x++) {
 			for (int y = 0; y < ROW; y++) {
@@ -63,6 +66,9 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 		}
 		outer = e;
 		myModel=outer.myModel;
+		myController=Controller.Instance();
+		focusCMP=myController.focusCMP;
+		next_focusCMP=myController.next_focusCMP;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -134,15 +140,15 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 		JMenuItem mConnect = new JMenuItem("connect");
 		JMenuItem mDisconnect = new JMenuItem("disconnect");
 		JPopupMenu menu = new JPopupMenu();
-		if (e.getButton() == MouseEvent.BUTTON3 && myModel.focusCMP != null
-				&& myModel.next_focusCMP != null) {
+		if (e.getButton() == MouseEvent.BUTTON3 && focusCMP != null
+				&& next_focusCMP != null) {
 			menu.add(mConnect);
 			menu.show(this, e.getX(), e.getY());
 		}
 		mConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				myModel.focusCMP.children.add(myModel.next_focusCMP);
-				myModel.next_focusCMP.parent = myModel.focusCMP;
+				focusCMP.children.add(next_focusCMP);
+				next_focusCMP.parent = focusCMP;
 			}
 		});
 	}
@@ -162,13 +168,13 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 					if (count < 2) {
 						if (myModel.setSizeFlag == true)// 边缘拖拽
 						{
-							myModel.focusCMP = dragingSize;
+							focusCMP = dragingSize;
 						} else// 点在中间了
 						{
 							if (myModel.next) {
-								myModel.next_focusCMP = dragingSize;
+								next_focusCMP = dragingSize;
 							} else {
-								myModel.focusCMP = dragingSize;
+								focusCMP = dragingSize;
 							}
 							draging = dragingSize;
 							dragingSize = null;
@@ -176,13 +182,13 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 						}
 					} else// 两下，取消
 					{
-						if (mySelectedComponent.contains(myModel.focusCMP)) {
+						if (mySelectedComponent.contains(focusCMP)) {
 							int toRemove = mySelectedComponent.size();
 							for (int i = 0; i < toRemove; i++) {
 								removeCMP(mySelectedComponent.get(0));
 							}
 						} else {
-							removeCMP(myModel.focusCMP);
+							removeCMP(focusCMP);
 						}
 					}
 					update();
@@ -194,8 +200,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 					put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
 					mySelectingRectangle = new Rectangle2D.Double();
 					mySelectingRectangle.setFrame(put);
-					myModel.focusCMP = null;
-					myModel.next_focusCMP = null;
+					focusCMP = null;
+					next_focusCMP = null;
 					outer.repaint();
 				}
 			} else// 第一次放置进来才走这里
@@ -203,9 +209,9 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 				Point2D p = e.getPoint();
 				put.setFrame(p.getX(), p.getY(), 10, 10);
 				getNearestPoint();
-				myModel.getComponnetList().add((myModel.focusCMP = new MyComponent(
+				myModel.getComponnetList().add((focusCMP = new MyComponent(
 						nearest, myModel.willPut)));
-				myModel.focusCMP.setText(myModel.getName(myModel.focusCMP));
+				focusCMP.setText(myModel.getName(focusCMP));
 				myModel.willPut = -1;
 				update();
 				outer.repaint();
@@ -313,9 +319,9 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 
 	void drawViewComponent(Graphics2D g) throws IOException {
 		for (MyComponent m : myModel.getComponnetList()) {
-			if (m == myModel.focusCMP) {
+			if (m == focusCMP) {
 				g.setColor(FOCUSED_COMPONENT_COLOR);
-			} else if (m == myModel.next_focusCMP) {
+			} else if (m == next_focusCMP) {
 				g.setColor(NEXT_FOCUSED_COMPONENT_COLOR);
 			} else {
 				g.setColor(UNFOCUSED_COMPONENT_COLOR);

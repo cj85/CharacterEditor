@@ -7,11 +7,13 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JTextField;
 
+import charactorEditor.Controller;
 import charactorEditor.drag.AttributePane;
 
 @SuppressWarnings("serial")
 public class SetMyComponentTextField extends JTextField {
 	private AttributePane outer;
+	Controller myController = Controller.Instance();
 
 	public SetMyComponentTextField(AttributePane e) {
 		super();
@@ -37,7 +39,7 @@ public class SetMyComponentTextField extends JTextField {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					outer.myModel.focusCMP.text = getText();
+					myController.focusCMP.text = getText();
 					outer.outerFighterBuilder.repaint();
 				}
 			}
@@ -54,8 +56,8 @@ public class SetMyComponentTextField extends JTextField {
 	}
 
 	public void update() {
-		if (outer.myModel.focusCMP != null)
-			setText(outer.myModel.focusCMP.text);
+		if (myController.focusCMP != null)
+			setText(myController.focusCMP.text);
 		else
 			setText("");
 	}
