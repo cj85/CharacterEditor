@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import charactorEditor.drag.AttributePane;
@@ -13,6 +14,8 @@ import charactorEditor.drag.MyComponent;
 import charactorEditor.drag.MyComponentPanel;
 import charactorEditor.drag.Component.AddImgButton;
 import charactorEditor.drag.Component.AddPropertyButton;
+import charactorEditor.drag.Component.LoadButton;
+import charactorEditor.Model.Loader;
 import charactorEditor.Model.Model;
 
 public class Controller implements MouseListener, MouseMotionListener {
@@ -22,10 +25,12 @@ public class Controller implements MouseListener, MouseMotionListener {
 	AttributePane myAttributePane;
 	private AddImgButton myAddImgButton;
 	private AddPropertyButton myAddPropertyButton;
+	private LoadButton myLoadButton;
 	private Object message;
 	private static Controller instance;
-	public MyComponent focusCMP = null;
-	public MyComponent next_focusCMP = null;
+	public  MyComponent focusCMP = null;
+	public  MyComponent next_focusCMP = null;
+
 	public static Controller Instance() {
 		if (instance == null)
 			instance = new Controller();
@@ -42,6 +47,7 @@ public class Controller implements MouseListener, MouseMotionListener {
 		myAttributePane = myFighterBuilder.attributePane;
 		myAddImgButton = myAttributePane.myAddImgButton;
 		myAddPropertyButton = myAttributePane.myAddPropertyButton;
+		myLoadButton = myAttributePane.myLoadButton;
 	}
 
 	public void register(Model m) {
@@ -61,9 +67,17 @@ public class Controller implements MouseListener, MouseMotionListener {
 			String value = list.get(1);
 			if (value != null) {
 				if (value.equalsIgnoreCase(""))
-				focusCMP.remove(key);
+					focusCMP.remove(key);
 				else
-				focusCMP.setProperty(key, value);
+					focusCMP.setProperty(key, value);
+			}
+			return;
+		}
+		if (e.getSource() == myLoadButton) {
+			try {
+				myModel.load(Loader.load(message.toString()));
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
 			}
 			return;
 		}

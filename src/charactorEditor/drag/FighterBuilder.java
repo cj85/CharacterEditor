@@ -67,13 +67,14 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 	}
 
+	@SuppressWarnings("unchecked")
 	private void loadPropertyList() throws FileNotFoundException {
 		Gson gson = new Gson();
 		Scanner scanner2 = new Scanner(new File("Properties.json"));
 		String wholeFile2 = scanner2.useDelimiter("\\A").next();
 		java.lang.reflect.Type collectionType2 = new TypeToken<ArrayList<String>>() {
 		}.getType();
-		myModel.properties = gson.fromJson(wholeFile2, collectionType2);
+		myModel.setProperties(gson.fromJson(wholeFile2, collectionType2));
 	}
 
 	public void changesize() {

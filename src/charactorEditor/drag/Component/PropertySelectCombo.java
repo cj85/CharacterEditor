@@ -20,7 +20,7 @@ public class PropertySelectCombo extends JComboBox {
 	public void update() {
 		removeAllItems();
 		if (myController.focusCMP != null)
-			for (String s : outer.myModel.properties) {
+			for (String s : outer.myModel.getProperties()) {
 				addItem(s);
 			}
 	}

@@ -30,7 +30,7 @@ public class AttributePane extends JPanel {
 	public AddImgButton myAddImgButton = new AddImgButton(this);
 	public SaveButton mySaveButton = new SaveButton(this);
 	@SuppressWarnings("unused")
-	private LoadButton myLoadButton = new LoadButton(this);
+	public LoadButton myLoadButton = new LoadButton(this);
 	public FighterBuilder outerFighterBuilder;
 	public Model myModel;
 	Graphics2D g;

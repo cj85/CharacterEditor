@@ -14,7 +14,7 @@ public class Model {
 
 	public boolean next = false;
 	public final Sort SORT = new Sort();
-	public ArrayList<String> properties = new ArrayList<String>();
+	private ArrayList<String> properties = new ArrayList<String>();
 
 	public ArrayList<MyComponent> getComponnetList() {
 		return componentList;
@@ -49,5 +49,12 @@ public class Model {
 		}
 		myComponent.sortID = count;
 		return SORT.NAME[myComponent.sort] + count;
+	}
+	public ArrayList<String> getProperties(){
+		return properties;
+	}
+	@SuppressWarnings("unchecked")
+	public void setProperties(Object toSet){
+		properties=(ArrayList<String>) toSet;
 	}
 }
