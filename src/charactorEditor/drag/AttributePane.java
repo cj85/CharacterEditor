@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 
 import javax.swing.*;
 
+import charactorEditor.Model;
 import charactorEditor.drag.Component.*;
 
 public class AttributePane extends JPanel {
@@ -31,12 +32,14 @@ public class AttributePane extends JPanel {
 	@SuppressWarnings("unused")
 	private LoadButton myLoadButton = new LoadButton(this);
 	public FighterBuilder outerFighterBuilder;
+	public Model myModel;
 	Graphics2D g;
 
 	public AttributePane(FighterBuilder e) {
 		outerFighterBuilder = e;
 		setBounds(817, 0, 171, 615);
 		setLayout(null);
+		myModel=e.myModel;
 		new JustLabel("Name", new Rectangle(4, 76, 55, 20), this);
 		new JustLabel("Img", new Rectangle(4, 130, 55, 20), this);
 		update();

@@ -4,6 +4,8 @@ import javax.swing.*;
 
 import javax.swing.event.*;
 
+import charactorEditor.Model;
+
 import com.google.gson.Gson;
 
 import java.awt.geom.*;
@@ -18,25 +20,17 @@ import com.google.gson.reflect.TypeToken;
 @SuppressWarnings("serial")
 public class FighterBuilder extends JFrame implements ChangeListener {
 	public ArrayList<String> properties = new ArrayList<String>();
-	public final Sort SORT = new Sort();
+	Model myModel=new Model();
 	MyComponentPanel componentPane = null;
 	JPanel centerPane = null;
 	AttributePane attributePane = new AttributePane(this);
 	JTabbedPane tab = new JTabbedPane();
 	MainPane drawPane = new MainPane(this);
 
-	public ArrayList<MyComponent> componentList = new ArrayList<MyComponent>();
-	public ArrayList<MyComponent> myConnectedComponent = new ArrayList<MyComponent>();
-	boolean setSizeFlag = false;
-	int willPut = -1;// component that will be put in MainPane
-	public MyComponent focusCMP = null;
-	public MyComponent next_focusCMP=null;
-	public boolean next=false;
 
 	public FighterBuilder() throws FileNotFoundException {
 		setTitle("FighterBuilder");
 		loadPropertyList();
-
 		componentPane = new MyComponentPanel(this);
 		this.setDefaultCloseOperation(3);
 		setBounds(10, 50, 1000, 645);
@@ -49,7 +43,7 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 		setContentPane(jp);
 		setVisible(true);
 		setResizable(false);
-	
+
 	}
 
 	private void init() {
@@ -63,14 +57,14 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	}
 
 	MyComponent findComponent(Point2D e) {
-		for (int i = 0; i < componentList.size(); i++) {
-			if (componentList.get(i).dragSize.contains(e)) {
-				setSizeFlag = true;
-				return componentList.get(i);
+		for (int i = 0; i < myModel.getComponnetList().size(); i++) {
+			if (myModel.getComponnetList().get(i).dragSize.contains(e)) {
+				myModel.setSizeFlag = true;
+				return myModel.getComponnetList().get(i);
 			}
-			if (componentList.get(i).border.contains(e)) {
-				setSizeFlag = false;
-				return componentList.get(i);
+			if (myModel.getComponnetList().get(i).border.contains(e)) {
+				myModel.setSizeFlag = false;
+				return myModel.getComponnetList().get(i);
 			}
 		}
 		return null;
@@ -78,15 +72,15 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 
 	String getName(MyComponent myComponent) {
 		int count = 1;
-		for (int i = 0; i < componentList.size(); i++) {
-			if (componentList.get(i).sort == myComponent.sort) {
-				if (count <= componentList.get(i).sortID) {
-					count = componentList.get(i).sortID + 1;
+		for (int i = 0; i < myModel.getComponnetList().size(); i++) {
+			if (myModel.getComponnetList().get(i).sort == myComponent.sort) {
+				if (count <= myModel.getComponnetList().get(i).sortID) {
+					count = myModel.getComponnetList().get(i).sortID + 1;
 				}
 			}
 		}
 		myComponent.sortID = count;
-		return SORT.NAME[myComponent.sort] + count;
+		return myModel.SORT.NAME[myComponent.sort] + count;
 	}
 
 	public void stateChanged(ChangeEvent e) {

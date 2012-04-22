@@ -21,7 +21,7 @@ public class AddImgButton extends JButton {
 				JFileChooser fc = new JFileChooser(".");
 				int returnVal = fc.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					outer.outerFighterBuilder.focusCMP.img = fc
+					outer.myModel.focusCMP.img = fc
 							.getSelectedFile();
 					update();
 				}
@@ -32,7 +32,7 @@ public class AddImgButton extends JButton {
 	}
 
 	public void update() {
-		setEnabled(outer.outerFighterBuilder.focusCMP != null);
+		setEnabled(outer.myModel.focusCMP != null);
 		outer.outerFighterBuilder.repaint();
 	}
 }

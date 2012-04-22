@@ -37,7 +37,7 @@ public class SetMyComponentTextField extends JTextField {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					outer.outerFighterBuilder.focusCMP.text = getText();
+					outer.myModel.focusCMP.text = getText();
 					outer.outerFighterBuilder.repaint();
 				}
 			}
@@ -54,8 +54,8 @@ public class SetMyComponentTextField extends JTextField {
 	}
 
 	public void update() {
-		if (outer.outerFighterBuilder.focusCMP != null)
-			setText(outer.outerFighterBuilder.focusCMP.text);
+		if (outer.myModel.focusCMP != null)
+			setText(outer.myModel.focusCMP.text);
 		else
 			setText("");
 	}

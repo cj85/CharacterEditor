@@ -23,9 +23,9 @@ public class AddPropertyButton extends JButton {
 						+ "the value of " + key);
 				if (value != null) {
 					if (value.equalsIgnoreCase(""))
-						outer.outerFighterBuilder.focusCMP.remove(key);
+						outer.myModel.focusCMP.remove(key);
 					else
-						outer.outerFighterBuilder.focusCMP.setProperty(key,
+						outer.myModel.focusCMP.setProperty(key,
 								value);
 				}
 				outer.update();
@@ -35,6 +35,6 @@ public class AddPropertyButton extends JButton {
 	}
 
 	public void update() {
-		setEnabled(outer.outerFighterBuilder.focusCMP != null);
+		setEnabled(outer.myModel.focusCMP != null);
 	}
 }

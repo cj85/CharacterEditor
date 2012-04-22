@@ -19,9 +19,9 @@ public class NameDisplayLabel extends JLabel {
 	}
 
 	public void update() {
-		if (outer.outerFighterBuilder.focusCMP != null)
+		if (outer.myModel.focusCMP != null)
 			setText("   "
-					+ outer.outerFighterBuilder.SORT.CMP[outer.outerFighterBuilder.focusCMP.sort]);
+					+ outer.myModel.SORT.CMP[outer.myModel.focusCMP.sort]);
 		else
 			setText("");
 	}

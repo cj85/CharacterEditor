@@ -20,6 +20,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import charactorEditor.Model;
+
 class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 		KeyListener {
 
@@ -44,6 +46,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	private boolean dragingCMP = false;
 	private Rectangle2D mySelectingRectangle;
 	private ArrayList<MyComponent> mySelectedComponent = new ArrayList<MyComponent>();
+	private State myState;
+	private Model myModel;
 
 	MainPane(FighterBuilder e) {
 		for (int x = 0; x < COL; x++) {
@@ -58,6 +62,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 			rows[i] = new Line2D.Double(0, i * 10, 690, i * 10);
 		}
 		outer = e;
+		myModel=outer.myModel;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -80,9 +85,9 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 
 	private void drawConnected(Graphics2D g) {// ////////先没用上
 		g.setColor(Color.BLACK);
-		if (outer.componentList.size() != 0) {
+		if (myModel.getComponnetList().size() != 0) {
 			MyComponent root = null;
-			for (MyComponent m : outer.componentList) {
+			for (MyComponent m : myModel.getComponnetList()) {
 				if (m.parent == null)
 					root = m;
 				m.draw(g);
@@ -129,15 +134,15 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 		JMenuItem mConnect = new JMenuItem("connect");
 		JMenuItem mDisconnect = new JMenuItem("disconnect");
 		JPopupMenu menu = new JPopupMenu();
-		if (e.getButton() == MouseEvent.BUTTON3 && outer.focusCMP != null
-				&& outer.next_focusCMP != null) {
+		if (e.getButton() == MouseEvent.BUTTON3 && myModel.focusCMP != null
+				&& myModel.next_focusCMP != null) {
 			menu.add(mConnect);
 			menu.show(this, e.getX(), e.getY());
 		}
 		mConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				outer.focusCMP.children.add(outer.next_focusCMP);
-				outer.next_focusCMP.parent = outer.focusCMP;
+				myModel.focusCMP.children.add(myModel.next_focusCMP);
+				myModel.next_focusCMP.parent = myModel.focusCMP;
 			}
 		});
 	}
@@ -152,18 +157,18 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 
 		if (e.getButton() == 1) {
 			int count = e.getClickCount();
-			if (outer.willPut == -1) {
+			if (myModel.willPut == -1) {
 				if ((dragingSize = outer.findComponent(e.getPoint())) != null) {
 					if (count < 2) {
-						if (outer.setSizeFlag == true)// 边缘拖拽
+						if (myModel.setSizeFlag == true)// 边缘拖拽
 						{
-							outer.focusCMP = dragingSize;
+							myModel.focusCMP = dragingSize;
 						} else// 点在中间了
 						{
-							if (outer.next) {
-								outer.next_focusCMP = dragingSize;
+							if (myModel.next) {
+								myModel.next_focusCMP = dragingSize;
 							} else {
-								outer.focusCMP = dragingSize;
+								myModel.focusCMP = dragingSize;
 							}
 							draging = dragingSize;
 							dragingSize = null;
@@ -171,13 +176,13 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 						}
 					} else// 两下，取消
 					{
-						if (mySelectedComponent.contains(outer.focusCMP)) {
+						if (mySelectedComponent.contains(myModel.focusCMP)) {
 							int toRemove = mySelectedComponent.size();
 							for (int i = 0; i < toRemove; i++) {
 								removeCMP(mySelectedComponent.get(0));
 							}
 						} else {
-							removeCMP(outer.focusCMP);
+							removeCMP(myModel.focusCMP);
 						}
 					}
 					update();
@@ -189,8 +194,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 					put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
 					mySelectingRectangle = new Rectangle2D.Double();
 					mySelectingRectangle.setFrame(put);
-					outer.focusCMP = null;
-					outer.next_focusCMP = null;
+					myModel.focusCMP = null;
+					myModel.next_focusCMP = null;
 					outer.repaint();
 				}
 			} else// 第一次放置进来才走这里
@@ -198,10 +203,10 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 				Point2D p = e.getPoint();
 				put.setFrame(p.getX(), p.getY(), 10, 10);
 				getNearestPoint();
-				outer.componentList.add((outer.focusCMP = new MyComponent(
-						nearest, outer.willPut)));
-				outer.focusCMP.setText(outer.getName(outer.focusCMP));
-				outer.willPut = -1;
+				myModel.getComponnetList().add((myModel.focusCMP = new MyComponent(
+						nearest, myModel.willPut)));
+				myModel.focusCMP.setText(outer.getName(myModel.focusCMP));
+				myModel.willPut = -1;
 				update();
 				outer.repaint();
 			}
@@ -283,7 +288,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 
 	public void mouseMoved(MouseEvent e) {
 		if (outer.findComponent(e.getPoint()) != null) {
-			if (outer.setSizeFlag == true) {
+			if (myModel.setSizeFlag == true) {
 				outer.changesize();
 			} else {
 				outer.cross();
@@ -296,8 +301,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	private int selectComponent() {// ///到底return啥？
 		mySelectedComponent = new ArrayList<MyComponent>();
 		int toReturn = 0;
-		if (outer.componentList.size() != 0 && mySelectingRectangle != null) {
-			for (MyComponent m : outer.componentList)
+		if (myModel.getComponnetList().size() != 0 && mySelectingRectangle != null) {
+			for (MyComponent m : myModel.getComponnetList())
 				if (mySelectingRectangle.contains(m.border)) {
 					mySelectedComponent.add(m);
 					toReturn++;
@@ -307,10 +312,10 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	}
 
 	void drawViewComponent(Graphics2D g) throws IOException {
-		for (MyComponent m : outer.componentList) {
-			if (m == outer.focusCMP) {
+		for (MyComponent m : myModel.getComponnetList()) {
+			if (m == myModel.focusCMP) {
 				g.setColor(FOCUSED_COMPONENT_COLOR);
-			} else if (m == outer.next_focusCMP) {
+			} else if (m == myModel.next_focusCMP) {
 				g.setColor(NEXT_FOCUSED_COMPONENT_COLOR);
 			} else {
 				g.setColor(UNFOCUSED_COMPONENT_COLOR);
@@ -331,7 +336,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 
 	void removeCMP(MyComponent e) {
 		e.getOutofTree();
-		outer.componentList.remove(e);
+		myModel.getComponnetList().remove(e);
 		mySelectedComponent.remove(e);
 	}
 
@@ -341,21 +346,21 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if (e.isControlDown()) {
-			outer.next = true;
+			myModel.next = true;
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		outer.next = false;
+		myModel.next = false;
+	}
+	private void checkState(){
+		//TODO lalala
 	}
 
 }

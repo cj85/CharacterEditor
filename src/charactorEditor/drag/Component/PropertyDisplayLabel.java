@@ -24,8 +24,8 @@ public class PropertyDisplayLabel extends JLabel {
 
 	public void update() {
 		setVerticalAlignment(SwingConstants.TOP);
-		if (outer.outerFighterBuilder.focusCMP != null) {
-			HashMap<String, String> properties = outer.outerFighterBuilder.focusCMP
+		if (outer.myModel.focusCMP != null) {
+			HashMap<String, String> properties = outer.myModel.focusCMP
 					.getProperties();
 			String toSet = "<html><body>";
 			for (String s : properties.keySet())

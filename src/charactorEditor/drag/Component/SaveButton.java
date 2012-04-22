@@ -37,7 +37,7 @@ public class SaveButton extends JButton{
 		int returnVal =fc.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
-			Writer.write(outer.outerFighterBuilder.componentList,file.toString());
+			Writer.write(outer.myModel.getComponnetList(),file.toString());
 		}
 	}
 }

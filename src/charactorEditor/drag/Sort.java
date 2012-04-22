@@ -6,7 +6,7 @@ public class Sort {
 	final String[] NAME = new String[2];
 	public final String[] CMP = new String[2];
 
-	Sort() {
+	public Sort() {
 		NAME[0] = "head";
 		NAME[1] = "body";
 
