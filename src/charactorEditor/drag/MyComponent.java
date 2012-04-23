@@ -16,18 +16,18 @@ public class MyComponent {
 	public Rectangle2D.Double border = null;
 	public Rectangle2D.Double dragSize = null;
 	private HashMap<String, String> properties = new HashMap<String, String>();
-	MyComponent parent = null;
-	ArrayList<MyComponent> children = new ArrayList<MyComponent>();
+	public MyComponent parent = null;
+	public ArrayList<MyComponent> children = new ArrayList<MyComponent>();
 	private LimbNode myLimbNode;
 
-	MyComponent(Point2D.Double p, int theSort) {
+	public MyComponent(Point2D.Double p, int theSort) {
 		sort = theSort;
 		border = new Rectangle2D.Double(p.getX() - 20, p.getY() - 10, 40, 20);
 		dragSize = new Rectangle2D.Double(border.getMaxX() - 10,
 				border.getMaxY() - 10, 10, 10);
 	}
 
-	void setText(String t) {
+	public void setText(String t) {
 		text = t;
 	}
 

@@ -48,6 +48,6 @@ public class LoadButton extends JButton {
 
 	private void update() {
 		outer.update();
-		outer.outerFighterBuilder.repaint();
+		myController.updateFigherBuilder();
 	}
 }

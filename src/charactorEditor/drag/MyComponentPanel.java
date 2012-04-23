@@ -23,16 +23,14 @@ public class MyComponentPanel extends JPanel implements MouseListener,
 	public final int  COMPONENTNUMBER=2;
 	private Graphics2D g = null;
 	private Rectangle2D[] components = new Rectangle2D.Double[COMPONENTNUMBER];
-	private FighterBuilder outer = null;
 	private Model myModel=null;
 	private Controller myController=null;
 
 	MyComponentPanel(FighterBuilder e) {
-		outer = e;
 		initComponents();
 		setBounds(0, 0, 113, 615);
-		myModel=outer.myModel;
-		myController=outer.myController;
+		myModel=Model.Instance();
+		myController=Controller.Instance();
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}

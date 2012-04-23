@@ -29,21 +29,14 @@ public class AttributePane extends JPanel {
 	public PropertySelectCombo myPropertySelectCombo =new PropertySelectCombo(this);
 	public AddImgButton myAddImgButton = new AddImgButton(this);
 	public SaveButton mySaveButton = new SaveButton(this);
-	@SuppressWarnings("unused")
 	public LoadButton myLoadButton = new LoadButton(this);
-	public FighterBuilder outerFighterBuilder;
-	public Model myModel;
 	Graphics2D g;
 
-	public AttributePane(FighterBuilder e) {
-		outerFighterBuilder = e;
+	public AttributePane() {
 		setBounds(817, 0, 171, 615);
 		setLayout(null);
-		myModel=e.myModel;
 		new JustLabel("Name", new Rectangle(4, 76, 55, 20), this);
 		new JustLabel("Img", new Rectangle(4, 130, 55, 20), this);
-		update();
-
 	}
 
 	public void paintComponent(Graphics e) {// only for test component area, will be deleted once the program is done

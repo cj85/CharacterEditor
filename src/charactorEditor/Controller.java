@@ -4,12 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import javax.swing.JMenuItem;
+
 import charactorEditor.drag.AttributePane;
 import charactorEditor.drag.FighterBuilder;
+import charactorEditor.drag.MainPane;
 import charactorEditor.drag.MyComponent;
 import charactorEditor.drag.MyComponentPanel;
 import charactorEditor.drag.Component.AddImgButton;
@@ -23,13 +28,15 @@ public class Controller implements MouseListener, MouseMotionListener {
 	Model myModel;
 	MyComponentPanel myComponentPanel;
 	AttributePane myAttributePane;
+	private MainPane myMainPane;
 	private AddImgButton myAddImgButton;
 	private AddPropertyButton myAddPropertyButton;
 	private LoadButton myLoadButton;
 	private Object message;
 	private static Controller instance;
-	public  MyComponent focusCMP = null;
-	public  MyComponent next_focusCMP = null;
+	public MyComponent focusCMP = null;
+	public MyComponent next_focusCMP = null;
+	JMenuItem myConnect;
 
 	public static Controller Instance() {
 		if (instance == null)
@@ -43,11 +50,21 @@ public class Controller implements MouseListener, MouseMotionListener {
 
 	public void register(FighterBuilder f) {
 		myFighterBuilder = f;
+		myMainPane = myFighterBuilder.drawPane;
 		myComponentPanel = myFighterBuilder.myComponentPanel;
 		myAttributePane = myFighterBuilder.attributePane;
 		myAddImgButton = myAttributePane.myAddImgButton;
 		myAddPropertyButton = myAttributePane.myAddPropertyButton;
 		myLoadButton = myAttributePane.myLoadButton;
+		myConnect = myMainPane.mConnect;
+	}
+
+	public void register(JMenuItem toUpdate) {
+		myConnect = toUpdate;
+	}
+
+	public void updateFigherBuilder() {
+		myFighterBuilder.repaint();
 	}
 
 	public void register(Model m) {
@@ -81,6 +98,11 @@ public class Controller implements MouseListener, MouseMotionListener {
 			}
 			return;
 		}
+		if (e.getSource() == myConnect) {
+			focusCMP.children.add(next_focusCMP);
+			next_focusCMP.parent = focusCMP;
+			return;
+		}
 
 	}
 
@@ -104,7 +126,13 @@ public class Controller implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getSource() == myMainPane) {
+			if (e.getButton() == MouseEvent.BUTTON3 && focusCMP != null
+					&& next_focusCMP != null) {
+				myMainPane.addMenu(e);
+			}
+			return;
+		}
 
 	}
 
@@ -115,6 +143,66 @@ public class Controller implements MouseListener, MouseMotionListener {
 			focusCMP = null;
 			myAttributePane.update();
 			myFighterBuilder.repaint();
+			return;
+		}if(e.getSource()==myMainPane){
+			if (e.getButton() == 1) {
+				int count = e.getClickCount();
+				if (myModel.willPut == -1) {
+					if ((myMainPane.dragingSize = myModel.findComponent(e.getPoint())) != null) {
+						if (count < 2) {
+							if (myModel.setSizeFlag == true)// 边缘拖拽
+							{
+								focusCMP =myMainPane. dragingSize;
+							} else// 点在中间了
+							{
+								if (myModel.next) {
+									next_focusCMP =myMainPane. dragingSize;
+								} else {
+							        focusCMP = myMainPane.dragingSize;
+								}
+								myMainPane.draging = myMainPane.dragingSize;
+								myMainPane.dragingSize = null;
+
+							}
+						} else// 两下，取消
+						{
+							if (myMainPane.mySelectedComponent.contains(focusCMP)) {
+								int toRemove = myMainPane.mySelectedComponent.size();
+								for (int i = 0; i < toRemove; i++) {
+									myMainPane.removeCMP(myMainPane.mySelectedComponent.get(0));
+								}
+							} else {
+								myMainPane.removeCMP(focusCMP);
+							}
+						}
+						myMainPane.update();
+					}
+
+					else// 没选上component 就啥也不干/////////////////////////////
+					{
+						Point2D p = e.getPoint();
+						myMainPane.put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
+						myMainPane.mySelectingRectangle = new Rectangle2D.Double();
+						myMainPane.	mySelectingRectangle.setFrame(myMainPane.put);
+						focusCMP = null;
+						next_focusCMP = null;
+						updateFigherBuilder();
+					}
+				} else// 第一次放置进来才走这里
+				{
+					Point2D p = e.getPoint();
+					myMainPane.put.setFrame(p.getX(), p.getY(), 10, 10);
+					myMainPane.getNearestPoint();
+					myModel.getComponnetList().add(
+							(focusCMP = new MyComponent(myMainPane.nearest,
+									myModel.willPut)));
+					focusCMP.setText(myModel
+							.getName(focusCMP));
+					myModel.willPut = -1;
+					myAttributePane.update();
+					updateFigherBuilder();
+				}
+			}
 			return;
 		}
 

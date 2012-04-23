@@ -23,8 +23,8 @@ import javax.swing.JPopupMenu;
 import charactorEditor.Controller;
 import charactorEditor.Model.Model;
 
-class MainPane extends JPanel implements MouseListener, MouseMotionListener,
-		KeyListener {
+public class MainPane extends JPanel implements MouseListener,
+		MouseMotionListener, KeyListener {
 
 	private static final long serialVersionUID = 199L;
 	private Graphics2D g = null;
@@ -40,16 +40,20 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	private Point2D.Double[][] point = new Point2D.Double[COL][ROW];
 	private Line2D[] rows = new Line2D.Double[59];
 	private Line2D[] cols = new Line2D.Double[70];
-	private Point2D.Double nearest = new Point2D.Double(40, 40);// nearest point
-	private Rectangle2D put = new Rectangle2D.Double();// /放置矩形
-	private MyComponent draging = null;
-	private MyComponent dragingSize = null;
+	public Point2D.Double nearest = new Point2D.Double(40, 40);// nearest point
+	public Rectangle2D put = new Rectangle2D.Double();// /放置矩形
+	public MyComponent draging = null;
+	public MyComponent dragingSize = null;
 	private boolean dragingCMP = false;
-	private Rectangle2D mySelectingRectangle;
-	private ArrayList<MyComponent> mySelectedComponent = new ArrayList<MyComponent>();
+	public Rectangle2D mySelectingRectangle;
+	public ArrayList<MyComponent> mySelectedComponent = new ArrayList<MyComponent>();
 	private State myState;
 	private Model myModel;
 	private Controller myController;
+	public JMenuItem mConnect;
+	JMenuItem mDisconnect = new JMenuItem("disconnect");
+	JPopupMenu menu = new JPopupMenu();
+
 	MainPane(FighterBuilder e) {
 		for (int x = 0; x < COL; x++) {
 			for (int y = 0; y < ROW; y++) {
@@ -63,8 +67,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 			rows[i] = new Line2D.Double(0, i * 10, 690, i * 10);
 		}
 		outer = e;
-		myModel=outer.myModel;
-		myController=Controller.Instance();
+		myModel = Model.Instance();
+		myController = Controller.Instance();
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -85,14 +89,13 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 		}
 	}
 
-	private void drawConnected(Graphics2D g) {// ////////先没用上
+	private void drawConnected(Graphics2D g) {
 		g.setColor(Color.BLACK);
 		if (myModel.getComponnetList().size() != 0) {
-			MyComponent root = null;
 			for (MyComponent m : myModel.getComponnetList()) {
-				if (m.parent == null)
-					root = m;
-				m.drawTree(g);
+				if (m.parent == null) {
+					m.drawTree(g);
+				}
 			}
 		}
 	}
@@ -119,7 +122,7 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 			g.fill(m.border);
 	}
 
-	private boolean getNearestPoint() {
+	public boolean getNearestPoint() {
 		for (int x = 0; x < COL; x++) {
 			for (int y = 0; y < ROW; y++) {
 				if (put.contains(point[x][y])) {
@@ -132,21 +135,20 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	}
 
 	public void mouseClicked(MouseEvent e) {
-
-		JMenuItem mConnect = new JMenuItem("connect");
-		JMenuItem mDisconnect = new JMenuItem("disconnect");
-		JPopupMenu menu = new JPopupMenu();
-		if (e.getButton() == MouseEvent.BUTTON3 && myController.focusCMP != null
-				&& myController.next_focusCMP != null) {
-			menu.add(mConnect);
-			menu.show(this, e.getX(), e.getY());
-		}
+		mConnect = new JMenuItem("connect");
+		myController.register(mConnect);
+		myController.mouseClicked(e);
 		mConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				myController.focusCMP.children.add(myController.next_focusCMP);
-				myController.next_focusCMP.parent = myController.focusCMP;
+				myController.getMessage(null, e);
+				repaint();
 			}
 		});
+	}
+
+	public void addMenu(MouseEvent e) {
+		menu.add(mConnect);
+		menu.show(this, e.getX(), e.getY());
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -156,63 +158,65 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	}
 
 	public void mousePressed(MouseEvent e) {
-
-		if (e.getButton() == 1) {
-			int count = e.getClickCount();
-			if (myModel.willPut == -1) {
-				if ((dragingSize = myModel.findComponent(e.getPoint())) != null) {
-					if (count < 2) {
-						if (myModel.setSizeFlag == true)// 边缘拖拽
-						{
-							myController.focusCMP = dragingSize;
-						} else// 点在中间了
-						{
-							if (myModel.next) {
-								myController.next_focusCMP = dragingSize;
-							} else {
-								myController.focusCMP = dragingSize;
-							}
-							draging = dragingSize;
-							dragingSize = null;
-
-						}
-					} else// 两下，取消
-					{
-						if (mySelectedComponent.contains(myController.focusCMP)) {
-							int toRemove = mySelectedComponent.size();
-							for (int i = 0; i < toRemove; i++) {
-								removeCMP(mySelectedComponent.get(0));
-							}
-						} else {
-							removeCMP(myController.focusCMP);
-						}
-					}
-					update();
-				}
-
-				else// 没选上component 就啥也不干/////////////////////////////
-				{
-					Point2D p = e.getPoint();
-					put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
-					mySelectingRectangle = new Rectangle2D.Double();
-					mySelectingRectangle.setFrame(put);
-					myController.focusCMP = null;
-					myController.next_focusCMP = null;
-					outer.repaint();
-				}
-			} else// 第一次放置进来才走这里
-			{
-				Point2D p = e.getPoint();
-				put.setFrame(p.getX(), p.getY(), 10, 10);
-				getNearestPoint();
-				myModel.getComponnetList().add((myController.focusCMP = new MyComponent(
-						nearest, myModel.willPut)));
-				myController.focusCMP.setText(myModel.getName(myController.focusCMP));
-				myModel.willPut = -1;
-				update();
-				outer.repaint();
-			}
-		}
+		myController.mousePressed(e);
+//		if (e.getButton() == 1) {
+//			int count = e.getClickCount();
+//			if (myModel.willPut == -1) {
+//				if ((dragingSize = myModel.findComponent(e.getPoint())) != null) {
+//					if (count < 2) {
+//						if (myModel.setSizeFlag == true)// 边缘拖拽
+//						{
+//							myController.focusCMP = dragingSize;
+//						} else// 点在中间了
+//						{
+//							if (myModel.next) {
+//								myController.next_focusCMP = dragingSize;
+//							} else {
+//								myController.focusCMP = dragingSize;
+//							}
+//							draging = dragingSize;
+//							dragingSize = null;
+//
+//						}
+//					} else// 两下，取消
+//					{
+//						if (mySelectedComponent.contains(myController.focusCMP)) {
+//							int toRemove = mySelectedComponent.size();
+//							for (int i = 0; i < toRemove; i++) {
+//								removeCMP(mySelectedComponent.get(0));
+//							}
+//						} else {
+//							removeCMP(myController.focusCMP);
+//						}
+//					}
+//					update();
+//				}
+//
+//				else// 没选上component 就啥也不干/////////////////////////////
+//				{
+//					Point2D p = e.getPoint();
+//					put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
+//					mySelectingRectangle = new Rectangle2D.Double();
+//					mySelectingRectangle.setFrame(put);
+//					myController.focusCMP = null;
+//					myController.next_focusCMP = null;
+//					outer.repaint();
+//				}
+//			} else// 第一次放置进来才走这里
+//			{
+//				Point2D p = e.getPoint();
+//				put.setFrame(p.getX(), p.getY(), 10, 10);
+//				getNearestPoint();
+//				myModel.getComponnetList().add(
+//						(myController.focusCMP = new MyComponent(nearest,
+//								myModel.willPut)));
+//				myController.focusCMP.setText(myModel
+//						.getName(myController.focusCMP));
+//				myModel.willPut = -1;
+//				update();
+//				outer.repaint();
+//			}
+//		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
@@ -303,7 +307,8 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	private int selectComponent() {// ///到底return啥？
 		mySelectedComponent = new ArrayList<MyComponent>();
 		int toReturn = 0;
-		if (myModel.getComponnetList().size() != 0 && mySelectingRectangle != null) {
+		if (myModel.getComponnetList().size() != 0
+				&& mySelectingRectangle != null) {
 			for (MyComponent m : myModel.getComponnetList())
 				if (mySelectingRectangle.contains(m.border)) {
 					mySelectedComponent.add(m);
@@ -336,10 +341,11 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 		}
 	}
 
-	void removeCMP(MyComponent e) {
-		e.getOutofTree();
+	public void removeCMP(MyComponent e) {
+
 		myModel.getComponnetList().remove(e);
 		mySelectedComponent.remove(e);
+		e.getOutofTree();
 	}
 
 	public void update() {
@@ -361,8 +367,9 @@ class MainPane extends JPanel implements MouseListener, MouseMotionListener,
 	public void keyReleased(KeyEvent e) {
 		myModel.next = false;
 	}
-	private void checkState(){
-		//TODO lalala
+
+	private void checkState() {
+		// TODO lalala
 	}
 
 }

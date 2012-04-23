@@ -3,12 +3,14 @@ package charactorEditor.drag.Component;
 import javax.swing.JComboBox;
 
 import charactorEditor.Controller;
+import charactorEditor.Model.Model;
 import charactorEditor.drag.AttributePane;
 
 @SuppressWarnings({ "rawtypes", "serial" })
 public class PropertySelectCombo extends JComboBox {
 	private AttributePane outer;
 	Controller myController = Controller.Instance();
+	private Model myModel=Model.Instance();
 	public PropertySelectCombo(AttributePane e) {
 		super();
 		outer = e;
@@ -20,7 +22,7 @@ public class PropertySelectCombo extends JComboBox {
 	public void update() {
 		removeAllItems();
 		if (myController.focusCMP != null)
-			for (String s : outer.myModel.getProperties()) {
+			for (String s : myModel.getProperties()) {
 				addItem(s);
 			}
 	}

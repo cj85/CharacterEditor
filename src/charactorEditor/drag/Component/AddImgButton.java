@@ -34,6 +34,6 @@ public class AddImgButton extends JButton {
 
 	public void update() {
 		setEnabled(myController.focusCMP != null);
-		outer.outerFighterBuilder.repaint();
+		myController.updateFigherBuilder();
 	}
 }

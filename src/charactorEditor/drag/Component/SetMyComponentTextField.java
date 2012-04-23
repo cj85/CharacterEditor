@@ -40,7 +40,7 @@ public class SetMyComponentTextField extends JTextField {
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 					myController.focusCMP.text = getText();
-					outer.outerFighterBuilder.repaint();
+					myController.updateFigherBuilder();
 				}
 			}
 

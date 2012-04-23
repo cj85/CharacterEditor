@@ -5,12 +5,14 @@ import java.awt.Font;
 import javax.swing.JLabel;
 
 import charactorEditor.Controller;
+import charactorEditor.Model.Model;
 import charactorEditor.drag.AttributePane;
 
 @SuppressWarnings("serial")
 public class NameDisplayLabel extends JLabel {
 	private AttributePane outer;
     private Controller myController;
+    private Model myModel=Model.Instance();
 	public NameDisplayLabel(AttributePane e) {
 		super("");
 		outer = e;
@@ -23,7 +25,7 @@ public class NameDisplayLabel extends JLabel {
 	public void update() {
 		if (myController.focusCMP != null)
 			setText("   "
-					+ outer.myModel.SORT.CMP[myController.focusCMP.sort]);
+					+ myModel.SORT.CMP[myController.focusCMP.sort]);
 		else
 			setText("");
 	}

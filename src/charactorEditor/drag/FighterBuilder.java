@@ -21,7 +21,6 @@ import com.google.gson.reflect.TypeToken;
 @SuppressWarnings("serial")
 public class FighterBuilder extends JFrame implements ChangeListener {
 
-	public Model myModel = null;
 	public Controller myController;
 	public MyComponentPanel myComponentPanel = null;
 	JPanel centerPane = null;
@@ -29,30 +28,25 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	JTabbedPane tab = null;
 	public MainPane drawPane = null;
 
-	public FighterBuilder(Model m) throws FileNotFoundException {
+	public FighterBuilder() throws FileNotFoundException {
 		setTitle("FighterBuilder");
-		myModel = m;
-		myController=Controller.Instance();
-		
-		loadPropertyList();
+		myController = Controller.Instance();
 		myComponentPanel = new MyComponentPanel(this);
 		this.setDefaultCloseOperation(3);
 		setBounds(10, 50, 1000, 645);
 		JPanel jp = new JPanel();
 		jp.setLayout(null);
-		attributePane = new AttributePane(this);
+		attributePane = new AttributePane();
 		drawPane = new MainPane(this);
 		tab = new JTabbedPane();
 		init();
-		
-	    myController.register(this);
+		myController.register(this);
 		jp.add(myComponentPanel);
 		jp.add(centerPane);
 		jp.add(attributePane);
 		setContentPane(jp);
 		setVisible(true);
 		setResizable(false);
-
 	}
 
 	private void init() {
@@ -65,16 +59,6 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	}
 
 	public void stateChanged(ChangeEvent e) {
-	}
-
-	@SuppressWarnings("unchecked")
-	private void loadPropertyList() throws FileNotFoundException {
-		Gson gson = new Gson();
-		Scanner scanner2 = new Scanner(new File("Properties.json"));
-		String wholeFile2 = scanner2.useDelimiter("\\A").next();
-		java.lang.reflect.Type collectionType2 = new TypeToken<ArrayList<String>>() {
-		}.getType();
-		myModel.setProperties(gson.fromJson(wholeFile2, collectionType2));
 	}
 
 	public void changesize() {
