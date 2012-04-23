@@ -21,7 +21,7 @@ public class PropertySelectCombo extends JComboBox {
 	@SuppressWarnings("unchecked")
 	public void update() {
 		removeAllItems();
-		if (myController.focusCMP != null)
+		if (myController.getFoucsedComponent() != null)
 			for (String s : myModel.getProperties()) {
 				addItem(s);
 			}

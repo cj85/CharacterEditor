@@ -25,8 +25,8 @@ public class PropertyDisplayLabel extends JLabel {
 
 	public void update() {
 		setVerticalAlignment(SwingConstants.TOP);
-		if (myController.focusCMP != null) {
-			HashMap<String, String> properties = myController.focusCMP
+		if (myController.getFoucsedComponent() != null) {
+			HashMap<String, String> properties = myController.getFoucsedComponent()
 					.getProperties();
 			String toSet = "<html><body>";
 			for (String s : properties.keySet())

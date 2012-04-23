@@ -35,37 +35,18 @@ public class MainPane extends JPanel implements MouseListener,
 	private final Color SELECTED_COMPONENT_COLOR = Color.pink;
 	private final Color NEXT_FOCUSED_COMPONENT_COLOR = Color.cyan;
 	private final Color LINE_COLOR = new Color(200, 200, 210);
-	private final int ROW = 59;// y coordinate
-	private final int COL = 70;// x coordinate
-	private Point2D.Double[][] point = new Point2D.Double[COL][ROW];
-	private Line2D[] rows = new Line2D.Double[59];
-	private Line2D[] cols = new Line2D.Double[70];
-	public Point2D.Double nearest = new Point2D.Double(40, 40);// nearest point
-	public Rectangle2D put = new Rectangle2D.Double();// /放置矩形
-	public MyComponent draging = null;
-	private MyComponent dragingSize = null;
-	private boolean dragingCMP = false;
-	public Rectangle2D mySelectingRectangle;
-	public ArrayList<MyComponent> mySelectedComponent = new ArrayList<MyComponent>();
+
+	
 	private State myState;
 	private Model myModel;
 	private Controller myController;
 	public JMenuItem mConnect;
 	JMenuItem mDisconnect = new JMenuItem("disconnect");
 	JPopupMenu menu = new JPopupMenu();
+	private MainPaneModel myMainPaneModel = MainPaneModel.Instance();
 
 	MainPane(FighterBuilder e) {
-		for (int x = 0; x < COL; x++) {
-			for (int y = 0; y < ROW; y++) {
-				point[x][y] = new Point2D.Double(x * 10, y * 10);
-			}
-		}
-		for (int i = 0; i < COL; i++) {
-			cols[i] = new Line2D.Double(i * 10, 0, i * 10, 580);
-		}
-		for (int i = 0; i < ROW; i++) {
-			rows[i] = new Line2D.Double(0, i * 10, 690, i * 10);
-		}
+
 		outer = e;
 		myModel = Model.Instance();
 		myController = Controller.Instance();
@@ -102,36 +83,24 @@ public class MainPane extends JPanel implements MouseListener,
 
 	private void drawLine(Graphics2D g) {
 		g.setColor(LINE_COLOR);
-		for (int i = 0; i < COL; i++) {
-			g.draw(cols[i]);
+		for (int i = 0; i < MainPaneModel.COL; i++) {
+			g.draw(MainPaneModel.cols[i]);
 		}
-		for (int i = 0; i < ROW; i++) {
-			g.draw(rows[i]);
+		for (int i = 0; i <MainPaneModel. ROW; i++) {
+			g.draw(MainPaneModel.rows[i]);
 		}
 	}
 
 	private void drawSelecting(Graphics2D g) {
 		g.setColor(Color.black);
-		if (mySelectingRectangle != null)
-			g.draw(mySelectingRectangle);
+		if (!myMainPaneModel.noSelectingRectangle())
+			g.draw(myMainPaneModel.getSelectingRectangle());
 	}
 
 	private void drawSelected(Graphics2D g) {
 		g.setColor(SELECTED_COMPONENT_COLOR);
-		for (MyComponent m : mySelectedComponent)
+		for (MyComponent m : myMainPaneModel.getSelectedComponnet())
 			g.fill(m.border);
-	}
-
-	public boolean getNearestPoint() {
-		for (int x = 0; x < COL; x++) {
-			for (int y = 0; y < ROW; y++) {
-				if (put.contains(point[x][y])) {
-					nearest = point[x][y];
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -147,6 +116,7 @@ public class MainPane extends JPanel implements MouseListener,
 	}
 
 	public void addMenu(MouseEvent e) {
+		menu.removeAll();
 		menu.add(mConnect);
 		menu.show(this, e.getX(), e.getY());
 	}
@@ -163,75 +133,75 @@ public class MainPane extends JPanel implements MouseListener,
 	}
 
 	public void mouseReleased(MouseEvent e) {
-
-		if (draging != null)// 点中间了 ,移动位置
-		{
-
-			if (dragingCMP == true) {
-				mySelectedComponent.add(draging);
-				for (MyComponent m : mySelectedComponent) {
-					Point2D p = new Point2D.Double(m.border.getX(),
-							m.border.getY());
-					put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
-					getNearestPoint();
-					m.setLocation(nearest, 0);
-				}
-				mySelectedComponent.remove(draging);
-			}
-		} else if (dragingSize != null)// 点左下角了，拉大小
-		{
-			Point2D p = e.getPoint();
-			((Rectangle2D) put).setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
-			getNearestPoint();
-			dragingSize.setSize(nearest);
-		} else if (selectComponent() != 0) {
-
-		}
-		draging = null;
-		dragingSize = null;
-		dragingCMP = false;
-		mySelectingRectangle = null;
+	
+		myController.mouseReleased(e);
+//		if (draging != null)// 点中间了 ,移动位置
+//		{
+//
+//			if (dragingCMP == true) {
+//				// mySelectedComponent.add(draging);
+//				// for (MyComponent m : mySelectedComponent) {
+//				// Point2D p = new Point2D.Double(m.border.getX(),
+//				// m.border.getY());
+//				// put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
+//				// getNearestPoint();
+//				// m.setLocation(nearest, 0);
+//				// }
+//				// mySelectedComponent.remove(draging);
+//			}
+//		} else if (dragingSize != null)// 点左下角了，拉大小
+//		{
+//			// Point2D p = e.getPoint();
+//			// ((Rectangle2D) put).setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
+//			// getNearestPoint();
+//			// dragingSize.setSize(nearest);
+//		} else if (selectComponent() != 0) {
+//
+//		}
+//	
+	
 		repaint();
 		this.requestFocus();
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		if (draging != null) {
-
-			double x = draging.border.getX();
-			double y = draging.border.getY();
-			Point2D currentpoint = e.getPoint();
-			draging.setLocation(currentpoint, 1);
-
-			double dx;
-			double dy;
-			dx = draging.border.getX() - x;
-			dy = draging.border.getY() - y;
-
-			if (mySelectedComponent.contains(draging))
-				for (MyComponent m : mySelectedComponent) {
-					if (m != draging) {
-						Rectangle2D p = new Rectangle2D.Double(m.border.getX()
-								+ dx, m.border.getY() + dy,
-								m.border.getWidth(), m.border.getHeight());
-						m.border.setFrame(p);
-					}
-				}
-			dragingCMP = true;
-		} else if (dragingSize != null) {
-			dragingSize.setSize(e.getPoint());
-			dragingCMP = true;
-		} else if (mySelectingRectangle != null) {// ///////////////正反选择 ， 没实现
-			Point2D p = e.getPoint();
-			double x = mySelectingRectangle.getX();
-			double y = mySelectingRectangle.getY();
-			if (p.getX() - x > 10 && p.getY() - y > 10) {
-				mySelectingRectangle.setFrame(x, y, Math.abs(p.getX() - x),
-						Math.abs(p.getY() - y));
-			} else {
-				mySelectingRectangle.setFrame(x, y, 10, 10);
-			}
-		}
+		myController.mouseDragged(e);
+//		if (draging != null) {
+//
+//			double x = draging.border.getX();
+//			double y = draging.border.getY();
+//			Point2D currentpoint = e.getPoint();
+//			draging.setLocation(currentpoint, 1);
+//
+//			double dx;
+//			double dy;
+//			dx = draging.border.getX() - x;
+//			dy = draging.border.getY() - y;
+//
+//			if (mySelectedComponent.contains(draging))
+//				for (MyComponent m : mySelectedComponent) {
+//					if (m != draging) {
+//						Rectangle2D p = new Rectangle2D.Double(m.border.getX()
+//								+ dx, m.border.getY() + dy,
+//								m.border.getWidth(), m.border.getHeight());
+//						m.border.setFrame(p);
+//					}
+//				}
+//			dragingCMP = true;
+//		} else if (dragingSize != null) {
+//			dragingSize.setSize(e.getPoint());
+//			dragingCMP = true;
+//		} else if (mySelectingRectangle != null) {// ///////////////正反选择 ， 没实现
+//			Point2D p = e.getPoint();
+//			double x = mySelectingRectangle.getX();
+//			double y = mySelectingRectangle.getY();
+//			if (p.getX() - x > 10 && p.getY() - y > 10) {
+//				mySelectingRectangle.setFrame(x, y, Math.abs(p.getX() - x),
+//						Math.abs(p.getY() - y));
+//			} else {
+//				mySelectingRectangle.setFrame(x, y, 10, 10);
+//			}
+//		}
 		repaint();
 	}
 
@@ -247,32 +217,35 @@ public class MainPane extends JPanel implements MouseListener,
 		}
 	}
 
-	private int selectComponent() {// ///到底return啥？
-		mySelectedComponent = new ArrayList<MyComponent>();
-		int toReturn = 0;
-		if (myModel.getComponnetList().size() != 0
-				&& mySelectingRectangle != null) {
-			for (MyComponent m : myModel.getComponnetList())
-				if (mySelectingRectangle.contains(m.border)) {
-					mySelectedComponent.add(m);
-					toReturn++;
-				}
-		}
-		return toReturn;
-	}
+	// private int selectComponent() {// ///到底return啥？
+	// mySelectedComponent = new ArrayList<MyComponent>();
+	// int toReturn = 0;
+	// if (myModel.getComponnetList().size() != 0
+	// && mySelectingRectangle != null) {
+	// for (MyComponent m : myModel.getComponnetList())
+	// if (mySelectingRectangle.contains(m.border)) {
+	// mySelectedComponent.add(m);
+	// toReturn++;
+	// }
+	// }
+	// return toReturn;
+	// }
 
+//	public Rectangle2D getSelectingRectangle(){
+//		return mySelectingRectangle;
+//	}
 	void drawViewComponent(Graphics2D g) throws IOException {
 		for (MyComponent m : myModel.getComponnetList()) {
-			if (m == myController.focusCMP) {
+			if (m == myController.getFoucsedComponent()) {
 				g.setColor(FOCUSED_COMPONENT_COLOR);
-			} else if (m == myController.next_focusCMP) {
+			} else if (m == myMainPaneModel.getNextFocusComponent()) {
 				g.setColor(NEXT_FOCUSED_COMPONENT_COLOR);
 			} else {
 				g.setColor(UNFOCUSED_COMPONENT_COLOR);
 			}
 			g.fill(m.border);
-			if (m.img != null) {
-				BufferedImage img = ImageIO.read(m.img);
+			if (!m.hasNoImg()) {
+				BufferedImage img = ImageIO.read(m.getImg());
 				g.drawImage(img, (int) m.border.getX(), (int) m.border.getY(),
 						(int) m.border.getWidth(), (int) m.border.getHeight(),
 						null);
@@ -284,12 +257,7 @@ public class MainPane extends JPanel implements MouseListener,
 		}
 	}
 
-	public void removeCMP(MyComponent e) {
 
-		myModel.getComponnetList().remove(e);
-		mySelectedComponent.remove(e);
-		e.getOutofTree();
-	}
 
 	public void update() {
 		outer.attributePane.update();
@@ -314,15 +282,8 @@ public class MainPane extends JPanel implements MouseListener,
 	private void checkState() {
 		// TODO lalala
 	}
-	public MyComponent setDragingSize(MyComponent toSet){
-		dragingSize=toSet;
-		return toSet;
-	}
-	public MyComponent getDragingSize(){
-		return dragingSize;
-	}
-	public void setDraging(MyComponent toSet){
-		draging=toSet;
-	}
+
+
+
 
 }

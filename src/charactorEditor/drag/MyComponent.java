@@ -11,7 +11,7 @@ import SpriteTree.LimbNode;
 public class MyComponent {
 	public int sortID = 0;
 	public String text = null;
-	public File img = null;
+	private File img = null;
 	public int sort = -1;
 	public Rectangle2D.Double border = null;
 	public Rectangle2D.Double dragSize = null;
@@ -96,13 +96,26 @@ public class MyComponent {
 			parent.children.remove(this);
 		}
 	}
-public void setParent(MyComponent toSet){
-	parent=toSet;
-}
-public void addChild(MyComponent toAdd){
-	children.add(toAdd);
-}
-public boolean isRoot(){
-	return (parent==null);
-}
+
+	public void setParent(MyComponent toSet) {
+		parent = toSet;
+	}
+
+	public void addChild(MyComponent toAdd) {
+		children.add(toAdd);
+	}
+   
+	public void  setImg(File img){
+		this.img=img;
+	}
+	public File getImg(){
+		return img;
+	}
+	
+	public boolean hasNoImg(){
+		return img==null;
+	}
+	public boolean isRoot() {
+		return (parent == null);
+	}
 }

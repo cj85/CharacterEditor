@@ -20,12 +20,14 @@ public class Model {
 	public boolean next = false;
 	public final Sort SORT = new Sort();
 	private ArrayList<String> properties = new ArrayList<String>();
-     private static Model instance;
-     public static Model Instance(){
-    	 if(instance==null)
-    		 instance=new Model();
-    	 return instance;
-     }
+	private static Model instance;
+
+	public static Model Instance() {
+		if (instance == null)
+			instance = new Model();
+		return instance;
+	}
+
 	private Model() {
 		try {
 			loadPropertyList();
@@ -79,7 +81,10 @@ public class Model {
 		properties = (ArrayList<String>) toSet;
 	}
 
-	@SuppressWarnings("unchecked")
+	public boolean isPuttingComponent() {
+		return willPut == -1 ? false : true;
+	}
+
 	private void loadPropertyList() throws FileNotFoundException {
 		Gson gson = new Gson();
 		Scanner scanner = new Scanner(new File("Properties.json"));

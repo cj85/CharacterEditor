@@ -23,9 +23,9 @@ public class NameDisplayLabel extends JLabel {
 	}
 
 	public void update() {
-		if (myController.focusCMP != null)
+		if (myController.getFoucsedComponent() != null)
 			setText("   "
-					+ myModel.SORT.CMP[myController.focusCMP.sort]);
+					+ myModel.SORT.CMP[myController.getFoucsedComponent().sort]);
 		else
 			setText("");
 	}
