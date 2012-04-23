@@ -16,8 +16,8 @@ public class MyComponent {
 	public Rectangle2D.Double border = null;
 	public Rectangle2D.Double dragSize = null;
 	private HashMap<String, String> properties = new HashMap<String, String>();
-	public MyComponent parent = null;
-	public ArrayList<MyComponent> children = new ArrayList<MyComponent>();
+	private MyComponent parent = null;
+	private ArrayList<MyComponent> children = new ArrayList<MyComponent>();
 	private LimbNode myLimbNode;
 
 	public MyComponent(Point2D.Double p, int theSort) {
@@ -96,5 +96,13 @@ public class MyComponent {
 			parent.children.remove(this);
 		}
 	}
-
+public void setParent(MyComponent toSet){
+	parent=toSet;
+}
+public void addChild(MyComponent toAdd){
+	children.add(toAdd);
+}
+public boolean isRoot(){
+	return (parent==null);
+}
 }

@@ -34,7 +34,7 @@ public class Controller implements MouseListener, MouseMotionListener {
 	private LoadButton myLoadButton;
 	private Object message;
 	private static Controller instance;
-	public MyComponent focusCMP = null;
+   public  MyComponent focusCMP = null;
 	public MyComponent next_focusCMP = null;
 	JMenuItem myConnect;
 
@@ -99,8 +99,8 @@ public class Controller implements MouseListener, MouseMotionListener {
 			return;
 		}
 		if (e.getSource() == myConnect) {
-			focusCMP.children.add(next_focusCMP);
-			next_focusCMP.parent = focusCMP;
+			focusCMP.addChild(next_focusCMP);
+			next_focusCMP.setParent(focusCMP);
 			return;
 		}
 
@@ -148,20 +148,20 @@ public class Controller implements MouseListener, MouseMotionListener {
 			if (e.getButton() == 1) {
 				int count = e.getClickCount();
 				if (myModel.willPut == -1) {
-					if ((myMainPane.dragingSize = myModel.findComponent(e.getPoint())) != null) {
+					if ((myMainPane.setDragingSize( myModel.findComponent(e.getPoint())) ) != null) {
 						if (count < 2) {
 							if (myModel.setSizeFlag == true)// 边缘拖拽
 							{
-								focusCMP =myMainPane. dragingSize;
+								focusCMP =myMainPane.getDragingSize();
 							} else// 点在中间了
 							{
 								if (myModel.next) {
-									next_focusCMP =myMainPane. dragingSize;
+									next_focusCMP =myMainPane.getDragingSize();
 								} else {
-							        focusCMP = myMainPane.dragingSize;
+							        focusCMP = myMainPane.getDragingSize();
 								}
-								myMainPane.draging = myMainPane.dragingSize;
-								myMainPane.dragingSize = null;
+								myMainPane.setDraging(myMainPane.getDragingSize()) ;
+								myMainPane.setDragingSize(null);
 
 							}
 						} else// 两下，取消

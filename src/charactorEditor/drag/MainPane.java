@@ -43,7 +43,7 @@ public class MainPane extends JPanel implements MouseListener,
 	public Point2D.Double nearest = new Point2D.Double(40, 40);// nearest point
 	public Rectangle2D put = new Rectangle2D.Double();// /放置矩形
 	public MyComponent draging = null;
-	public MyComponent dragingSize = null;
+	private MyComponent dragingSize = null;
 	private boolean dragingCMP = false;
 	public Rectangle2D mySelectingRectangle;
 	public ArrayList<MyComponent> mySelectedComponent = new ArrayList<MyComponent>();
@@ -93,7 +93,7 @@ public class MainPane extends JPanel implements MouseListener,
 		g.setColor(Color.BLACK);
 		if (myModel.getComponnetList().size() != 0) {
 			for (MyComponent m : myModel.getComponnetList()) {
-				if (m.parent == null) {
+				if (m.isRoot()) {
 					m.drawTree(g);
 				}
 			}
@@ -159,64 +159,7 @@ public class MainPane extends JPanel implements MouseListener,
 
 	public void mousePressed(MouseEvent e) {
 		myController.mousePressed(e);
-//		if (e.getButton() == 1) {
-//			int count = e.getClickCount();
-//			if (myModel.willPut == -1) {
-//				if ((dragingSize = myModel.findComponent(e.getPoint())) != null) {
-//					if (count < 2) {
-//						if (myModel.setSizeFlag == true)// 边缘拖拽
-//						{
-//							myController.focusCMP = dragingSize;
-//						} else// 点在中间了
-//						{
-//							if (myModel.next) {
-//								myController.next_focusCMP = dragingSize;
-//							} else {
-//								myController.focusCMP = dragingSize;
-//							}
-//							draging = dragingSize;
-//							dragingSize = null;
-//
-//						}
-//					} else// 两下，取消
-//					{
-//						if (mySelectedComponent.contains(myController.focusCMP)) {
-//							int toRemove = mySelectedComponent.size();
-//							for (int i = 0; i < toRemove; i++) {
-//								removeCMP(mySelectedComponent.get(0));
-//							}
-//						} else {
-//							removeCMP(myController.focusCMP);
-//						}
-//					}
-//					update();
-//				}
-//
-//				else// 没选上component 就啥也不干/////////////////////////////
-//				{
-//					Point2D p = e.getPoint();
-//					put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
-//					mySelectingRectangle = new Rectangle2D.Double();
-//					mySelectingRectangle.setFrame(put);
-//					myController.focusCMP = null;
-//					myController.next_focusCMP = null;
-//					outer.repaint();
-//				}
-//			} else// 第一次放置进来才走这里
-//			{
-//				Point2D p = e.getPoint();
-//				put.setFrame(p.getX(), p.getY(), 10, 10);
-//				getNearestPoint();
-//				myModel.getComponnetList().add(
-//						(myController.focusCMP = new MyComponent(nearest,
-//								myModel.willPut)));
-//				myController.focusCMP.setText(myModel
-//						.getName(myController.focusCMP));
-//				myModel.willPut = -1;
-//				update();
-//				outer.repaint();
-//			}
-//		}
+
 	}
 
 	public void mouseReleased(MouseEvent e) {
@@ -370,6 +313,16 @@ public class MainPane extends JPanel implements MouseListener,
 
 	private void checkState() {
 		// TODO lalala
+	}
+	public MyComponent setDragingSize(MyComponent toSet){
+		dragingSize=toSet;
+		return toSet;
+	}
+	public MyComponent getDragingSize(){
+		return dragingSize;
+	}
+	public void setDraging(MyComponent toSet){
+		draging=toSet;
 	}
 
 }
