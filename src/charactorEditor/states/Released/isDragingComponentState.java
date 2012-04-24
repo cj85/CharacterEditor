@@ -20,7 +20,7 @@ public class isDragingComponentState extends MouseReleasedState {
 	}
 
 	public isDragingComponentState getState() {
-		if (model.isDragingComponent())
+		if (model.isDraging())
 			return instance;
 		return null;
 	}

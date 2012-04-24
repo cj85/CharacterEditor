@@ -35,7 +35,7 @@ public class MouseDraggedState implements State {
 			if (state.getState() != null)
 				return state.getState();
 		}
-		return null;
+		return new PseudoState(model, e);
 	}
 
 	public void action() {

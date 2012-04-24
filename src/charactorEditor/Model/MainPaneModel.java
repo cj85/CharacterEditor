@@ -5,10 +5,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-
 public class MainPaneModel {
-	private MyComponent draging = null;
-	private MyComponent dragingSize = null;
+	public MyComponent draging = null;
+	public  MyComponent dragingSize = null;
 	private ArrayList<MyComponent> mySelectedComponent = new ArrayList<MyComponent>();
 	private boolean dragingCMP = false;
 	private Rectangle2D put = new Rectangle2D.Double();// /∑≈÷√æÿ–Œ
@@ -71,14 +70,15 @@ public class MainPaneModel {
 	}
 
 	public void setComponents() {
-		mySelectedComponent.add(draging);
-		for (MyComponent m : mySelectedComponent) {
-			Point2D p = new Point2D.Double(m.getBorderX(), m.getBorderY());
-			setPutFrame(p);
-			getNearestPoint();
-			m.setLocation(nearest, 0);
-		}
-		mySelectedComponent.remove(draging);
+		if(dragingCMP==true){
+			mySelectedComponent.add(draging);
+			for (MyComponent m : mySelectedComponent) {
+				Point2D p = new Point2D.Double(m.getBorderX(), m.getBorderY());
+				setPutFrame(p);
+				getNearestPoint();
+				m.setLocation(nearest, 0);
+			}
+			mySelectedComponent.remove(draging);}
 	}
 
 	public void setSize(Point2D p) {
@@ -177,14 +177,15 @@ public class MainPaneModel {
 	public boolean noSelectingRectangle() {
 		return mySelectingRectangle == null;
 	}
+	
+	public boolean isDragingRectangle() {
+		return !isDraging() && dragingSize==null && mySelectingRectangle != null;
+	}
 
 	public boolean isDragingSize() {
 		return !isDraging() && dragingSize != null;
 	}
 
-	public boolean isDragingRectangle() {
-		return !isDragingSize() && mySelectingRectangle != null;
-	}
 
 	public void dragRectangle(Point2D p) {
 		double x = mySelectingRectangle.getX();
@@ -219,9 +220,9 @@ public class MainPaneModel {
 		if (mySelectedComponent.contains(draging))
 			for (MyComponent m : mySelectedComponent) {
 				if (m != draging) {
-					Rectangle2D p = new Rectangle2D.Double(
-							m.getBorderX() + dx, m.getBorderY() + dy,
-							m.getBorderWidth(), m.getBorderHeight());
+					Rectangle2D p = new Rectangle2D.Double(m.getBorderX() + dx,
+							m.getBorderY() + dy, m.getBorderWidth(),
+							m.getBorderHeight());
 					m.setBorderFrame(p);
 				}
 			}

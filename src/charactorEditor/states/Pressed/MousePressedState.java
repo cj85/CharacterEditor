@@ -30,8 +30,7 @@ public class MousePressedState implements State {
 
 	public void creat() {
 		allStates.add(isPutingComponentState.Instance(mainPaneModel, model, e));
-		allStates
-				.add(isDragingSelectingState.Instance(mainPaneModel, model, e));
+		allStates.add(isDragingSelectingState.Instance(mainPaneModel, model, e));
 		allStates.add(isRemoveComponentState.Instance(mainPaneModel, model, e));
 		allStates.add(isMiddlePressedState.Instance(mainPaneModel, model, e));
 		allStates.add(isDragSizePressedState.Instance(mainPaneModel, model, e));
@@ -55,7 +54,7 @@ public class MousePressedState implements State {
 
 	boolean isDragingSelecting() {
 		return (!isPuttingComponent() && (mainPaneModel.setDragingSize(model
-				.findComponent(e.getPoint()))) == null);
+				.findComponent(e.getPoint())) == null));
 	}
 
 	boolean isRemoveComponent() {
@@ -74,6 +73,6 @@ public class MousePressedState implements State {
 
 	boolean middleState() {
 		return (!isPuttingComponent() && (mainPaneModel.setDragingSize(model
-				.findComponent(e.getPoint()))) != null);
+				.findComponent(e.getPoint()))!= null) );
 	}
 }

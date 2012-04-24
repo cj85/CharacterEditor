@@ -136,11 +136,9 @@ public class Controller implements MouseListener, MouseMotionListener,
 	private void action() {
 		state.creat();
 		state = state.getState();
-		try {
+	
 			state.action();
-		} catch (java.lang.NullPointerException ecp) {
-			ecp.getStackTrace();
-		}
+
 	}
 
 	@Override
