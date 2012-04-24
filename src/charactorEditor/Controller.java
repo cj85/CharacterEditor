@@ -19,6 +19,9 @@ import charactorEditor.drag.MyComponentPanel;
 import charactorEditor.drag.Component.AddImgButton;
 import charactorEditor.drag.Component.AddPropertyButton;
 import charactorEditor.drag.Component.LoadButton;
+import charactorEditor.states.MouseDraggedState;
+import charactorEditor.states.MouseReleasedState;
+import charactorEditor.states.State;
 import charactorEditor.Model.Loader;
 import charactorEditor.Model.MainPaneModel;
 import charactorEditor.Model.Model;
@@ -37,6 +40,7 @@ public class Controller implements MouseListener, MouseMotionListener,
 	private Object message;
 	private MainPaneModel myMainPaneModel;
 	private static Controller instance;
+	private State state;
 
 	private JMenuItem myConnect;
 
@@ -123,13 +127,17 @@ public class Controller implements MouseListener, MouseMotionListener,
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (e.getSource() == myMainPane) {
-			MouseDraggedState state = new MouseDraggedState(myMainPaneModel, e);
-			state.creat();
-			state = state.getState();
-			try {
-				state.action();
-			} catch (java.lang.NullPointerException ecp) {
-			}
+			state = MouseDraggedState.Instance(myMainPaneModel, e);
+			action();
+		}
+	}
+
+	private void action() {
+		state.creat();
+		state = state.getState();
+		try {
+			state.action();
+		} catch (java.lang.NullPointerException ecp) {
 		}
 	}
 
@@ -263,17 +271,8 @@ public class Controller implements MouseListener, MouseMotionListener,
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (e.getSource() == myMainPane) {
-			if (myMainPaneModel.isDragingComponent()) {
-				myMainPaneModel.setComponents();
-			}
-			if (myMainPaneModel.isDragSize()) {
-				myMainPaneModel.setSize(e.getPoint());
-			}
-			if (myMainPaneModel.isSelectingComponent()) {
-				myMainPaneModel.selectComponent(myMainPaneModel
-						.getSelectingRectangle());
-			}
-			myMainPaneModel.clear();
+			state = MouseReleasedState.Instance(myMainPaneModel, e);
+			action();
 			return;
 		}
 	}
