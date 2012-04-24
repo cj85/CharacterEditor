@@ -6,7 +6,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -61,6 +60,7 @@ public class Controller implements MouseListener, MouseMotionListener,
 		myLoadButton = myAttributePane.myLoadButton;
 		myConnect = myMainPane.getItem();
 		myMainPaneModel = MainPaneModel.Instance();
+
 	}
 
 	public void register(JMenuItem toUpdate) {
@@ -122,14 +122,15 @@ public class Controller implements MouseListener, MouseMotionListener,
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-
 		if (e.getSource() == myMainPane) {
 			MouseDraggedState state = new MouseDraggedState(myMainPaneModel, e);
 			state.creat();
 			state = state.getState();
-			state.action();
+			try {
+				state.action();
+			} catch (java.lang.NullPointerException ecp) {
+			}
 		}
-
 	}
 
 	@Override
