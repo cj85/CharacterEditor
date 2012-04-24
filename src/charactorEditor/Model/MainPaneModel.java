@@ -1,11 +1,10 @@
-package charactorEditor.drag;
+package charactorEditor.Model;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import charactorEditor.Model.Model;
 
 public class MainPaneModel {
 	private MyComponent draging = null;
@@ -183,7 +182,7 @@ public class MainPaneModel {
 		return !isDraging() && dragingSize != null;
 	}
 
-	public boolean isdragRectangle() {
+	public boolean isDragingRectangle() {
 		return !isDragingSize() && mySelectingRectangle != null;
 	}
 

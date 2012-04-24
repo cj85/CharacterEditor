@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import charactorEditor.Controller;
+import charactorEditor.Model.MainPaneModel;
+import charactorEditor.Model.MyComponent;
 
 public class MainPane extends JPanel implements MouseListener,
 		MouseMotionListener, KeyListener {
@@ -35,9 +37,9 @@ public class MainPane extends JPanel implements MouseListener,
 
 	
 	private Controller myController;
-	public JMenuItem mConnect;
-	JMenuItem mDisconnect = new JMenuItem("disconnect");
-	JPopupMenu menu = new JPopupMenu();
+	private JMenuItem mConnect;
+//	private JMenuItem mDisconnect = new JMenuItem("disconnect");
+	private JPopupMenu menu = new JPopupMenu();
 	private MainPaneModel myMainPaneModel = MainPaneModel.Instance();
 
 	MainPane() {
@@ -177,6 +179,10 @@ public class MainPane extends JPanel implements MouseListener,
 	@Override
 	public void keyReleased(KeyEvent e) {
 		myController.keyReleased(e);
+	}
+	
+	public JMenuItem getItem(){
+		return mConnect;
 	}
 
 }

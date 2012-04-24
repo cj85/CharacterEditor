@@ -1,4 +1,4 @@
-package charactorEditor.drag;
+package charactorEditor.Model;
 
 import java.awt.Graphics2D;
 import java.awt.geom.*;
@@ -31,7 +31,7 @@ public class MyComponent {
 		text = t;
 	}
 
-	void setLocation(Point2D p, int indicator) {
+	public void setLocation(Point2D p, int indicator) {
 		double x = p.getX();
 		double y = p.getY();
 		double w = border.getWidth();
@@ -49,7 +49,7 @@ public class MyComponent {
 				border.getMaxY() - 10, 10, 10);
 	}
 
-	void setSize(Point2D p) {
+	public void setSize(Point2D p) {
 		double x = border.getX();
 		double y = border.getY();
 		if (p.getX() - x > 10 && p.getY() - y > 10) {

@@ -5,8 +5,8 @@ import java.awt.Font;
 import javax.swing.JLabel;
 
 import charactorEditor.Controller;
+import charactorEditor.Model.Sort;
 import charactorEditor.drag.AttributePane;
-import charactorEditor.drag.Sort;
 
 @SuppressWarnings("serial")
 public class NameDisplayLabel extends JLabel {

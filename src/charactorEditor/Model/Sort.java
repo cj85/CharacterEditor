@@ -1,4 +1,4 @@
-package charactorEditor.drag;
+package charactorEditor.Model;
 
 public class Sort {
 	final static int HEAD = 0;

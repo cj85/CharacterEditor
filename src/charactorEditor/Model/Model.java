@@ -9,14 +9,11 @@ import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import charactorEditor.drag.MyComponent;
-import charactorEditor.drag.Sort;
-
 public class Model {
 	private ArrayList<MyComponent> componentList = new ArrayList<MyComponent>();
-	public boolean setSizeFlag = false;
-	public int willPut = -1;// component that will be put in MainPane
-	public boolean next = false;
+	private boolean setSizeFlag = false;
+	private int willPut = -1;
+	private boolean next = false;
 	private ArrayList<String> properties = new ArrayList<String>();
 	private static Model instance;
 
@@ -59,7 +56,7 @@ public class Model {
 
 	public String getName(MyComponent myComponent) {
 		int count = 1;
-		for (MyComponent m: componentList) {
+		for (MyComponent m : componentList) {
 			if (m.getSort() == myComponent.getSort()) {
 				if (count <= m.getSortID()) {
 					count = m.getSortID() + 1;
@@ -90,5 +87,33 @@ public class Model {
 		java.lang.reflect.Type collectionType = new TypeToken<ArrayList<String>>() {
 		}.getType();
 		setProperties(gson.fromJson(wholeFile, collectionType));
+	}
+
+	public int getWillPut() {
+		return willPut;
+	}
+
+	public void setWillPut(int toSet) {
+		willPut = toSet;
+	}
+
+	public void reSetWillPut() {
+		willPut = -1;
+	}
+
+	public boolean isNext() {
+		return next;
+	}
+
+	public void trueNext() {
+		next = true;
+	}
+
+	public void falseNext() {
+		next = false;
+	}
+
+	public boolean getSetSizeFlag() {
+		return setSizeFlag;
 	}
 }

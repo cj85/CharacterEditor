@@ -12,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
 
 import charactorEditor.Controller;
+import charactorEditor.Model.Sort;
 
 public class MyComponentPanel extends JPanel implements MouseListener,
 		MouseMotionListener {
