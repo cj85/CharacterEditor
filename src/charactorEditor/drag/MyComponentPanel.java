@@ -62,7 +62,7 @@ public class MyComponentPanel extends JPanel implements MouseListener,
 		}
 		g.setColor(STRING_COLOR);
 		for (int i = 0; i < COMPONENTNUMBER; i++) {
-			g.drawString(myModel.SORT.CMP[i], 27, 47 + 30 * i);
+			g.drawString(Sort.CMP[i], 27, 47 + 30 * i);
 		}
 	}
 

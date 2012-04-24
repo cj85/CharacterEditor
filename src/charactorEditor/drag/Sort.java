@@ -1,12 +1,13 @@
 package charactorEditor.drag;
-public class Sort {
-	final int HEAD = 0;
-	final int BODY = 1;
-	
-	public final String[] NAME = new String[2];
-	public final String[] CMP = new String[2];
 
-	public Sort() {
+public class Sort {
+	final static int HEAD = 0;
+	final static int BODY = 1;
+
+	public final static String[] NAME = new String[2];
+	public final static String[] CMP = new String[2];
+
+	static {
 		NAME[0] = "head";
 		NAME[1] = "body";
 

@@ -14,11 +14,9 @@ import charactorEditor.drag.Sort;
 
 public class Model {
 	private ArrayList<MyComponent> componentList = new ArrayList<MyComponent>();
-	public ArrayList<MyComponent> myConnectedComponent = new ArrayList<MyComponent>();
 	public boolean setSizeFlag = false;
 	public int willPut = -1;// component that will be put in MainPane
 	public boolean next = false;
-	public final Sort SORT = new Sort();
 	private ArrayList<String> properties = new ArrayList<String>();
 	private static Model instance;
 
@@ -46,11 +44,11 @@ public class Model {
 
 	public MyComponent findComponent(Point2D e) {
 		for (MyComponent m : componentList) {
-			if (m.dragSize.contains(e)) {
+			if (m.isInDragSize(e)) {
 				setSizeFlag = true;
 				return m;
 			}
-			if (m.border.contains(e)) {
+			if (m.isInBorder(e)) {
 				setSizeFlag = false;
 				return m;
 			}
@@ -61,15 +59,15 @@ public class Model {
 
 	public String getName(MyComponent myComponent) {
 		int count = 1;
-		for (int i = 0; i < componentList.size(); i++) {
-			if (componentList.get(i).sort == myComponent.sort) {
-				if (count <= componentList.get(i).sortID) {
-					count = componentList.get(i).sortID + 1;
+		for (MyComponent m: componentList) {
+			if (m.getSort() == myComponent.getSort()) {
+				if (count <= m.getSortID()) {
+					count = m.getSortID() + 1;
 				}
 			}
 		}
-		myComponent.sortID = count;
-		return SORT.NAME[myComponent.sort] + count;
+		myComponent.setSortID(count);
+		return Sort.NAME[myComponent.getSort()] + count;
 	}
 
 	public ArrayList<String> getProperties() {

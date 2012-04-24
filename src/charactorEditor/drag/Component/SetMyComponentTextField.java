@@ -23,12 +23,10 @@ public class SetMyComponentTextField extends JTextField {
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
 				update();
 			}
 		});
@@ -39,7 +37,7 @@ public class SetMyComponentTextField extends JTextField {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					myController.getFoucsedComponent().text = getText();
+					myController.getFoucsedComponent().setText(getText());
 					myController.updateFigherBuilder();
 				}
 			}
@@ -57,7 +55,7 @@ public class SetMyComponentTextField extends JTextField {
 
 	public void update() {
 		if (myController.getFoucsedComponent() != null)
-			setText(myController.getFoucsedComponent().text);
+			setText(myController.getFoucsedComponent().getText());
 		else
 			setText("");
 	}

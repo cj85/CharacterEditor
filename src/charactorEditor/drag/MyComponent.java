@@ -9,12 +9,12 @@ import java.util.HashMap;
 import SpriteTree.LimbNode;
 
 public class MyComponent {
-	public int sortID = 0;
-	public String text = null;
+	private int sortID = 0;
+	private String text = null;
 	private File img = null;
-	public int sort = -1;
-	public Rectangle2D.Double border = null;
-	public Rectangle2D.Double dragSize = null;
+	private int sort = -1;
+	private Rectangle2D.Double border = null;
+	private Rectangle2D.Double dragSize = null;
 	private HashMap<String, String> properties = new HashMap<String, String>();
 	private MyComponent parent = null;
 	private ArrayList<MyComponent> children = new ArrayList<MyComponent>();
@@ -117,5 +117,45 @@ public class MyComponent {
 	}
 	public boolean isRoot() {
 		return (parent == null);
+	}
+	public Rectangle2D.Double getBorder(){
+		return border;
+	}
+	public int getBorderX(){
+		return (int) border.getX();
+	}
+	public int getBorderY(){
+		return (int) border.getY();
+	}
+	public int getBorderWidth(){
+		return (int) border.getWidth();
+	}
+	public int getBorderHeight(){
+		return (int) border.getHeight();
+	}
+	public Rectangle2D getBorderBounds2D(){
+		return border.getBounds2D();
+	}
+	public String getText(){
+		return text;
+	}
+	
+	public void setBorderFrame(Rectangle2D p){
+		border.setFrame(p);
+	}
+	public int getSort(){
+		return sort;
+	}
+	public boolean isInDragSize(Point2D p){
+		return dragSize.contains(p);
+	}
+	public boolean isInBorder(Point2D p){
+		return border.contains(p);
+	}
+	public int getSortID(){
+		return sortID;
+	}
+	public void setSortID(int toSet){
+		sortID=toSet;
 	}
 }

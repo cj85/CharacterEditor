@@ -13,7 +13,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JMenuItem;
@@ -37,7 +36,6 @@ public class MainPane extends JPanel implements MouseListener,
 	private final Color LINE_COLOR = new Color(200, 200, 210);
 
 	
-	private State myState;
 	private Model myModel;
 	private Controller myController;
 	public JMenuItem mConnect;
@@ -100,7 +98,7 @@ public class MainPane extends JPanel implements MouseListener,
 	private void drawSelected(Graphics2D g) {
 		g.setColor(SELECTED_COMPONENT_COLOR);
 		for (MyComponent m : myMainPaneModel.getSelectedComponnet())
-			g.fill(m.border);
+			g.fill(m.getBorder());
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -133,75 +131,13 @@ public class MainPane extends JPanel implements MouseListener,
 	}
 
 	public void mouseReleased(MouseEvent e) {
-	
 		myController.mouseReleased(e);
-//		if (draging != null)// 点中间了 ,移动位置
-//		{
-//
-//			if (dragingCMP == true) {
-//				// mySelectedComponent.add(draging);
-//				// for (MyComponent m : mySelectedComponent) {
-//				// Point2D p = new Point2D.Double(m.border.getX(),
-//				// m.border.getY());
-//				// put.setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
-//				// getNearestPoint();
-//				// m.setLocation(nearest, 0);
-//				// }
-//				// mySelectedComponent.remove(draging);
-//			}
-//		} else if (dragingSize != null)// 点左下角了，拉大小
-//		{
-//			// Point2D p = e.getPoint();
-//			// ((Rectangle2D) put).setFrame(p.getX() - 5, p.getY() - 5, 10, 10);
-//			// getNearestPoint();
-//			// dragingSize.setSize(nearest);
-//		} else if (selectComponent() != 0) {
-//
-//		}
-//	
-	
 		repaint();
 		this.requestFocus();
 	}
 
 	public void mouseDragged(MouseEvent e) {
 		myController.mouseDragged(e);
-//		if (draging != null) {
-//
-//			double x = draging.border.getX();
-//			double y = draging.border.getY();
-//			Point2D currentpoint = e.getPoint();
-//			draging.setLocation(currentpoint, 1);
-//
-//			double dx;
-//			double dy;
-//			dx = draging.border.getX() - x;
-//			dy = draging.border.getY() - y;
-//
-//			if (mySelectedComponent.contains(draging))
-//				for (MyComponent m : mySelectedComponent) {
-//					if (m != draging) {
-//						Rectangle2D p = new Rectangle2D.Double(m.border.getX()
-//								+ dx, m.border.getY() + dy,
-//								m.border.getWidth(), m.border.getHeight());
-//						m.border.setFrame(p);
-//					}
-//				}
-//			dragingCMP = true;
-//		} else if (dragingSize != null) {
-//			dragingSize.setSize(e.getPoint());
-//			dragingCMP = true;
-//		} else if (mySelectingRectangle != null) {// ///////////////正反选择 ， 没实现
-//			Point2D p = e.getPoint();
-//			double x = mySelectingRectangle.getX();
-//			double y = mySelectingRectangle.getY();
-//			if (p.getX() - x > 10 && p.getY() - y > 10) {
-//				mySelectingRectangle.setFrame(x, y, Math.abs(p.getX() - x),
-//						Math.abs(p.getY() - y));
-//			} else {
-//				mySelectingRectangle.setFrame(x, y, 10, 10);
-//			}
-//		}
 		repaint();
 	}
 
@@ -217,23 +153,7 @@ public class MainPane extends JPanel implements MouseListener,
 		}
 	}
 
-	// private int selectComponent() {// ///到底return啥？
-	// mySelectedComponent = new ArrayList<MyComponent>();
-	// int toReturn = 0;
-	// if (myModel.getComponnetList().size() != 0
-	// && mySelectingRectangle != null) {
-	// for (MyComponent m : myModel.getComponnetList())
-	// if (mySelectingRectangle.contains(m.border)) {
-	// mySelectedComponent.add(m);
-	// toReturn++;
-	// }
-	// }
-	// return toReturn;
-	// }
 
-//	public Rectangle2D getSelectingRectangle(){
-//		return mySelectingRectangle;
-//	}
 	void drawViewComponent(Graphics2D g) throws IOException {
 		for (MyComponent m : myModel.getComponnetList()) {
 			if (m == myController.getFoucsedComponent()) {
@@ -243,21 +163,19 @@ public class MainPane extends JPanel implements MouseListener,
 			} else {
 				g.setColor(UNFOCUSED_COMPONENT_COLOR);
 			}
-			g.fill(m.border);
+			g.fill(m.getBorder());
 			if (!m.hasNoImg()) {
 				BufferedImage img = ImageIO.read(m.getImg());
-				g.drawImage(img, (int) m.border.getX(), (int) m.border.getY(),
-						(int) m.border.getWidth(), (int) m.border.getHeight(),
+				g.drawImage(img, m.getBorderX(), m.getBorderY(),
+						 m.getBorderWidth(),  m.getBorderHeight(),
 						null);
 			}
 			g.setColor(STRING_ON_COMPONENT_COLOR);
-			Rectangle2D tem = m.border.getBounds2D();
-			g.drawString(m.text, (int) tem.getX(),
+			Rectangle2D tem = m.getBorderBounds2D();
+			g.drawString(m.getText(), (int) tem.getX(),
 					(int) (tem.getY() + tem.getHeight() / 2 + 5));
 		}
 	}
-
-
 
 	public void update() {
 		outer.attributePane.update();
@@ -278,12 +196,5 @@ public class MainPane extends JPanel implements MouseListener,
 	public void keyReleased(KeyEvent e) {
 		myModel.next = false;
 	}
-
-	private void checkState() {
-		// TODO lalala
-	}
-
-
-
 
 }

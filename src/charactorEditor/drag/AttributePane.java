@@ -6,8 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import javax.swing.*;
-
-import charactorEditor.Model.Model;
 import charactorEditor.drag.Component.*;
 
 public class AttributePane extends JPanel {

@@ -1,22 +1,10 @@
 package charactorEditor.drag;
 
 import javax.swing.*;
-
 import javax.swing.event.*;
-
 import charactorEditor.Controller;
-import charactorEditor.Model.Model;
-
-import com.google.gson.Gson;
-
-import java.awt.geom.*;
 import java.awt.*;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.io.FileNotFoundException;
-import com.google.gson.reflect.TypeToken;
 
 @SuppressWarnings("serial")
 public class FighterBuilder extends JFrame implements ChangeListener {

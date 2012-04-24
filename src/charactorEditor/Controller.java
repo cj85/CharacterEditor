@@ -116,7 +116,6 @@ public class Controller implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getSource()==myMainPane){
 			if(myMainPaneModel.isDraging()){
 				myMainPaneModel.dragingComponent(e.getPoint());
@@ -154,7 +153,6 @@ public class Controller implements MouseListener, MouseMotionListener {
 			}
 			return;
 		}
-
 	}
 
 	@Override
@@ -249,7 +247,6 @@ public class Controller implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == myMainPane) {
 			if (myMainPaneModel.isDragingComponent()) {
 				myMainPaneModel.setComponents();
@@ -268,13 +265,11 @@ public class Controller implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
