@@ -1,4 +1,4 @@
-package charactorEditor.states;
+package charactorEditor.states.Released;
 
 import java.awt.event.MouseEvent;
 
@@ -18,14 +18,14 @@ public class isDragingComponentState extends MouseReleasedState {
 	private isDragingComponentState(MainPaneModel model, MouseEvent e) {
 		super(model, e);
 	}
-    
-	public isDragingComponentState getState(){
-		if(model.isDragingComponent())
+
+	public isDragingComponentState getState() {
+		if (model.isDragingComponent())
 			return instance;
 		return null;
 	}
-	
-	public void subAction(){
+
+	public void subAction() {
 		model.setComponents();
 	}
 }

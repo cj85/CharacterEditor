@@ -1,4 +1,4 @@
-package charactorEditor.states;
+package charactorEditor.states.Dragged;
 
 import java.awt.event.MouseEvent;
 
@@ -10,7 +10,7 @@ public class isDraggingState extends MouseDraggedState {
 	public static isDraggingState Instance(MainPaneModel jc, MouseEvent e) {
 		if (instance == null)
 			instance = new isDraggingState(jc, e);
-		instance.e=e;
+		instance.e = e;
 		return instance;
 	}
 

@@ -1,9 +1,10 @@
-package charactorEditor.states;
+package charactorEditor.states.Dragged;
 
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
 
 import charactorEditor.Model.MainPaneModel;
+import charactorEditor.states.State;
 
 public class MouseDraggedState implements State {
 	private HashSet<MouseDraggedState> allStates = new HashSet<MouseDraggedState>();
@@ -14,7 +15,7 @@ public class MouseDraggedState implements State {
 	public static MouseDraggedState Instance(MainPaneModel model, MouseEvent e) {
 		if (instance == null)
 			instance = new MouseDraggedState(model, e);
-		instance.e=e;
+		instance.e = e;
 		return instance;
 	}
 

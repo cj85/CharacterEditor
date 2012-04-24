@@ -1,4 +1,4 @@
-package charactorEditor.states;
+package charactorEditor.states.Released;
 
 import java.awt.event.MouseEvent;
 
@@ -18,14 +18,14 @@ public class isSelectingComponentState extends MouseReleasedState {
 	private isSelectingComponentState(MainPaneModel model, MouseEvent e) {
 		super(model, e);
 	}
-    
-	public isSelectingComponentState getState(){
-		if(model.isSelectingComponent())
+
+	public isSelectingComponentState getState() {
+		if (model.isSelectingComponent())
 			return instance;
 		return null;
 	}
-	
-	public void subAction(){
+
+	public void subAction() {
 		model.selectComponent(model.getSelectingRectangle());
 	}
 }

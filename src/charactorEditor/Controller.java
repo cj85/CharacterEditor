@@ -19,9 +19,10 @@ import charactorEditor.drag.MyComponentPanel;
 import charactorEditor.drag.Component.AddImgButton;
 import charactorEditor.drag.Component.AddPropertyButton;
 import charactorEditor.drag.Component.LoadButton;
-import charactorEditor.states.MouseDraggedState;
-import charactorEditor.states.MouseReleasedState;
 import charactorEditor.states.State;
+import charactorEditor.states.Dragged.MouseDraggedState;
+import charactorEditor.states.Pressed.MousePressedState;
+import charactorEditor.states.Released.MouseReleasedState;
 import charactorEditor.Model.Loader;
 import charactorEditor.Model.MainPaneModel;
 import charactorEditor.Model.Model;
@@ -138,6 +139,7 @@ public class Controller implements MouseListener, MouseMotionListener,
 		try {
 			state.action();
 		} catch (java.lang.NullPointerException ecp) {
+			ecp.getStackTrace();
 		}
 	}
 
@@ -188,80 +190,10 @@ public class Controller implements MouseListener, MouseMotionListener,
 		}
 		if (e.getSource() == myMainPane) {
 			if (e.getButton() == 1) {
-				int count = e.getClickCount();
-				if (!myModel.isPuttingComponent()) {
-					if ((myMainPaneModel.setDragingSize(myModel.findComponent(e
-							.getPoint()))) != null) {
-						if (count < 2) {
-							if (myModel.getSetSizeFlag() == true)// 边缘拖拽
-							{
-								myMainPaneModel
-										.setFoucsComponent(myMainPaneModel
-												.getDragingSize());
-							} else// 点在中间了
-							{
-								if (myModel.isNext()) {
-									myMainPaneModel
-											.setNextFocusComponnet(myMainPaneModel
-													.getDragingSize());
-								} else {
-									myMainPaneModel
-											.setFoucsComponent(myMainPaneModel
-													.getDragingSize());
-								}
-								myMainPaneModel.setDraging(myMainPaneModel
-										.getDragingSize());
-								myMainPaneModel.setDragingSize(null);
-
-							}
-						} else// 两下，取消
-						{
-							if (myMainPaneModel
-									.getSelectedComponnet()
-									.contains(
-											myMainPaneModel.getFoucsComponent())) {
-								int toRemove = myMainPaneModel
-										.getSelectedComponnet().size();
-								for (int i = 0; i < toRemove; i++) {
-									myMainPaneModel.removeCMP(myMainPaneModel
-											.getSelectedComponnet().get(0));
-								}
-							} else {
-								myMainPaneModel.removeCMP(myMainPaneModel
-										.getFoucsComponent());
-							}
-						}
-						myAttributePane.update();
-					}
-
-					else// 没选上component 就啥也不干/////////////////////////////
-						// 拉框框啊！！
-					{
-						myMainPaneModel.setPutFrame(e.getPoint());
-						myMainPaneModel.creatSelectingRectangle();
-						myMainPaneModel.resetFoucsComponent();
-						myMainPaneModel.resetNextFoucsComponent();
-						updateFigherBuilder();
-					}
-				} else// 第一次放置进来才走这里
-				{
-
-					myMainPaneModel.setPutFrame(e.getPoint());
-					myMainPaneModel.getNearestPoint();
-					myMainPaneModel
-							.setFoucsComponent(new MyComponent(myMainPaneModel
-									.getNearest(), myModel.getWillPut()));
-					myModel.getComponentList().add(
-							myMainPaneModel.getFoucsComponent());
-
-					myMainPaneModel.getFoucsComponent()
-							.setText(
-									myModel.getName(myMainPaneModel
-											.getFoucsComponent()));
-					myModel.reSetWillPut();
-					myAttributePane.update();
-					updateFigherBuilder();
-				}
+				state = MousePressedState.Instance(myMainPaneModel, myModel, e);
+				action();
+				myAttributePane.update();
+				updateFigherBuilder();
 			}
 			return;
 		}

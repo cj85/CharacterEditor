@@ -139,7 +139,6 @@ public class MainPane extends JPanel implements MouseListener,
 
 	public void mouseMoved(MouseEvent e) {
 		myController.mouseMoved(e);
-
 	}
 
 
