@@ -1,11 +1,12 @@
 package charactorEditor;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -24,11 +25,12 @@ import charactorEditor.drag.Component.LoadButton;
 import charactorEditor.Model.Loader;
 import charactorEditor.Model.Model;
 
-public class Controller implements MouseListener, MouseMotionListener {
-	FighterBuilder myFighterBuilder;
-	Model myModel;
-	MyComponentPanel myComponentPanel;
-	AttributePane myAttributePane;
+public class Controller implements MouseListener, MouseMotionListener,
+		KeyListener {
+	private FighterBuilder myFighterBuilder;
+	private Model myModel;
+	private MyComponentPanel myComponentPanel;
+	private AttributePane myAttributePane;
 	private MainPane myMainPane;
 	private AddImgButton myAddImgButton;
 	private AddPropertyButton myAddPropertyButton;
@@ -37,7 +39,7 @@ public class Controller implements MouseListener, MouseMotionListener {
 	private MainPaneModel myMainPaneModel;
 	private static Controller instance;
 
-	JMenuItem myConnect;
+	private JMenuItem myConnect;
 
 	public static Controller Instance() {
 		if (instance == null)
@@ -51,9 +53,9 @@ public class Controller implements MouseListener, MouseMotionListener {
 
 	public void register(FighterBuilder f) {
 		myFighterBuilder = f;
-		myMainPane = myFighterBuilder.drawPane;
-		myComponentPanel = myFighterBuilder.myComponentPanel;
-		myAttributePane = myFighterBuilder.attributePane;
+		myMainPane = myFighterBuilder.getDrawPane();
+		myComponentPanel = myFighterBuilder.getComponentPanel();
+		myAttributePane = myFighterBuilder.getAttributePane();
 		myAddImgButton = myAttributePane.myAddImgButton;
 		myAddPropertyButton = myAttributePane.myAddPropertyButton;
 		myLoadButton = myAttributePane.myLoadButton;
@@ -75,6 +77,10 @@ public class Controller implements MouseListener, MouseMotionListener {
 
 	public MyComponent getFoucsedComponent() {
 		return myMainPaneModel.getFoucsComponent();
+	}
+
+	public int getWillPut() {
+		return myModel.willPut;
 	}
 
 	public void getMessage(Object msg, ActionEvent e) {
@@ -116,14 +122,14 @@ public class Controller implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(e.getSource()==myMainPane){
-			if(myMainPaneModel.isDraging()){
+		if (e.getSource() == myMainPane) {
+			if (myMainPaneModel.isDraging()) {
 				myMainPaneModel.dragingComponent(e.getPoint());
 			}
-			if(myMainPaneModel.isDragingSize()){
+			if (myMainPaneModel.isDragingSize()) {
 				myMainPaneModel.dragSize(e.getPoint());
 			}
-			if(myMainPaneModel.isdragRectangle()){
+			if (myMainPaneModel.isdragRectangle()) {
 				myMainPaneModel.dragRectangle(e.getPoint());
 			}
 			return;
@@ -136,6 +142,18 @@ public class Controller implements MouseListener, MouseMotionListener {
 		if (e.getSource() == myComponentPanel) {
 			if (myComponentPanel.find(e.getPoint()) != -1) {
 				myFighterBuilder.cross();
+			} else {
+				myFighterBuilder.deletecross();
+			}
+			return;
+		}
+		if (e.getSource() == myMainPane) {
+			if (myModel.findComponent(e.getPoint()) != null) {
+				if (myModel.setSizeFlag == true) {
+					myFighterBuilder.changesize();
+				} else {
+					myFighterBuilder.cross();
+				}
 			} else {
 				myFighterBuilder.deletecross();
 			}
@@ -209,7 +227,7 @@ public class Controller implements MouseListener, MouseMotionListener {
 										.getFoucsComponent());
 							}
 						}
-						myMainPane.update();
+						myAttributePane.update();
 					}
 
 					else// 没选上component 就啥也不干/////////////////////////////
@@ -229,7 +247,7 @@ public class Controller implements MouseListener, MouseMotionListener {
 					myMainPaneModel.getNearestPoint();
 					myMainPaneModel.setFoucsComponent(new MyComponent(
 							myMainPaneModel.getNearest(), myModel.willPut));
-					myModel.getComponnetList().add(
+					myModel.getComponentList().add(
 							myMainPaneModel.getFoucsComponent());
 					myMainPaneModel.getFoucsComponent()
 							.setText(
@@ -271,6 +289,37 @@ public class Controller implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getSource() == myMainPane) {
+			if (e.isControlDown()) {
+				myModel.next = true;
+			}
+			return;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		if (e.getSource() == myMainPane) {
+			myModel.next = false;
+			return;
+		}
+	}
+
+	public boolean isComponentListEmpty() {
+		return myModel.getComponentList().isEmpty();
+	}
+
+	public ArrayList<MyComponent> getComponentList() {
+		return myModel.getComponentList();
 	}
 
 }

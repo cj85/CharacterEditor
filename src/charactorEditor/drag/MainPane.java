@@ -20,14 +20,12 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import charactorEditor.Controller;
-import charactorEditor.Model.Model;
 
 public class MainPane extends JPanel implements MouseListener,
 		MouseMotionListener, KeyListener {
 
 	private static final long serialVersionUID = 199L;
 	private Graphics2D g = null;
-	private FighterBuilder outer;
 	private final Color UNFOCUSED_COMPONENT_COLOR = new Color(100, 200, 100);
 	private final Color FOCUSED_COMPONENT_COLOR = Color.orange;
 	private final Color STRING_ON_COMPONENT_COLOR = Color.white;
@@ -36,17 +34,13 @@ public class MainPane extends JPanel implements MouseListener,
 	private final Color LINE_COLOR = new Color(200, 200, 210);
 
 	
-	private Model myModel;
 	private Controller myController;
 	public JMenuItem mConnect;
 	JMenuItem mDisconnect = new JMenuItem("disconnect");
 	JPopupMenu menu = new JPopupMenu();
 	private MainPaneModel myMainPaneModel = MainPaneModel.Instance();
 
-	MainPane(FighterBuilder e) {
-
-		outer = e;
-		myModel = Model.Instance();
+	MainPane() {
 		myController = Controller.Instance();
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -70,8 +64,8 @@ public class MainPane extends JPanel implements MouseListener,
 
 	private void drawConnected(Graphics2D g) {
 		g.setColor(Color.BLACK);
-		if (myModel.getComponnetList().size() != 0) {
-			for (MyComponent m : myModel.getComponnetList()) {
+		if (!myController.isComponentListEmpty()) {
+			for (MyComponent m : myController.getComponentList()) {
 				if (m.isRoot()) {
 					m.drawTree(g);
 				}
@@ -142,20 +136,13 @@ public class MainPane extends JPanel implements MouseListener,
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if (myModel.findComponent(e.getPoint()) != null) {
-			if (myModel.setSizeFlag == true) {
-				outer.changesize();
-			} else {
-				outer.cross();
-			}
-		} else {
-			outer.deletecross();
-		}
+		myController.mouseMoved(e);
+
 	}
 
 
 	void drawViewComponent(Graphics2D g) throws IOException {
-		for (MyComponent m : myModel.getComponnetList()) {
+		for (MyComponent m : myController.getComponentList()) {
 			if (m == myController.getFoucsedComponent()) {
 				g.setColor(FOCUSED_COMPONENT_COLOR);
 			} else if (m == myMainPaneModel.getNextFocusComponent()) {
@@ -177,9 +164,6 @@ public class MainPane extends JPanel implements MouseListener,
 		}
 	}
 
-	public void update() {
-		outer.attributePane.update();
-	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -187,14 +171,12 @@ public class MainPane extends JPanel implements MouseListener,
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.isControlDown()) {
-			myModel.next = true;
-		}
+		myController.keyPressed(e);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		myModel.next = false;
+		myController.keyReleased(e);
 	}
 
 }

@@ -34,7 +34,7 @@ public class Model {
 		}
 	}
 
-	public ArrayList<MyComponent> getComponnetList() {
+	public ArrayList<MyComponent> getComponentList() {
 		return componentList;
 	}
 

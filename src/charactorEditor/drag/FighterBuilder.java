@@ -9,23 +9,23 @@ import java.io.FileNotFoundException;
 @SuppressWarnings("serial")
 public class FighterBuilder extends JFrame implements ChangeListener {
 
-	public Controller myController;
-	public MyComponentPanel myComponentPanel = null;
-	JPanel centerPane = null;
-	public AttributePane attributePane = null;
-	JTabbedPane tab = null;
-	public MainPane drawPane = null;
+	private Controller myController;
+	private MyComponentPanel myComponentPanel;
+	private JPanel centerPane;
+	private AttributePane attributePane;
+	private JTabbedPane tab;
+	private MainPane drawPane;
 
 	public FighterBuilder() throws FileNotFoundException {
 		setTitle("FighterBuilder");
 		myController = Controller.Instance();
-		myComponentPanel = new MyComponentPanel(this);
+		myComponentPanel = new MyComponentPanel();
 		this.setDefaultCloseOperation(3);
 		setBounds(10, 50, 1000, 645);
 		JPanel jp = new JPanel();
 		jp.setLayout(null);
 		attributePane = new AttributePane();
-		drawPane = new MainPane(this);
+		drawPane = new MainPane();
 		tab = new JTabbedPane();
 		init();
 		myController.register(this);
@@ -52,13 +52,23 @@ public class FighterBuilder extends JFrame implements ChangeListener {
 	public void changesize() {
 		setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
 	}
-
+	
 	public void cross() {
 		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 	}
 
 	public void deletecross() {
 		setCursor(Cursor.getDefaultCursor());
+	}
+	
+	public  MainPane getDrawPane(){
+		return drawPane;
+	}
+	public MyComponentPanel getComponentPanel(){
+		return myComponentPanel;
+	}
+	public AttributePane getAttributePane(){
+		return attributePane;
 	}
 
 }

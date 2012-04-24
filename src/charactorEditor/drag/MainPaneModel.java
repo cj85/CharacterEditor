@@ -129,9 +129,9 @@ public class MainPaneModel {
 
 	public void selectComponent(Rectangle2D mySelectingRectangle) {
 		mySelectedComponent = new ArrayList<MyComponent>();
-		if (myModel.getComponnetList().size() != 0
+		if (myModel.getComponentList().size() != 0
 				&& mySelectingRectangle != null) {
-			for (MyComponent m : myModel.getComponnetList())
+			for (MyComponent m : myModel.getComponentList())
 				if (mySelectingRectangle.contains(m.getBorder())) {
 					mySelectedComponent.add(m);
 				}
@@ -161,7 +161,7 @@ public class MainPaneModel {
 
 	public void removeCMP(MyComponent e) {
 
-		myModel.getComponnetList().remove(e);
+		myModel.getComponentList().remove(e);
 		mySelectedComponent.remove(e);
 		e.getOutofTree();
 	}

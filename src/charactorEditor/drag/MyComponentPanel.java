@@ -12,7 +12,6 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
 
 import charactorEditor.Controller;
-import charactorEditor.Model.Model;
 
 public class MyComponentPanel extends JPanel implements MouseListener,
 		MouseMotionListener {
@@ -23,13 +22,11 @@ public class MyComponentPanel extends JPanel implements MouseListener,
 	public final int  COMPONENTNUMBER=2;
 	private Graphics2D g = null;
 	private Rectangle2D[] components = new Rectangle2D.Double[COMPONENTNUMBER];
-	private Model myModel=null;
 	private Controller myController=null;
 
-	MyComponentPanel(FighterBuilder e) {
+	MyComponentPanel() {
 		initComponents();
 		setBounds(0, 0, 113, 615);
-		myModel=Model.Instance();
 		myController=Controller.Instance();
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -52,7 +49,7 @@ public class MyComponentPanel extends JPanel implements MouseListener,
 
 	void drawComponents(Graphics2D g) {
 		for (int i = 0; i < COMPONENTNUMBER; i++) {
-			if (i == myModel.willPut) {
+			if (i == myController.getWillPut()) {
 				g.setColor(CLICKED_COMPONENT_COLOR);
 				g.fill(components[i]);
 			} else {
