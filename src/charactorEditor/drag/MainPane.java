@@ -40,7 +40,6 @@ public class MainPane extends JPanel implements MouseListener,
 	private JMenuItem mConnect;
 //	private JMenuItem mDisconnect = new JMenuItem("disconnect");
 	private JPopupMenu menu = new JPopupMenu();
-	private MainPaneModel myMainPaneModel = MainPaneModel.Instance();
 
 	MainPane() {
 		myController = Controller.Instance();
@@ -87,13 +86,13 @@ public class MainPane extends JPanel implements MouseListener,
 
 	private void drawSelecting(Graphics2D g) {
 		g.setColor(Color.black);
-		if (!myMainPaneModel.noSelectingRectangle())
-			g.draw(myMainPaneModel.getSelectingRectangle());
+		if (!myController.noSelectingRectangle())
+			g.draw(myController.getSelectingRectangle());
 	}
 
 	private void drawSelected(Graphics2D g) {
 		g.setColor(SELECTED_COMPONENT_COLOR);
-		for (MyComponent m : myMainPaneModel.getSelectedComponnet())
+		for (MyComponent m : myController.getSelectedComponnet())
 			g.fill(m.getBorder());
 	}
 
@@ -146,7 +145,7 @@ public class MainPane extends JPanel implements MouseListener,
 		for (MyComponent m : myController.getComponentList()) {
 			if (m == myController.getFoucsedComponent()) {
 				g.setColor(FOCUSED_COMPONENT_COLOR);
-			} else if (m == myMainPaneModel.getNextFocusComponent()) {
+			} else if (m == myController.getNextFocusComponent()) {
 				g.setColor(NEXT_FOCUSED_COMPONENT_COLOR);
 			} else {
 				g.setColor(UNFOCUSED_COMPONENT_COLOR);

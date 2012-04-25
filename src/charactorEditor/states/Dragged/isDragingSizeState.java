@@ -20,7 +20,7 @@ public class isDragingSizeState extends MouseDraggedState {
 
 	public isDragingSizeState getState() {
 		if (model.isDragingSize())
-			return this;
+			return instance;
 		return null;
 	}
 

@@ -39,6 +39,6 @@ public class MouseDraggedState implements State {
 	}
 
 	public void action() {
-	};
+	}
 
 }

@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import charactorEditor.drag.Component.AddPropertyButton;
 import charactorEditor.drag.Component.LoadButton;
 import charactorEditor.states.State;
 import charactorEditor.states.Dragged.MouseDraggedState;
+import charactorEditor.states.Moved.MouseMovedState;
 import charactorEditor.states.Pressed.MousePressedState;
 import charactorEditor.states.Released.MouseReleasedState;
 import charactorEditor.Model.Loader;
@@ -75,10 +77,11 @@ public class Controller implements MouseListener, MouseMotionListener,
 	public void updateFigherBuilder() {
 		myFighterBuilder.repaint();
 	}
-	public void updateAttributPane(){
+
+	public void updateAttributPane() {
 		myAttributePane.update();
 	}
-    
+
 	public void register(Model m) {
 		myModel = m;
 	}
@@ -90,13 +93,15 @@ public class Controller implements MouseListener, MouseMotionListener,
 	public int getWillPut() {
 		return myModel.getWillPut();
 	}
-    
-	public ArrayList<String> getProperties(){
+
+	public ArrayList<String> getProperties() {
 		return myModel.getProperties();
 	}
-	public ArrayList<MyComponent> getWhatToSave(){
+
+	public ArrayList<MyComponent> getWhatToSave() {
 		return myModel.getComponentList();
 	}
+
 	public void getMessage(Object msg, ActionEvent e) {
 		message = msg;
 		if (e.getSource() == myAddImgButton) {
@@ -145,33 +150,13 @@ public class Controller implements MouseListener, MouseMotionListener,
 	private void action() {
 		state.creat();
 		state = state.getState();
-	
-			state.action();
-
+		state.action();
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent e) {
-		if (e.getSource() == myComponentPanel) {
-			if (myComponentPanel.find(e.getPoint()) != -1) {
-				myFighterBuilder.cross();
-			} else {
-				myFighterBuilder.deletecross();
-			}
-			return;
-		}
-		if (e.getSource() == myMainPane) {
-			if (myModel.findComponent(e.getPoint()) != null) {
-				if (myModel.getSetSizeFlag() == true) {
-					myFighterBuilder.changesize();
-				} else {
-					myFighterBuilder.cross();
-				}
-			} else {
-				myFighterBuilder.deletecross();
-			}
-			return;
-		}
+	public void mouseMoved(MouseEvent e) {	
+		state = MouseMovedState.Instance(myFighterBuilder, e);
+		action();
 	}
 
 	@Override
@@ -255,6 +240,22 @@ public class Controller implements MouseListener, MouseMotionListener,
 
 	public ArrayList<MyComponent> getComponentList() {
 		return myModel.getComponentList();
+	}
+
+	public boolean noSelectingRectangle() {
+		return myMainPaneModel.noSelectingRectangle();
+	}
+
+	public Rectangle2D getSelectingRectangle() {
+		return myMainPaneModel.getSelectingRectangle();
+	}
+
+	public ArrayList<MyComponent> getSelectedComponnet() {
+		return myMainPaneModel.getSelectedComponnet();
+	}
+
+	public MyComponent getNextFocusComponent() {
+		return myMainPaneModel.getNextFocusComponent();
 	}
 
 }
