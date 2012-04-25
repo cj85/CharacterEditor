@@ -7,14 +7,14 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import charactorEditor.Model.Model;
+import charactorEditor.Controller;
 import charactorEditor.Model.Writer;
 import charactorEditor.drag.AttributePane;
 
 @SuppressWarnings("serial")
 public class SaveButton extends JButton{
 	private AttributePane outer;
-	private Model myModel=Model.Instance();
+	private Controller myController=Controller.Instance();
 	public SaveButton(AttributePane e){
 		super("save");
 		outer=e;
@@ -39,7 +39,7 @@ public class SaveButton extends JButton{
 		int returnVal =fc.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
-			Writer.write(myModel.getComponentList(),file.toString());
+			Writer.write(myController.getWhatToSave(),file.toString());
 		}
 	}
 }

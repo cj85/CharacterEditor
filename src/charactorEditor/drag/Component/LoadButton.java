@@ -44,7 +44,8 @@ public class LoadButton extends JButton {
 	}
 
 	private void update() {
-		outer.update();
+		
+		myController.updateAttributPane();
 		myController.updateFigherBuilder();
 	}
 }

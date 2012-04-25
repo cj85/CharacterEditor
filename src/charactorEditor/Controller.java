@@ -75,7 +75,10 @@ public class Controller implements MouseListener, MouseMotionListener,
 	public void updateFigherBuilder() {
 		myFighterBuilder.repaint();
 	}
-
+	public void updateAttributPane(){
+		myAttributePane.update();
+	}
+    
 	public void register(Model m) {
 		myModel = m;
 	}
@@ -87,7 +90,13 @@ public class Controller implements MouseListener, MouseMotionListener,
 	public int getWillPut() {
 		return myModel.getWillPut();
 	}
-
+    
+	public ArrayList<String> getProperties(){
+		return myModel.getProperties();
+	}
+	public ArrayList<MyComponent> getWhatToSave(){
+		return myModel.getComponentList();
+	}
 	public void getMessage(Object msg, ActionEvent e) {
 		message = msg;
 		if (e.getSource() == myAddImgButton) {
