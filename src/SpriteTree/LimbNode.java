@@ -19,7 +19,8 @@ public class LimbNode extends Sprite{
 	
 	private double dx;
 	private double dy;
-	private double theta;
+	private double defaultTheta;
+	private double mutableTheta;
 	private LimbNode Parent;
 	
 	private ArrayList<LimbNode> children = new ArrayList<LimbNode>();
@@ -34,7 +35,19 @@ public class LimbNode extends Sprite{
 		this.myName = name;
 		this.myOrigImage = image;
 	}
+	//constructor for limbs
 	
+	public LimbNode(String name, LimbNode parent, BufferedImage image,double dx, double dy, int baseTheta){
+		super(image,parent.getX()+dx, parent.getY()+dy);
+		this.myName = name;
+		this.myOrigImage= image;
+		this.Parent = parent;
+		this.mutableTheta = baseTheta;
+		this.defaultTheta  = baseTheta;
+		this.dx = dx;
+		this.dy = dy;
+	
+	}
 	
 	
 	public String getName(){
@@ -42,26 +55,24 @@ public class LimbNode extends Sprite{
 	}
 	
 	public double getTheta(){
-		return this.theta;
+		return this.mutableTheta;
 	}
+	public double getDefaultTheta(){
+		return this.defaultTheta;
+	}
+
+	public void setTheta(double expTheta){
+		this.mutableTheta = expTheta;
+	}
+
 	
 	public ArrayList<LimbNode> getChildren(){
 		return this.children;
 	}
-	public LimbNode(String name, LimbNode parent, BufferedImage image,double dx, double dy, int baseTheta){
-		super(image,parent.getX()+dx, parent.getY()+dy);
-		this.myName = name;
-		this.myOrigImage= image;
-		this.Parent = parent;
-		this.theta = baseTheta;
-		this.dx = dx;
-		this.dy = dy;
-	
-	}
 	
 	public void rotate(double dTheta)
 	{	
-		this.theta += dTheta;
+		this.mutableTheta += dTheta;
 		
 	}
 	
@@ -86,11 +97,11 @@ public class LimbNode extends Sprite{
 		double dy =Math.sin(Math.toRadians(baseTheta)) * this.dx + Math.cos(Math.toRadians(baseTheta)) * this.dy;
 
 		
-		draw((baseX + dx), (baseY + dy),this.theta+baseTheta);
+		draw((baseX + dx), (baseY + dy),this.mutableTheta+baseTheta);
 		
 		
 		for(LimbNode limb: this.children){
-			limb.render(pen, (baseX + dx), (baseY + dy), this.theta+baseTheta);
+			limb.render(pen, (baseX + dx), (baseY + dy), this.mutableTheta+baseTheta);
 		}
 		
 
@@ -105,7 +116,7 @@ public class LimbNode extends Sprite{
 		System.out.println(this.Parent);
 		System.out.println(this.dx);
 		System.out.println(this.dy);
-		System.out.println(this.theta);
+		System.out.println(this.mutableTheta);
 	}
 	
 }

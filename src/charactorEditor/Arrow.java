@@ -1,6 +1,5 @@
 package charactorEditor;
 
-import javax.swing.*;
 
 import charactorEditor.Model.MyComponent;
 
@@ -114,90 +113,45 @@ public class Arrow {
 
 	public void draw(Graphics g) {
 		g.setColor(Color.black);
-
-//		Point ps = getClosestPoint(getTarget(), getSource());
-//
-//		Point pt = getClosestPoint(getSource(), getTarget());
-		
 		Point ps = getCenter(source);
-
 		Point pt =  getCenter(target);
-
-		// 画线
-
-		g.drawLine(ps.x, ps.y, pt.x, pt.y); // 画箭头
-
-		// 简单起见，在这里从线段终点填充一个30度的扇形
-
+		g.drawLine(ps.x, ps.y, pt.x, pt.y);
 		if (ps.x != pt.x && ps.y != pt.y) {
 			double k = getK(ps, pt);
-
 			if (ps.x > pt.x)
-
 				startAngle = 360 - (int) (Math.atan(k) * 180 / Math.PI) - 15;
-
 			else
-
 				startAngle = 180 - (int) (Math.atan(k) * 180 / Math.PI) - 15;
-
 		}
-		// 圆心
-
 		Point pc = new Point(pt.x - ARROW_HEIGHT, pt.y - ARROW_HEIGHT);
-
 		g.fillArc(pc.x, pc.y, 2 * ARROW_HEIGHT, 2 * ARROW_HEIGHT, startAngle,
 				ARROW_ANGLE);
 		FontMetrics fm = g.getFontMetrics();
-
 		int ascent = fm.getAscent();
-
 		int descent = fm.getDescent(); // 在线条中心点处显示名称
-
 		int mx = (ps.x + pt.x) / 2;
-
 		int my = (ps.y + pt.y) / 2;
-
 		g.drawString(name, mx, my + ascent);
 		if (sourceField == null)
 			sourceField = "";
-
 		if (targetField == null)
 			targetField = "";
 		if (ps.y < pt.y) {// 源在目标上方，目标文字应该在更上面一些，源文字应该更下面一些
-
-			// 在箭头处显示目标
-
 			if (ps.x > pt.x) // 目标在源的左方
-
 				g.drawString(getTargetField(),
 						pt.x - fm.stringWidth(getTargetField()), pt.y - ascent
 								- descent);
-
 			else
-
 				g.drawString(getTargetField(), pt.x, pt.y - ascent - descent);
-
-			// 在线段起点处显示源
-
 			g.drawString(getSourceField(), ps.x, ps.y + ascent);
-
 		} else {
-			// 在箭头处显示目标
-
 			if (ps.x > pt.x) // 目标在源的左方
-
 				g.drawString(getTargetField(),
 						pt.x - fm.stringWidth(getTargetField()), pt.y + ascent
 								+ descent);
-
 			else
-
 				g.drawString(getTargetField(), pt.x, pt.y + ascent + descent);
-
-			// 在线段起点处显示源
-
 			g.drawString(getSourceField(), ps.x, ps.y - descent);
-
 		}
 	}
 
@@ -209,50 +163,31 @@ public class Arrow {
 	 * @param target
 	 *            目的控件
 	 */
+	@SuppressWarnings("unused")
 	private Point getClosestPoint(MyComponent source, MyComponent target) {
 		Point ps = getCenter(source);
 
 		Point pt = getCenter(target);
 		if (ps.x == pt.x) { // 垂直线
-
 			if (ps.y < pt.y) {// 源在目标上方
-
 				this.startAngle = 90 - ARROW_ANGLE / 2;
-
 				return new Point(ps.x, target.getBorderY());
-
 			}
 			startAngle = 270 - ARROW_ANGLE / 2;
-
 			return new Point(ps.x, target.getBorderY()
 					+ target.getBorderHeight());
-
 		}
 		if (Math.abs(ps.y - pt.y) < 15) { // 水平线
-
 			if (ps.x < pt.x) {// 源在目标左边
-
 				startAngle = 180 - ARROW_ANGLE / 2;
-
 				return new Point(target.getBorderX(), ps.y);
-
 			}
 			startAngle = -ARROW_ANGLE / 2;
-
 			return new Point(target.getBorderX() + target.getBorderWidth(),
 					ps.y);
-
 		}
 		double k0 = getK(ps, pt);
-
-		// 直线方程：
-
-		// y = kx + b
-
-		// x = (y - b) / k
-
 		double b = getB(ps, pt);
-
 		int xt = target.getBorderX();
 
 		int yt = target.getBorderY();
@@ -261,6 +196,11 @@ public class Arrow {
 
 		int h = target.getBorderHeight();
 		class DPoint extends Point {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public static final int D_H = 0;
 
 			public static final int D_V = 1;

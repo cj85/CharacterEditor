@@ -19,8 +19,25 @@ public class MyComponent {
 	private Rectangle2D.Double dragSize = null;
 	private HashMap<String, String> properties = new HashMap<String, String>();
 	private MyComponent parent = null;
+	private String parentForFile;
 	private ArrayList<MyComponent> children = new ArrayList<MyComponent>();
+	private ArrayList<String> childrenForFile = new ArrayList<String>();
 	private LimbNode myLimbNode;
+
+	public MyComponent(MyComponent m) {
+		this.sortID = m.getSortID();
+		this.text = m.getText();
+		this.img = m.getImg();
+		this.sort = m.getSort();
+		this.border = m.getBorder();
+		this.dragSize = m.getDragSize();
+		this.properties = m.getProperties();
+		this.parent = m.getParent();
+		this.parentForFile = m.getParentForFile();
+		this.childrenForFile = m.getChildrenForFile();
+		this.children = m.getChildern();
+		this.myLimbNode = m.getLimbNode();
+	}
 
 	public MyComponent(Point2D.Double p, int theSort) {
 		sort = theSort;
@@ -80,12 +97,12 @@ public class MyComponent {
 	public void drawTree(Graphics2D g) {
 		if (children.size() != 0) {
 			for (MyComponent c : children) {
-//				g.drawLine((int) border.getCenterX(),
-//						(int) border.getCenterY(), (int) c.border.getCenterX(),
-//						(int) c.border.getCenterY());
-				Arrow arrow=new Arrow(this,c);
+				// g.drawLine((int) border.getCenterX(),
+				// (int) border.getCenterY(), (int) c.border.getCenterX(),
+				// (int) c.border.getCenterY());
+				Arrow arrow = new Arrow(this, c);
 				arrow.draw(g);
-				
+
 				c.drawTree(g);
 			}
 		}
@@ -95,72 +112,134 @@ public class MyComponent {
 		if (parent != null) {
 			if (children.size() != 0)
 				for (MyComponent m : children) {
-					parent.children.add(m);
-					m.parent = parent;
+					parent.addChild(m);
+					m.setParent(parent);
 				}
-			parent.children.remove(this);
+			parent.removeChild(this);
 		}
+	}
+
+	public void removeChild(MyComponent toRemove) {
+		children.remove(toRemove);
+		childrenForFile.remove(toRemove.getText());
 	}
 
 	public void setParent(MyComponent toSet) {
 		parent = toSet;
+		if (toSet != null)
+			parentForFile = toSet.getText();
+		else
+			parentForFile = null;
 	}
 
 	public void addChild(MyComponent toAdd) {
-		children.add(toAdd);
+		if (toAdd != null) {
+			children.add(toAdd);
+			childrenForFile.add(toAdd.getText());
+		}
 	}
-   
-	public void  setImg(File img){
-		this.img=img;
+
+	public void setImg(File img) {
+		this.img = img;
 	}
-	public File getImg(){
+
+	public File getImg() {
 		return img;
 	}
-	
-	public boolean hasNoImg(){
-		return img==null;
+
+	public boolean hasNoImg() {
+		return img == null;
 	}
+
 	public boolean isRoot() {
 		return (parent == null);
 	}
-	public Rectangle2D.Double getBorder(){
+
+	public Rectangle2D.Double getBorder() {
 		return border;
 	}
-	public int getBorderX(){
+
+	public Rectangle2D.Double getDragSize() {
+		return this.dragSize;
+	}
+
+	public int getBorderX() {
 		return (int) border.getX();
 	}
-	public int getBorderY(){
+
+	public int getBorderY() {
 		return (int) border.getY();
 	}
-	public int getBorderWidth(){
+
+	public int getBorderWidth() {
 		return (int) border.getWidth();
 	}
-	public int getBorderHeight(){
+
+	public int getBorderHeight() {
 		return (int) border.getHeight();
 	}
-	public Rectangle2D getBorderBounds2D(){
+
+	public Rectangle2D getBorderBounds2D() {
 		return border.getBounds2D();
 	}
-	public String getText(){
+
+	public String getText() {
 		return text;
 	}
-	
-	public void setBorderFrame(Rectangle2D p){
+
+	public MyComponent getParent() {
+		return parent;
+	}
+
+	public void setBorderFrame(Rectangle2D p) {
 		border.setFrame(p);
 	}
-	public int getSort(){
+
+	public int getSort() {
 		return sort;
 	}
-	public boolean isInDragSize(Point2D p){
+
+	public boolean isInDragSize(Point2D p) {
 		return dragSize.contains(p);
 	}
-	public boolean isInBorder(Point2D p){
+
+	public boolean isInBorder(Point2D p) {
 		return border.contains(p);
 	}
-	public int getSortID(){
+
+	public int getSortID() {
 		return sortID;
 	}
-	public void setSortID(int toSet){
-		sortID=toSet;
+
+	public void setSortID(int toSet) {
+		sortID = toSet;
+	}
+
+	public ArrayList<MyComponent> getChildern() {
+		return children;
+	}
+
+	public void resetChildren() {
+		children = new ArrayList<MyComponent>();
+	}
+
+	public void clearChildern() {
+		children = null;
+	}
+
+	public LimbNode getLimbNode() {
+		return this.myLimbNode;
+	}
+
+	public void resetParent() {
+		this.parent = null;
+	}
+
+	public String getParentForFile() {
+		return this.parentForFile;
+	}
+
+	public ArrayList<String> getChildrenForFile() {
+		return this.childrenForFile;
 	}
 }

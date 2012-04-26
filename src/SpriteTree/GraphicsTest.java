@@ -1,5 +1,6 @@
 package SpriteTree;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
@@ -11,31 +12,39 @@ import javax.swing.JFrame;
 
 import com.golden.gamedev.util.ImageUtil;
 
-public class GraphicsTest {
-	BufferedImage img;
 
-	public static BufferedImage loadImage(String ref){
-		BufferedImage img = null;
-		try{
-			img = ImageIO.read(new File(ref));
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		return img;
-	}
-	
+public class GraphicsTest
+{
+    BufferedImage img;
 
-	public void loadAndDisplayImage(JFrame frame){
-		BufferedImage loadImg = loadImage("./head.png");
-		//this.img = rotate(loadImg,100);
-		
-		frame.setBounds(0,0, this.img.getWidth(),this.img.getHeight());
-		JImagePanel panel = new JImagePanel(this.img,0,0);
-		frame.add(panel);
-		frame.setVisible(true);
-	}
-	
+
+    public static BufferedImage loadImage (String ref)
+    {
+        BufferedImage img = null;
+        try
+        {
+            img = ImageIO.read(new File(ref));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return img;
+    }
+
+
+    public void loadAndDisplayImage (JFrame frame)
+    {
+        BufferedImage loadImg = loadImage("src/resources/bodyParts/head.png");
+        //this.img = rotate(loadImg,100);
+
+        frame.setBounds(0, 0, this.img.getWidth(), this.img.getHeight());
+        JImagePanel panel = new JImagePanel(this.img, 0, 0);
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+
+
 //	public static BufferedImage rotate(BufferedImage img, int angle, double x, double y){
 //		int w = img.getWidth();
 //		int h = img.getHeight();
@@ -49,21 +58,25 @@ public class GraphicsTest {
 	  public static BufferedImage rotate(BufferedImage src, double angle) {
           int w = src.getWidth(), h = src.getHeight(), transparency = src
                   .getColorModel().getTransparency();
-          
-          int maxD = 2* Math.max(w, h);  
-          BufferedImage image = ImageUtil.createImage(maxD,maxD, transparency);
+
+        BufferedImage image = ImageUtil.createImage(w,h, transparency);
            
           Graphics2D g = image.createGraphics();
           g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                   RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-          g.rotate(Math.toRadians(angle), w/2, h/2);
+          g.rotate(Math.toRadians(angle),  w/2, h/2);
+          
+          //for testing
+//          g.setColor(Color.RED);
+//          g.drawRect(0,0, image.getWidth(), image.getHeight());
+          
           g.drawImage(src, 0, 0, null);
           g.dispose();
           
           return image;
   }
-	
-	public static BufferedImage horizFlip(BufferedImage img){
+
+    public static BufferedImage horizFlip(BufferedImage img){
 		int w = img.getWidth();
 		int h = img.getHeight();
 		BufferedImage dimg = new BufferedImage (w, h, img.getType());

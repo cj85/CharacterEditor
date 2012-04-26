@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
@@ -36,6 +37,23 @@ public class Model {
 	}
 
 	public void load(ArrayList<MyComponent> t) {
+		HashMap<String, MyComponent> map = new HashMap<String, MyComponent>();
+		for (MyComponent m : t) {
+			map.put(m.getText(), m);
+			m.resetChildren();
+		}
+		for (MyComponent m : t) {
+			m.setParent(map.get(m.getParentForFile()));
+			int numberofchilren = m.getChildrenForFile().size();
+			for (int i = 0; i < numberofchilren; i++) {
+				String s = m.getChildrenForFile().get(i);
+				m.addChild(map.get(s));
+			}
+		}
+		for (MyComponent m : t)
+			for (int i = 0; i < m.getChildrenForFile().size()
+					- m.getChildern().size(); i++)
+				m.getChildrenForFile().remove(0);
 		componentList = t;
 	}
 
@@ -49,7 +67,6 @@ public class Model {
 				setSizeFlag = false;
 				return m;
 			}
-
 		}
 		return null;
 	}

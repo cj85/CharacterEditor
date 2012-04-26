@@ -68,6 +68,7 @@ public class MainPane extends JPanel implements MouseListener,
 		if (!myController.isComponentListEmpty()) {
 			for (MyComponent m : myController.getComponentList()) {
 				if (m.isRoot()) {
+//					System.out.println(m.getText()+" root");
 					m.drawTree(g);
 				}
 			}

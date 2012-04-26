@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JMenuItem;
 
@@ -99,7 +100,15 @@ public class Controller implements MouseListener, MouseMotionListener,
 	}
 
 	public ArrayList<MyComponent> getWhatToSave() {
-		return myModel.getComponentList();
+		ArrayList<MyComponent> toReturn = new ArrayList<MyComponent>();
+		for (MyComponent m : myModel.getComponentList()) {
+			toReturn.add(new MyComponent(m));
+		}
+		for (MyComponent m : toReturn) {
+			m.resetParent();
+			m.clearChildern();
+		}
+		return toReturn;
 	}
 
 	public void getMessage(Object msg, ActionEvent e) {
@@ -154,7 +163,7 @@ public class Controller implements MouseListener, MouseMotionListener,
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent e) {	
+	public void mouseMoved(MouseEvent e) {
 		state = MouseMovedState.Instance(myFighterBuilder, e);
 		action();
 	}
