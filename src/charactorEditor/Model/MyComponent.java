@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import charactorEditor.Arrow;
+
 import SpriteTree.LimbNode;
 
 public class MyComponent {
@@ -78,9 +80,12 @@ public class MyComponent {
 	public void drawTree(Graphics2D g) {
 		if (children.size() != 0) {
 			for (MyComponent c : children) {
-				g.drawLine((int) border.getCenterX(),
-						(int) border.getCenterY(), (int) c.border.getCenterX(),
-						(int) c.border.getCenterY());
+//				g.drawLine((int) border.getCenterX(),
+//						(int) border.getCenterY(), (int) c.border.getCenterX(),
+//						(int) c.border.getCenterY());
+				Arrow arrow=new Arrow(this,c);
+				arrow.draw(g);
+				
 				c.drawTree(g);
 			}
 		}
