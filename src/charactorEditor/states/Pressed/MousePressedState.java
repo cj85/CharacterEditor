@@ -28,7 +28,7 @@ public class MousePressedState implements State {
 		this.e = e;
 	}
 
-	public void creat() {
+	public void create() {
 		allStates.add(isPutingComponentState.Instance(mainPaneModel, model, e));
 		allStates.add(isDragingSelectingState.Instance(mainPaneModel, model, e));
 		allStates.add(isRemoveComponentState.Instance(mainPaneModel, model, e));

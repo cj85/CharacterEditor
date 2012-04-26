@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import javax.swing.*;
 import charactorEditor.Controller;
 import charactorEditor.drag.AttributePane;
+import charactorEditor.drag.Update;
 
 @SuppressWarnings("serial")
-public class AddPropertyButton extends JButton {
+public class AddPropertyButton extends JButton implements Update {
 	private AttributePane outer;
 	private Controller myController = Controller.Instance();
 	private ArrayList<String> msg = new ArrayList<String>();
@@ -28,10 +29,15 @@ public class AddPropertyButton extends JButton {
 				msg.add(key);
 				msg.add(value);
 				myController.getMessage(msg, e);
-				outer.update();
+				updateOther();
 			}
 		});
+		outer.register(this);
 		outer.add(this);
+	}
+
+	public void updateOther() {
+		outer.update();
 	}
 
 	public void update() {

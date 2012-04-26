@@ -7,9 +7,10 @@ import javax.swing.JLabel;
 import charactorEditor.Controller;
 import charactorEditor.Model.Sort;
 import charactorEditor.drag.AttributePane;
+import charactorEditor.drag.Update;
 
 @SuppressWarnings("serial")
-public class NameDisplayLabel extends JLabel {
+public class NameDisplayLabel extends JLabel  implements Update{
 	private AttributePane outer;
     private Controller myController;
 	public NameDisplayLabel(AttributePane e) {
@@ -18,6 +19,7 @@ public class NameDisplayLabel extends JLabel {
 		myController=Controller.Instance();
 		setBounds(4, 5, 173, 37);
 		setFont(new Font("", Font.BOLD, 16));
+		outer.register(this);
 		outer.add(this);
 	}
 

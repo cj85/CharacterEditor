@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import charactorEditor.drag.Component.*;
@@ -13,6 +14,7 @@ public class AttributePane extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	 ArrayList<Update> observers =new ArrayList<Update>();
 	NameDisplayLabel myNameDisplayLabel = new NameDisplayLabel(this);
 
 	public AddPropertyButton myAddPropertyButton = new AddPropertyButton(this);
@@ -22,7 +24,7 @@ public class AttributePane extends JPanel {
 	public PropertyDisplayLabel myPropertyDisplayLabel = new PropertyDisplayLabel(
 			this);
 
-	private SetMyComponentTextField mySetComponentText = new SetMyComponentTextField(
+	public SetMyComponentTextField mySetComponentText = new SetMyComponentTextField(
 			this);
 	public PropertySelectCombo myPropertySelectCombo =new PropertySelectCombo(this);
 	public AddImgButton myAddImgButton = new AddImgButton(this);
@@ -45,13 +47,12 @@ public class AttributePane extends JPanel {
 	}
 
 	public void update() {
-		myPropertyDisplayLabel.update();
-		mySetComponentText.update();
-		myAddImgButton.update();
-		myAddPropertyButton.update();
-		myNameDisplayLabel.update();
-		myPropertySelectCombo.update();
+		for(Update u:observers)
+			u.update();
 		repaint();
+	}
+	public void register(Update up){
+		observers.add(up);
 	}
 
 }

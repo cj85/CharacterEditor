@@ -7,9 +7,10 @@ import javax.swing.JFileChooser;
 
 import charactorEditor.Controller;
 import charactorEditor.drag.AttributePane;
+import charactorEditor.drag.Update;
 
 @SuppressWarnings("serial")
-public class AddImgButton extends JButton {
+public class AddImgButton extends JButton implements Update {
 	private AttributePane outer;
 	Controller myController = Controller.Instance();
 
@@ -22,16 +23,23 @@ public class AddImgButton extends JButton {
 				JFileChooser fc = new JFileChooser(".");
 				int returnVal = fc.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					myController.getMessage(fc.getSelectedFile(),e);
-					update();
+					myController.getMessage(fc.getSelectedFile(), e);
+					updateOther();
 				}
 			}
 		});
+		outer.register(this);
 		outer.add(this);
 	}
 
+
 	public void update() {
 		setEnabled(myController.getFoucsedComponent() != null);
+
+	}
+		public void updateOther() {
 		myController.updateFigherBuilder();
 	}
+
+	
 }

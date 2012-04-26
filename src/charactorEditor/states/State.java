@@ -1,7 +1,7 @@
 package charactorEditor.states;
 
 public interface State{
-	abstract void creat();
+	abstract void create();
 	abstract State getState();
 	abstract void action();
 }

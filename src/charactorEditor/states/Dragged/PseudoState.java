@@ -11,7 +11,7 @@ public class PseudoState extends MouseDraggedState{
 	}
 
 	@Override
-	public void creat() {
+	public void create() {
 		
 	}
 

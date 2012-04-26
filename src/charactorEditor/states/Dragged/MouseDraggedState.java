@@ -24,7 +24,7 @@ public class MouseDraggedState implements State {
 		this.e = e;
 	}
 
-	public void creat() {
+	public void create() {
 		allStates.add(isDraggingState.Instance(model, e));
 		allStates.add(isDragingSizeState.Instance(model, e));
 		allStates.add(isDragingRectangleState.Instance(model, e));

@@ -10,9 +10,10 @@ import javax.swing.JFileChooser;
 
 import charactorEditor.Controller;
 import charactorEditor.drag.AttributePane;
+import charactorEditor.drag.Update;
 
 @SuppressWarnings("serial")
-public class LoadButton extends JButton {
+public class LoadButton extends JButton  implements Update{
 	AttributePane outer;
 	private Controller myController = Controller.Instance();
 
@@ -25,12 +26,13 @@ public class LoadButton extends JButton {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					load(e);
-					update();
+					updateOther();
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
+		outer.register(this);
 		outer.add(this);
 	}
 
@@ -43,9 +45,15 @@ public class LoadButton extends JButton {
 		}
 	}
 
-	private void update() {
+	private  void updateOther() {
 		
 		myController.updateAttributPane();
 		myController.updateFigherBuilder();
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 }

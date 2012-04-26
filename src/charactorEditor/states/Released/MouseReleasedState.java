@@ -24,7 +24,7 @@ public class MouseReleasedState implements State {
 		this.e = e;
 	}
 
-	public void creat() {
+	public void create() {
 		allStates.add(isDragingComponentState.Instance(model, e));
 		allStates.add(isDragSizeState.Instance(model, e));
 		allStates.add(isSelectingComponentState.Instance(model, e));

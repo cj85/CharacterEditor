@@ -9,9 +9,10 @@ import javax.swing.JTextField;
 
 import charactorEditor.Controller;
 import charactorEditor.drag.AttributePane;
+import charactorEditor.drag.Update;
 
 @SuppressWarnings("serial")
-public class SetMyComponentTextField extends JTextField {
+public class SetMyComponentTextField extends JTextField  implements Update{
 	private AttributePane outer;
 	Controller myController = Controller.Instance();
 
@@ -30,6 +31,7 @@ public class SetMyComponentTextField extends JTextField {
 				update();
 			}
 		});
+		outer.register(this);
 		outer.add(this);
 
 		addKeyListener(new KeyListener() {

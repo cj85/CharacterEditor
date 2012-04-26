@@ -26,7 +26,7 @@ public class MouseMovedState implements State {
 		myModel=Model.Instance();
 	}
 
-	public void creat() {
+	public void create() {
         allStates.add(NeedToCross.Instance(myFighterBuilder, e));
         allStates.add(NeedToDecross.Instance(myFighterBuilder, e));
         allStates.add(NeedToChangeSize.Instance(myFighterBuilder, e));

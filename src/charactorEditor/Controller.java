@@ -148,7 +148,7 @@ public class Controller implements MouseListener, MouseMotionListener,
 	}
 
 	private void action() {
-		state.creat();
+		state.create();
 		state = state.getState();
 		state.action();
 	}
