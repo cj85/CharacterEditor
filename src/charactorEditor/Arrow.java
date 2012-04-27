@@ -1,6 +1,5 @@
 package charactorEditor;
 
-
 import charactorEditor.Model.MyComponent;
 
 import java.awt.*;
@@ -114,7 +113,7 @@ public class Arrow {
 	public void draw(Graphics g) {
 		g.setColor(Color.black);
 		Point ps = getCenter(source);
-		Point pt =  getCenter(target);
+		Point pt = getCenter(target);
 		g.drawLine(ps.x, ps.y, pt.x, pt.y);
 		if (ps.x != pt.x && ps.y != pt.y) {
 			double k = getK(ps, pt);

@@ -40,7 +40,7 @@ public class SaveButton extends JButton implements Update{
 		int returnVal =fc.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
-			Writer.write(myController.getWhatToSave(),file.toString());
+			Writer.write(myController.getMyComponentToSave(),file.toString());
 		}
 	}
 	@Override

@@ -10,9 +10,10 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import javax.swing.JMenuItem;
+
+import SpriteTree.LimbNode;
 
 import charactorEditor.drag.AttributePane;
 import charactorEditor.drag.FighterBuilder;
@@ -99,7 +100,7 @@ public class Controller implements MouseListener, MouseMotionListener,
 		return myModel.getProperties();
 	}
 
-	public ArrayList<MyComponent> getWhatToSave() {
+	public ArrayList<MyComponent> getMyComponentToSave() {
 		ArrayList<MyComponent> toReturn = new ArrayList<MyComponent>();
 		for (MyComponent m : myModel.getComponentList()) {
 			toReturn.add(new MyComponent(m));
@@ -265,6 +266,19 @@ public class Controller implements MouseListener, MouseMotionListener,
 
 	public MyComponent getNextFocusComponent() {
 		return myMainPaneModel.getNextFocusComponent();
+	}
+
+	public LimbNode getLimbNodeTree() {
+		ArrayList<MyComponent> list = myModel.getComponentList();
+		// HashMap<String,MyComponent> map=new HashMap<String,MyComponent>();
+		// for(MyComponent m:list)
+		// map.put(m.getText(), m);
+		//
+		MyComponent root = null;
+		for (MyComponent m : list)
+			if (m.isRoot())
+				root = m;
+    return myModel.buildLimbNodeTree(root, null);
 	}
 
 }

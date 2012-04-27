@@ -22,7 +22,6 @@ public class MyComponent {
 	private String parentForFile;
 	private ArrayList<MyComponent> children = new ArrayList<MyComponent>();
 	private ArrayList<String> childrenForFile = new ArrayList<String>();
-	private LimbNode myLimbNode;
 
 	public MyComponent(MyComponent m) {
 		this.sortID = m.getSortID();
@@ -36,7 +35,6 @@ public class MyComponent {
 		this.parentForFile = m.getParentForFile();
 		this.childrenForFile = m.getChildrenForFile();
 		this.children = m.getChildern();
-		this.myLimbNode = m.getLimbNode();
 	}
 
 	public MyComponent(Point2D.Double p, int theSort) {
@@ -227,9 +225,7 @@ public class MyComponent {
 		children = null;
 	}
 
-	public LimbNode getLimbNode() {
-		return this.myLimbNode;
-	}
+
 
 	public void resetParent() {
 		this.parent = null;

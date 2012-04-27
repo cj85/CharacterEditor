@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
+import SpriteTree.LimbNode;
+
 import charactorEditor.Controller;
 import charactorEditor.drag.AttributePane;
 import charactorEditor.drag.Update;
@@ -27,6 +29,9 @@ public class LoadButton extends JButton  implements Update{
 				try {
 					load(e);
 					updateOther();
+					LimbNode root=myController.getLimbNodeTree();
+					for(LimbNode node:root.getChildren())
+						node.print();
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}

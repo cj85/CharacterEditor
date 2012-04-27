@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import SpriteTree.GraphicsTest;
+import SpriteTree.LimbNode;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -132,5 +135,25 @@ public class Model {
 
 	public boolean getSetSizeFlag() {
 		return setSizeFlag;
+	}
+
+	public LimbNode buildLimbNodeTree(MyComponent root, LimbNode toReturn) {
+
+		if (root.getParent() == null) {
+			toReturn = new LimbNode(root.getText(), GraphicsTest.loadImage(root
+					.getImg().toString()), root.getBorderX(), root.getBorderY());
+		}
+
+		for (MyComponent m : root.getChildern()) {
+			double dx = m.getBorderX() - root.getBorderX();
+			double dy = m.getBorderY() - root.getBorderY();
+			LimbNode child = new LimbNode(m.getText(), toReturn,
+					GraphicsTest.loadImage(m.getImg().toString()), dx, dy, 0);
+			toReturn.addChild(child);
+		}
+		for (int i = 0; i < root.getChildern().size(); i++)
+			buildLimbNodeTree(root.getChildern().get(i), toReturn.getChildren()
+					.get(i));
+		return toReturn;
 	}
 }
